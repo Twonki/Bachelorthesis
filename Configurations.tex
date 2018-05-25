@@ -1,0 +1,112 @@
+\newcommandx{\unsure}[2][1=]{\todo[linecolor=red,backgroundcolor=red!25,bordercolor=red,#1]{#2}}
+\newcommandx{\change}[2][1=]{\todo[linecolor=blue,backgroundcolor=blue!25,bordercolor=blue,#1]{#2}}
+\newcommandx{\info}[2][1=]{\todo[linecolor=OliveGreen,backgroundcolor=OliveGreen!25,bordercolor=OliveGreen,#1]{#2}}
+\newcommandx{\improvement}[2][1=]{\todo[linecolor=Plum,backgroundcolor=Plum!25,bordercolor=Plum,#1]{#2}}
+\newcommandx{\thiswillnotshow}[2][1=]{\todo[disable,#1]{#2}}
+
+\newtheorem{satz}{Satz}
+\newtheorem{formel}{Formel}
+\newtheorem{defi}{Definition}[section]
+
+\pgfkeys{
+	/kiviatgrad/simplify label/.code={
+		\ifx\nv\undefined\else
+		\pgfmathparse{Mod(\nv,5)}
+		\ifdim\pgfmathresult pt>0pt
+		\tikzset{opacity=0}
+		\fi
+		\fi
+	}
+}	
+% ------------------Setting up environment for codes ---------------
+\lstset{
+	numbers=left,
+	language=python,  
+	morekeywords = {FROM, RUN, ADD, WORKDIR, EXPOSE, ENTRYPOINT, USER},
+	numberstyle=\small, 
+	numbersep=8pt,  
+	frame=bt,
+	keywordstyle=\color{ForestGreen}\bfseries,
+	commentstyle=\color{cyan},
+	framexleftmargin=0pt
+}
+\definecolor{groovyblue}{HTML}{0000A0}
+\definecolor{groovygreen}{HTML}{008000}
+\definecolor{darkgray}{rgb}{.4,.4,.4}
+
+\lstset{language=C,
+	numbers=left,
+	language=python,  
+%	morekeywords = {FROM, RUN, ADD, WORKDIR, EXPOSE, ENTRYPOINT, USER},
+	numberstyle=\small, 
+	numbersep=8pt,  
+	frame=bt,
+%	keywordstyle=\color{ForestGreen}\bfseries,
+%	commentstyle=\color{cyan},
+	framexleftmargin=0pt
+}
+\lstdefinestyle{BasicBashStyle}{
+	language=C,
+	basicstyle=\footnotesize\sffamily,
+	numbers=left,
+	numberstyle=\tiny,
+	numbersep=3pt,
+	frame=tb,
+	columns=fullflexible,
+	backgroundcolor=\color[rgb]{0.910,0.933,0.970},
+	linewidth=0.95\linewidth,
+	xleftmargin=0.1\linewidth
+}
+\usetikzlibrary{arrows} % define style of tkiz kiviat
+\renewcommand{\lstlistingname}{Code}
+
+% Abkürzungen
+\newcommand{\ua}{\mbox{u.\,a.\ }}
+\newcommand{\zB}{\mbox{z.\,B.\ }}
+\newcommand{\bs}{$\backslash$}
+
+\renewcommand{\nomname}{Abkürzungsverzeichnis}
+
+% -------------------------------------------------------------------------------------------
+% Definition der Kopf- und Fußzeilen
+\lhead{}								% Kopf links
+\chead{}								% Kopf mitte
+\rhead{\sffamily{\leftmark}}				% Kopf rechts
+\lfoot{}								% Fuß links
+\cfoot{\sffamily{\thepage}}				% Fuß mitte
+\rfoot{\sffamily{\autor}}				% Fuß rechts
+\renewcommand{\headrulewidth}{0.4pt}	% Liniendicke Kopf
+\renewcommand{\footrulewidth}{0.4pt}	% Liniendicke Fuß
+
+
+\makenomenclature							% Abkürzungsverzeichnis erstellen
+%\input{Inhalt/abkuerzungen}					% Datei mit Abkürzungen laden
+
+% Definition of colors
+\definecolor{lightblue}{rgb}{0.910,0.933,0.970}
+\definecolor{lightred}{RGB}{247,238,232}
+\definecolor{monochromeLightblue}{RGB}{165,188,222}
+\definecolor{monochromeLightred}{RGB}{222,188,165}
+\definecolor{kiviatOne}{RGB}{137,193,30}
+\definecolor{kiviatTwo}{RGB}{20,128,120}
+\definecolor{kiviatThree}{RGB}{208,108,32}
+\definecolor{kiviatFour}{RGB}{168,26,104}
+
+\newcommand\ColorBox[1]{\textcolor{#1}{\rule{2.5ex}{2.5ex}}}
+
+% ----------------------------------- Links Styling -----------------------------------------
+\hypersetup{
+	%pdfborder = {0 0 0},
+	bookmarks=true,         % show bookmarks bar?
+	unicode=false,          % non-Latin characters in Acrobat’s bookmarks
+	pdftitle={Analyse von Graphalgorithmen}
+	pdfauthor={Leonhard Applis},     % author
+	pdfsubject={Bachelorthesis},   % subject of the document
+	pdfcreator={Leonhard Applis},   % creator of the document
+	pdfproducer={Leonhard Applis}, % producer of the document
+	colorlinks=true,       % false: boxed links; true: colored links
+	linkcolor=blue,          % color of internal links (change box color with inkbordercolor)
+	citecolor=CadetBlue,        % color of links to bibliography
+	filecolor=magenta,      % color of file links
+	urlcolor=cyan,           % color of external links
+}
