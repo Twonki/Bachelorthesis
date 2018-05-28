@@ -5,15 +5,42 @@ Hier steht eine Einleitung, am besten etwas futuristisches wie gut Computer sind
 Hasta la vista, baby
 \section{Ziel der Arbeit}
 \label{sec:ZielDerArbeit}
-
+\begin{enumerate}
+	\item Grundlagen modernen Machine Learning Algorithmen erläutern
+	\item Möglichkeiten von Machine Learning im SQL-Server mit R darstellen, in einem Grad das der Leser es reproduzieren kann
+	\item Ein aussagekräftiges Fallbeispiel, das virtuelle Taxiunternehmen, ausarbeiten und die Algorithmen testen
+\end{enumerate}
+Es gibt folgende Nicht-Ziele
+\begin{enumerate}
+	\item Programmiersprachen (v.A. R) erklären
+	\item ML-Server mit Python (Aus Umfang eher unrealistisch)
+	\item ETL-Prozess detailliert schildern, es werden nur Daten dargelegt
+\end{enumerate}
 \section{Aufbau der Arbeit}
+Kapitel \ref{cha:Theorie} dieser Arbeit bildet die Theorie zu modernen Ansätzen des Machine Learnings. Es werden die Algorithmen für lineare Regression, logistische Regression sowie Neuronale Netzwerke detailliert vorgestellt (In Reihenfolge der Nennung). Dieses Kapitel stellt einen rein theoretischen Teil der Arbeit dar, und beinhaltet keine Umsetzung der Algorithmen als Programme.
 
+~\newline Darauf aufbauend  werden in Kapitel \ref{cha:SQLServer} zunächst Grundlagen zu Microsofts SQL-Server 2017 und R geklärt, anschließend liegt der Schwerpunkt des Kapitels auf der Umsetzung von Machine-Learning Algorithmen in R. Innerhalb des Abschnittes \ref{sec:MLSQL} finden sich allgemeine Programme in T-SQL und R.
+
+~\newline Kapitel \ref{cha:Taxis} widmet sich der Umsetzung eines Fallbeispiels eines Taxiunternehmens. Zunächst werden in Abschnitt \ref{sec:TaxiAllgemein} die Ausgangslage der Daten sowie die Ziele des Fallbeispiels exakt definiert. 
+
+In Abschnitt \ref{sec:Daten} werden die Stammdaten des Taxiunternehmens und die Wetterdaten in Eigenschaften, Umfang und Bedeutung für Machine Learning dargestellt. 
+
+Der Abschnitt \ref{sec:NN} behandelt die Verwendung der Programme aus \ref{sec:MLSQL} unter Bezugnahme auf das Fallbeispiel. Abschluss dieses Abschnittes bildet die Erzeugung eines Modells. 
+
+Abschnitt \ref{sec:Prognosen} benutzt das in Abschnitt \ref{sec:NN} erzeugte Modell, um die in Abschnitt \ref{sec:Allgemein} vorgestellten Anforderungen zu bearbeiten. Hier befinden sich die eigentlichen Ergebnisse des Experiments sowie Programme die Prognosen durchführen.
+
+Abschluss des Kapitels bildet Abschnitt \ref{sec:Test} in dem Methoden zum Test eines Modells vorgestellt und durchgeführt werden. 
+
+~\newline Abschluss der Arbeit bildet in Kapitel \ref{cha:Fazit} ein Fazit über die Qualität der Prognosen unter Berücksichtigung der Komplexität einzelner Teilaufgaben.
 \section{Voraussetzungen an den Leser}
 \label{sec:Vorraussetzungen}
 Innerhalb dieses Punktes werden die Kenntnisse abgesteckt, die der Leser für das Verständnis der Arbeit benötigt, welche \textbf{nicht} im Rahmen dieser Arbeit vorgestellt werden. 
 
 \begin{itemize}
-	\item \textbf{Vektoralgebra:} Aua, ab hier sind alle raus. 
-		
-	\item \textbf{SQL:} Was leichteres. 
+	\item \textbf{Mehrdimensionale Algebra:} Im Rahmen dieser Arbeit werden komplexe Algorithmen und Konzepte der mehrdimensionalen Algebra benötigt. 
+	
+	Schwerpunkte liegen hier v.A. auf dem Lösen von mehrdimensionalen Gleichungen und Matrixoperationen. Der Umfang hierbei entspricht dem Besuch der Vorlesung \textit{Mathematik II}. \todo{Literaturempfehlung Lin.Alg}
+	\item \textbf{Stochastik:}  Zur Bewertung der Algorithmen werden tiefere Kenntnisse der Stochastik und Statistik benötigt. Die benötigten Schwerpunktthemen sind Verteilungsfunktionen, Hypothesentests und Korrelation. \todo{Literaturempfehlung Stochastik/Statistik}
+	\item \textbf{R:} Die Programmiersprache R muss dem Leser im Umfang eines Basiskurses bekannt sein. Sie wird im Zuge der Arbeit verwendet, allerdings werden grundlegende Elemente nicht vorgestellt. 
+	\item \textbf{SQL:} Die Konzepte von SQL und der Dialekt von T-SQL sind in fortgeschrittenen Zügen benötigt. Die Verwendung von R innerhalb des SQL-Servers wird im Zuge der Arbeit vorgestellt. 
 \end{itemize}
