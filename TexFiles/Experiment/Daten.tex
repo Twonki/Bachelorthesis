@@ -72,5 +72,50 @@ In diesem Unterabschnitt werden die Wetterdaten sowie ihr Umfang vorgestellt.
 
 ~\newline Die Wetterdaten stammen von der \textit{National Oceanic and atmospheric Administration} \cite{SourceWeather} (Kurz: NOAA), welche verschiedene Klimadaten sammelt. Für dieses Fallbeispiel wurden die Wetterdaten der Wetterstation des JFK-Airports für das Jahr 2017 abgefragt. 
 
+\paragraph{Attribute und Datentypen} ~\newline
+Im Gegensatz zu den Taxidaten werden in diesem Paragraphen lediglich die verwendeten Attribute vorgestellt. Es werden ebenfalls der Bezeichner, eine kurze Beschreibung und der Datentyp innerhalb des SQL Server vorgestellt. 
 
+~\newline
+\begin{center}
+	\begin{tabular}{|p{0.3\textwidth}|p{0.5\textwidth}|p{0.1\textwidth}|}
+		\hline
+		Name & Beschreibung & Datentyp  \\ \hline
+		\textbf{Date} & Der Tag, an welchem der Datensatz erhoben wurde & date \\ \hline
+		\textbf{Hour} & Die Stunde, an welcher der Datensatz erhoben wurde & smallint \\ \hline
+		\textbf{DryBulbTemp} & Die Trockenkugeltemperatur & real \\ \hline
+		\textbf{WetBulbTemp} & Die Feuchtkugeltemperatur (Messung unter Berücksichtigung von Verdunstungskälte) & real \\ \hline	
+		\textbf{DewPointTemp} & Die Höhe des Taupunktes & real\\ \hline
+		\textbf{RelativeHumidity} & Die gemessene Luftfeuchtigkeit & real \\ \hline 
+		\textbf{Visbility} & Sichtweite in Meilen & real\\ \hline
+		\textbf{WindSpeed} & Windgeschwindigkeit & real\\ \hline
+		\textbf{WindDirection} & Windrichtung in Grad & int \\ \hline
+		\textbf{Sunrise} & Uhrzeit des Sonnenaufgangs & datetime \\ \hline
+		\textbf{Sunset} & Uhrzeit des Sonnenuntergangs & datetime \\ \hline
+	\end{tabular}
+\end{center}
+~\newline
+Die Windgeschwindigkeiten sind hierbei in Meilen/Stunde angegeben, die Temperaturen in Grad Celcius auf eine Nachkommastelle gerundet. Die Windrichtung ist als Grad angegeben, wobei $360^\circ$ Norden und $180^\circ $ Süden entsprechen.
 
+~\newline Es gab keine nennenswerten Anomalien. 
+\paragraph{Umfang} ~\newline
+Es gibt \textbf{13351 Datensätze} die 1,4 MB Speicher benötigen. Zusätzlich gibt es 0,6 MB Indizes.
+
+\subsection{Machine-Learning-Sicht und Rich-Sicht}
+Die in den vorhergehenden Unterabschnitten vorgestellten Daten sind für die Verwendung als Sicht zusammengefasst, so das am Ende jede Taxifahrt erweitert wird um die Wetterdaten. 
+
+Insgesamt wurden vier Sichten erstellt, je zwei für die grünen und gelben Taxis:
+
+\paragraph{Rich-View}
+Enthält alle Daten in lesbarer Form, Locations wurden nach \textit{Borough} und \textit{Zone} aufgeteilt. In gleichem Maße sind die HändlerID's, Zahlungsmittel und Raten als Text aufgelöst.
+
+Diese Sicht wurde erstellt, um Anomalien zu erkennen und den Import der Daten zu überprüfen. Für Machine Learning ist Sie im Allgemeinen Unbrauchbar. 
+
+\paragraph{Machine-Learning-View}
+Enthält ebenfalls alle Daten, verwendet allerdings Dictionary-ID's für jeden nicht-numerischen Wert. 
+
+Ein Datensatz dieses Views entspricht einem einzelnen Vektor. Dies stellt für viele Bibliotheken von R eine Voraussetzung dar\footnote{Es findet keine implizite Konvertierung von Strings in ein Dictionary statt}.
+
+\paragraph{Ausschnitt-Tabellen}
+Neben den Views werden des Weiteren kleinere Auschnitte entnommen. Dies liegt daran, dass das zufällige Entnehmen einer Stichprobe v.A. von den Gelben Taxidaten mehrere Minuten benötigt. 
+
+Die Ausschnitte wurden aus den ML-Sichten erstellt, indem jeder Datensatz einen zufälligen neuen Hashwert bekam nach welchem er sortiert wurde. 
