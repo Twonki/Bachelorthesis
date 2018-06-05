@@ -1,8 +1,71 @@
 \section{Eigenschaften der Daten}
 \label{sec:Daten}
+Innerhalb dieses Abschnittes werden zunächst die Daten vorgestellt, die dem Fallbeispiel zugrunde liegen. 
 
-
-\subsection{Wetteraufzeichnungen}
-\label{subsec:Wetterdaten}
+Die vorgestellten Daten haben bereits einen ETL-Prozess durchlaufen. Dieser besteht im Wesentlichen darin, die CSV-Dateien dahingehend aufzubereiten, das amerikanische Nummerierungen (z.B. Angabe von Dezimalzahlen mit '.' anstelle von ',') auf europäische Normen gebracht werden. Prinzipiell entfällt dieser Schritt für eine rein amerikanische Umgebung. 
 \subsection{Taxifahrten}
 \label{subsec:Taxidaten}
+Zunächst werden die Daten der Taxifahrten erläutert. 
+
+Diese stammen von der Stadt New York \cite{SourceTaxi} und wurde von der \textit{Taxi and Limousine Commission} (Kurz: TLC) bereitgestellt. 
+
+Die TLC stellt einen Dachverband mehrerer Taxiunternehmen dar und veröffentlicht die Daten nur - die Erhebung erfolgt in einzelnen, anonymisierten Kleinunternehmen. 
+
+~\newline Zusätzlich teilen sich die Fahrten in zwei Kategorien auf: \textit{Green} und \textit{Yellow}. Bei grünen Fahrten handelt es sich um Fahrzeuge mit einer anderen Lizenzierung (vgl. \cite{GreenTaxis} Absatz 5ff) und besonderen Auflagen. Im Allgemeinen verhalten sich die Fahrten allerdings gleich, insofern werden lediglich Unterschiede aufgelistet falls diese bestehen.
+\paragraph{Attribute und Datentypen} ~\newline
+Die folgende Übersicht entspricht der von der NYC bereitgestellten \cite{DataDicYellow}, die Beschreibung wurde übersetzt und eine Spalte für den Datentyp \footnote{Wie sie innerhalb des SQL-Servers bezeichnet werden} ergänzt. 
+~\newline
+\begin{center}
+	\begin{tabular}{|p{0.3\textwidth}|p{0.5\textwidth}|p{0.1\textwidth}|}
+		\hline
+		Name & Beschreibung & Datentyp  \\ \hline
+		\textbf{VendorID} & Ein Code für das Taxiunternehmen, welches die Daten bereitstellt & smallint \\ \hline
+		pickup\_datetime & Uhrzeit und Datum, wann die Fahrt begann & datetime \\ \hline
+		dropOff\_datetime & Uhrzeit und Datum, wann die Fahrt endete & datetime \\ \hline
+		Passenger\_count & Anzahl der Fahrgäste & smallint \\ \hline	
+		store\_and\_fwd\_flag & Angabe, ob die Fahrt direkt hochgeladen wurde, oder ob die Fahrt zwischengespeichert wurden vor einem Upload & bit \\ \hline
+		RatecodeID & Ein Code für die Rate, welche für die Taxifahrt bezahlt wurde & smallint \\ \hline
+		PULocationID & Ein Code für die Zone, in welcher die Fahrt begann & smallint \\ \hline
+		DOLocationID & Ein Code für die Zone, in welcher die Fahrt endete & smallint \\ \hline
+		trip\_distance & Distanzangabe des Taximeters & real \\ \hline
+		fare\_amount & Der Fahrpreis berechnet aus Zeit und Distanz & \\ \hline
+		extra & Verschiedene Zuschläge auf den Fahrpreis & real \\ \hline 
+		MTA\_tax & Aufschlag, automatisch erhoben bei entsprechender Rate& real \\ \hline
+		improvement\_surcharge & Aufschlag, automatisch erhoben in bestimmten Zonen & real \\ \hline
+		payment\_type & Angabe des Zahlungsmittels als Code & smallint \\ \hline 
+		tip\_amount & Höhe des Trinkgeldes & real \\ \hline
+		tolls\_amount & Summierter Betrag von Zuschlägen dieser Fahrt& real \\ \hline
+		total\_amount & Gesamtbetrag der Fahrt \textbf{ohne Trinkgeld} & real \\ \hline 
+	\end{tabular}
+\end{center}
+~\newline
+Die Daten der Grünen Taxis sind erweitert um einen Code für den \textit{Trip\_Type} (Ob eine Fahrt von einem Taxistand begann oder ob die Gäste an der Straße abgeholt wurden).
+
+~\newline
+Alle Distanz-Angaben entsprechen amerikanischen Meilen (1 mile$ \rightarrow $1,6 km), alle Währungsangaben Dollar. 
+
+Für die Angaben der Codes sind ebenfalls Dictionaries bereitgestellt, diese spielen allerdings für den Machine-Learning-Aspekt dieser Arbeit keine Rolle und sind daher vernachlässigt worden. 
+\paragraph{Umfang} ~\newline
+Aus Ressourcengründen wurde ausschließlich das Jahr 2017 betrachtet. 
+
+~\newline Es gibt \textbf{113 Millionen} Einträge für gelbe Fahrten, welche insgesamt knapp \textbf{8,1 GB Speicher} benötigen. Zusätzlich wurden Indizes angelegt mit weiteren 9,4 GB Speicher (Um schnelle Anfragen auf Uhrzeiten und Orte zu ermöglichen).
+
+~\newline Es gibt \textbf{11,7 Millionen} Einträge für grüne Fahrten, mit insgesamt \textbf{900 MB Speicherplatz}. Es wurden zusätzlich Indizes mit 1,1 GB Speicher erstellt. 
+
+~\newline Zusammen gibt es aus dem Jahr 2017 also fast \textbf{125 Millionen Einträge} welche insgesamt 19,5 GB Speicher belegen.
+\paragraph{Anomalien} ~\newline
+Innerhalb der Daten traten einige Ungewöhnlichkeiten auf - zum Beispiel gibt es Fahrten, die von Ort A nach Ort A gingen und keine Strecke zurückgelegt haben. Bei einer genaueren Untersuchung ergab sich allerdings, dass diese Fahrten meist wenige Minuten dauerten und ebenfalls keinen Passagier hatten. 
+
+~\newline Es ist anzunehmen, das die Taxis an dieser Stelle auf ihre Passagiere gewartet haben. Aufgrund dieser Erkenntnis wurden alle Anomalien in die Machine-Learning Algorithmen übernommen, um die Daten und somit auch die Ergebnisse nicht zu verfälschen. 
+
+Es wurden außerdem weitere Anomalien gefunden, welche kurz genannt werden:
+\begin{itemize}
+	\item Fahrten mit Negativkosten
+	\item Fahrten außerhalb von 2017
+	\item Fahrten mit extrem hohen Trinkgeld ($\sim 100$\$) oder extrem hohen kosten ($\sim300$\$)
+	\item Fahrten, die wenige Sekunden gedauert haben
+	\item Fahrten, welche mehrere Stunden gedauert haben und dabei nur kurze Strecken zurücklegen
+\end{itemize}
+\subsection{Wetteraufzeichnungen}
+\label{subsec:Wetterdaten}
+
