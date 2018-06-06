@@ -1,11 +1,21 @@
 \section{Machine Learning im SQL-Server 2017}
 \label{sec:MLSQL} \label{sec:MachineLearning}
-Hier bringe ich jeweils direkte Code-beispiel wie man sie in SQL-Server einfügen kann
+Innerhalb dieses Abschnittes befinden sich Code-Beispiele zur Umsetzung der in Kapitel \ref{cha:Theorie} vorgestellten Algorithmen. 
 
-Grundlagen sind ja schon geklärt hier, deswegen Verweise ich nur welche Funktion was erwartet und wie das dargestellt ist
-
+Es werden direkt SQL-Befehle 
 \paragraph{Möglichkeiten in  R}
-Hier sage ich, dass und warum ich alles in R mache.
+Die Sprache R besitzt verschiedene Optionen Machine-Learning Modelle zu erzeugen. Neben der Implementation \textit{von Grund auf} gibt es ebenfalls eine Vielzahl von Paketen und Bibliotheken. 
+
+Für die lineare und logistische Regression wird die Bibliothek \textit{RevoscaleR} von Microsoft benutzt (Die Dokumentation findet sich unter \cite{RevoscaleR}). Sie wird bereits mit dem SQL-Server geliefert. 
+
+Für die Neuronalen Netze wird das Paket \textit{RSNNS} benutzt. Die vollständige Dokumentation findet sich unter \cite{RSNNSDoku}. Neben Umsetzungen von \textit{Computational Networks} befinden sich in dem Paket ebenfalls Funktionen zum Test der Modelle.
+\paragraph{Möglichkeiten in Python}
+Der SQL-Server 2017 unterstützt neben einem R-Server ebenfalls eine Instanz des Microsoft ML-Servers. Dieses Open Source Projekt zu finden auf Github \cite{GithubMLServer} stellt eine Alternative zu den in R vorgestellten Methoden dar. 
+
+Der ML-Server ist in Python implementiert und die Benutzung verhält sich ähnlich zu den Ansätzen von Tensorflow in Python. 
+
+\paragraph{Verwendung von R im SQL-Server}
+Hier zeige ich kurz, wie man ein einfaches R Skript in ner Stored Procedure aufruft
 \subsection{Lineare Regression}
 Bedingungen an Lineare Regression in R
 
@@ -17,7 +27,8 @@ Wie Lin. Regression
 \subsection{Neuronale Netze}
 \paragraph{Von Grund auf}
 Hier quasi den Code und Beispiel von \cite{SelbyNN} übernehmen und etwas aufbereiten.
-\todo{NICHT BEHANDELN! Umfang!}
+
+NICHT BEHANDELN! UMFANG!
 
 \paragraph{Mit Package NNet}
 Ich denke, ich sollte das Package benutzen. Das haben totale Profis geschrieben. 
