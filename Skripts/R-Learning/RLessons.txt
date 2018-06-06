@@ -1,0 +1,107 @@
+
+-------------------------------------
+-- Lesson 1   
+-------------------------------------
+
+CREATE TABLE RTestData ([col1] int not null) ON [PRIMARY]
+INSERT INTO RTestData   VALUES (1);
+INSERT INTO RTestData   VALUES (10);
+INSERT INTO RTestData   VALUES (100) ;
+GO
+
+SELECT * FROM RTestData
+GO
+
+EXECUTE sp_execute_external_script
+      @language = N'R'
+    , @script = N' OutputDataSet <- InputDataSet;'
+    , @input_data_1 = N' SELECT *  FROM RTestData;'
+    WITH RESULT SETS (([NewColName] int NOT NULL));
+GO
+EXECUTE sp_execute_external_script
+  @language = N'R'
+  , @script = N' SQL_out <- SQL_in;'
+  , @input_data_1 = N' SELECT 12 as Col;'
+  , @input_data_1_name  = N'SQL_In'
+  , @output_data_1_name =  N'SQL_Out'
+ WITH RESULT SETS (([NewColName] int NOT NULL));
+ 
+ GO
+ EXECUTE sp_execute_external_script
+    @language = N'R'
+   , @script = N' mytextvariable <- c("hello", " ", "world");
+       OutputDataSet <- as.data.frame(mytextvariable);'
+   , @input_data_1 = N' SELECT 1 as Temp1'
+   WITH RESULT SETS (([Col1] char(20) NOT NULL));
+GO
+   
+-------------------------------------
+-- Lesson 2   
+-------------------------------------
+   
+   --Always use Dataframes
+   EXECUTE sp_execute_external_script
+       @language = N'R'
+     , @script = N' mytextvariable <- c("hello", " ", "world");
+       OutputDataSet <- as.data.frame(mytextvariable);'
+     , @input_data_1 = N' ';
+	 
+--Example 2
+EXECUTE sp_execute_external_script
+        @language = N'R'
+      , @script = N' OutputDataSet<- data.frame(c("hello"), " ", c("world"));'
+      , @input_data_1 = N'  ';
+	  
+	  
+EXECUTE sp_execute_external_script
+        @language = N'R'
+      , @script = N' mytextvariable <- c("hello", " ", "world");
+      OutputDataSet <- as.data.frame(mytextvariable);
+      str(OutputDataSet);'
+      , @input_data_1 = N'  '
+;
+
+EXECUTE sp_execute_external_script
+  @language = N'R', 
+  @script = N' OutputDataSet <- data.frame(c("hello"), " ", c("world"));
+    str(OutputDataSet);' , 
+  @input_data_1 = N'  ';
+  
+  
+  EXECUTE sp_execute_external_script
+    @language = N'R'
+    , @script = N'
+        x <- as.matrix(InputDataSet);
+        y <- array(12:15);
+    OutputDataSet <- as.data.frame(x %*% y);'
+    , @input_data_1 = N' SELECT [Col1]  from RTestData;'
+    WITH RESULT SETS (([Col1] int, [Col2] int, [Col3] int, Col4 int));
+	
+	
+	execute sp_execute_external_script
+   @language = N'R'
+   , @script = N'
+        x <- as.matrix(InputDataSet);
+        y <- array(12:14);
+   OutputDataSet <- as.data.frame(y %*% x);'
+   , @input_data_1 = N' SELECT [Col1]  from RTestData;'
+   WITH RESULT SETS (([Col1] int ));
+   
+   
+   --merge and mulitply columns 
+   EXECUTE sp_execute_external_script
+    @language = N'R'
+    , @script = N'
+               df1 <- as.data.frame( array(1:6) );
+               df2 <- as.data.frame( c( InputDataSet , df1 ));
+               OutputDataSet <- df2'
+    , @input_data_1 = N' SELECT [Col1]  from RTestData;'
+    WITH RESULT SETS (( [Col2] int not null, [Col3] int not null ));
+	
+
+	SELECT ReportingDate
+         , CAST(ModelRegion as varchar(50)) as ProductSeries
+         , Amount
+           FROM [AdventureWorksDW2014].[dbo].[vTimeSeries]
+           WHERE [ModelRegion] = 'M200 Europe'
+           ORDER BY ReportingDate ASC
