@@ -33,12 +33,19 @@ In Zeile 6 wird die Inputvariable definiert, an dieser Stelle sind SQL Befehle u
 
 In Zeile 7 wird die Ausgabe in Tabellenform normiert. Diese Zeile ist nicht notwendig.  
 
-~\newline Dieses Schema bleibt allen Skriptaufrufen gleich. Im Folgenden werden deswegen nur die R-Skripte vorgestellt.
+~\newline Dieses Schema bleibt allen Skript-Aufrufen gleich. Im Folgenden werden nur die R-Skripte vorgestellt.
 \subsection{Lineare Regression}
+Für die diese Form der Regression gelten innerhalb des Paketes RevoScaleR folgende Bedingungen: ~\newline
+\begin{enumerate}
+	\item Alle Eingabewerte des Modells müssen (reelle)\footnote{Es gibt andere Pakete, die komplexe Zahlen unterstützen} Zahlen sein
+	\item Texteingabewerte müssen zuvor über ein Dictionary realisiert werden
+	\item Der Ausgabewerte ist eine reelle Zahl 
+\end{enumerate}
+
 Um ein Modell für die lineare Regression zu erstellen, sind in R nur wenige Zeilen notwendig: ~\newline
 \begin{lstlisting}[language=R]
 	formel <- C ~ A+B;
-	model <- rxLinMod(formula=formel, data=ABCData);
+	model <- rxLinMod(formula=formel, data=TrainingsData);
 	serializedModel <- data.frame(payload = as.raw(serialize(model, connection=null)));
 \end{lstlisting}
 
@@ -52,14 +59,31 @@ Um das Modell zu benutzen reichen ebenfalls wenige Zeilen R-Skript: \newline
 
 \begin{lstlisting}[language=R]
 	model <- unserialize(as.raw(serializedModel)); 
-	C <- rxPredict(model,data.frame(ABData));
+	C <- rxPredict(model,data.frame(TestData));
 \end{lstlisting}
 
 Hierbei wird zunächst in Zeile 1 das serialisierte Modell wieder nutzbar gemacht. 
 
 In Zeile 2 wird die Methode \textit{rxPredict} der RevoScaleR-Bibliothek aufgerufen, welche aus den zu testenden Daten und dem Model eine Prognose erstellt. 
 \subsection{Klassifikation}
-Wie Lin. Regression
+Für die Klassifikation mit RevoscaleR gelten folgende Bedingungen: ~\newline
+
+\begin{enumerate}
+	\item Alle Eingabewerte des Modells sind reelle Zahlen
+	\item Texteingabewerte müssen zuvor über ein Dictionary realisiert werden
+	\item Der Ausgabewerte ist eine Zahl zwischen 0 und 1, welche die Wahrscheinlichkeit 
+	\item Es kann gleichzeitig nur eine Klasse überprüft werden
+\end{enumerate}
+
+Der R-Code verhält sich parallel zum Code der linearen Regression:
+
+\begin{lstlisting}[language=R]
+	formel <- rain ~ temperature+humidity;
+	logitmodel <- rxLogit(formula = form, data = TrainingsData);
+	rainPropability <- rxPredict(model, data.frame(TestData));
+\end{lstlisting}
+
+Als Beispiel wurde hierbei die Voraussage gewählt, ob es regnet anhand von Temperatur und Luftfeuchtigkeit.
 \subsection{Neuronale Netze}
 \paragraph{Von Grund auf}
 Hier quasi den Code und Beispiel von \cite{SelbyNN} übernehmen und etwas aufbereiten.
