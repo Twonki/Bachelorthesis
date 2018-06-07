@@ -1,23 +1,54 @@
 \section{Lineare Regression}
 \label{sec:LineareRegression}
-Hier im Wesentlichen Stroetmann, das ist denke ich das beste. 
-Was ist das und was macht es, warum ist das erstes Kapitel
+Als erster Machine-Learning-Algorithmus soll die Lineare Regression vorgestellt werden. 
+
+Auch wenn lineare Regression nicht mehr Bestandteil aktueller Forschung ist, sind viele Konzepte für weitere Erklärungen nützlich. Zudem können mithilfe linearer Regression sehr gute Ergebnisse erzielt werden.
 \subsection{Konzept und Ziele linearer Regression}
-Wofür brauche ich das, was kann ich damit machen, was kann ich damit nicht machen?
-\paragraph{Beispiel}
-z.B. Beispiel mit Gerade durch Punkte ziehen, Beispiel sollte für einfache und allgemeine Lineare Regression brauchbar sein 
+Als Beispiel für die einfache lineare Regression dient uns das Abschätzen des Bremsweges von PKWs. Hierfür benötigen wir eine Tabelle der Gestalt
 
-Tabelle aus Werten, damit man später Funktion plotten kann und mehr Ressourcen hat 
+\begin{center}
+	\label{tab:Bremsweg}
+	\begin{tabular}{|p{0.2\textwidth}|p{0.2\textwidth}|p{0.2\textwidth}|}
+		\hline
+		Geschwindigkeit in km/h & Gewicht in kg & Bremsweg in m  \\ \hline
+		50& 1500 & 20 \\ \hline
+		60& 1400 & 30 \\ \hline
+		90& 1000 & 60 \\ \hline
+		...& ... & ... \\ \hline
+	\end{tabular}
+\end{center}
+~\newline
+Es ist hierbei offensichtlich, das diese Messwerte zusammenhängen - lediglich die zugrunde liegende Formel ist uns Unbekannt. 
 
+Mithilfe linearer Regression wollen wir eine modellhafte Formel finden, die das beste Ergebnis anhand unserer Daten liefert. Die Werte müssen für 
 \subsection{Einfache Lineare Regression}
-Hier ist Lineare Regression auf einzelne Werte also 
+Zunächst gehen wir zur Vereinfachung davon aus, dass der Bremsweg lediglich von der Geschwindigkeit abhängt. Bezeichnen wir $x_i$ als die Geschwindigkeit des $i$-ten Datensatzes der Tabelle \ref{tab:Bremsweg} und $y_i$ als den zugehörigen Bremsweg, kann man ein lineares Modell der Form 
+\begin{equation}
+	y_i := \vartheta_1 \cdot x_i + \vartheta_0 
+\end{equation}
 
-$R^1 -> R^1$
+herleiten. Wir wollen $\vartheta_1$ und $\vartheta_0$ so berechnen,dass der \textbf{Mean-Squared-Error} minimal ist. 
+\begin{equation}
+\label{eq:mse}
+\mathtt{MSE}(\vartheta_0, \vartheta_1) := \frac{1}{m-1} \cdot \sum\limits_{i=1}^m \bigl(\vartheta_1 \cdot x_i + \vartheta_0 - y_i\bigr)^2
+\end{equation}
 
+Die optimalen Ergebnisse des MSE liefern die Variablen:
+
+\begin{equation}
+\label{eq:theta0}
+\vartheta_1 = r_{x,y} \cdot \frac{s_y}{s_x} \quad \mbox{und} \quad \vartheta_0 = \bar{\mathbf{y}} - \vartheta_1 \cdot \bar{\mathbf{x}}.
+\end{equation}
+
+Wobei $\mathbf{x}$ und $\mathbf{y}$ das arithmetische Mittel der beiden Variablen darstellt, sowie $s_x$ und $s_y$ die Standart-Abweichungen. bei $r_{x,y}$ handelt es sich um den \textbf{Pearson-Korrelationskoeffizienten}. 
+
+~\newline Nach der Berechnung unserer \textit{Gewichte} besitzen wir ein Modell, welches für jeden beliebigen Geschwindigkeitswert den Bremsweg berechnet. 
+
+Dennoch können wir davon ausgehen, das ein lineares Modell für komplexere Sachverhalte keine zufriedenstellenden Ergebnisse liefert. Deswegen wird nun die lineare Regression unter Berücksichtigung mehrerer unabhängiger Variablen behandelt. 
 \subsection{Allgemeine Lineare Regression}
 Hier ist die komplizierte Regression gemeint, wie wir sie brauchen also
 
-$R^n -> R^m$
+$R^n -> R^1$
 
 mit vielen Vektoren, Matrizen und tollen Dingen
 
