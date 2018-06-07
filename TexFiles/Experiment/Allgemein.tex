@@ -1,2 +1,32 @@
 \section{Ziele und Anforderungen}
 \label{sec:Fallbeispiel} \label{sec:TaxiAllgemein} \label{sec:Allgemein}
+Ziel des Fallbeispieles ist es, \textit{lohnenswerte} Prognosen anhand von realistischen Daten zu erheben und die Qualität der verwendeten Algorithmen objektiv zu bewerten. 
+
+\paragraph{User-Stories} ~\newline
+Als lohnenswert werden hierbei Fragestellungen bezeichnet, welche für ein Unternehmen einen Mehrwert darstellen. Konkret werden folgende User-Stories behandelt: ~\newline
+
+\begin{itemize}
+	\item Wie viele Taxis brauche ich kommenden Samstagmittag am Time-Square, wenn es sonnig wird?
+	\item Wie viel Umsatz werde ich am ersten Oktoberwochenende machen?
+	\item Zu welchem Ort wird eine Person an einem regnerischen Morgen aus Manhatten fahren?
+	\item Am 23.12 um 01:00 endet die Weihnachtsfeier im Trump-Tower. Wieviele Passagiere wird das Taxi haben?
+	\item Gibt es ein Muster, nach welchem mehr Trinkgeld gegeben wird?
+	\item Wie viel Trinkgeld werden 3 Fahrgäste geben, wenn eine relativ kurze Strecke vom JFK-Airport gefahren wird?
+	\item Wie lange wird ein Fahrgast brauchen, wenn er dem Taxi an der Freiheitsstatue sagt \textit{kurz zu warten}?
+	\item Am 21.Juni um 14:30 stehen zwei Personen am Central Park bei Nebel. Werden Sie ein grünes oder ein gelbes Taxi nehmen? 
+\end{itemize}
+
+Es ist anzunehmen, das einige Prognosen deutlich bessere Ergebnisse liefern als andere. Dennoch sollen bewusst auch die Grenzen von Machine-Learning gezeigt werden.
+
+~\newline Die vorgestellten User Stories werden in dieser Reihenfolge in den folgenden Abschnitten behandelt.
+
+\paragraph{Anforderungen} ~\newline
+Um eine Objektive Bewertung vorzunehmen, werden folgende Kriterien an die Durchführung der Experimente gestellt: 
+
+\begin{itemize}
+	\item \textbf{Harte Kriterien:} Die Tests liefern als Resultat eine Genauigkeit. 
+	
+	Eine Bewertung dieser Genauigkeit findet lediglich im Fazit statt. 
+	\item \textbf{Wiederholbarkeit:} Eine Wiederholung der Tests muss dieselben Resultate liefern
+	\item \textbf{Nachstellbarkeit:} Mithilfe dieses Experimentes muss der Leser im Stande sein, die gezeigten Ergebnisse selbst nachstellen zu können
+\end{itemize}
