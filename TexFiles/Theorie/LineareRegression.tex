@@ -1,5 +1,6 @@
 \section{Lineare Regression}
 \label{sec:LineareRegression}
+\todo{Stroetmann und oder Formelsammlungen zitieren}
 Als erster Machine-Learning-Algorithmus soll die Lineare Regression vorgestellt werden. 
 
 Auch wenn lineare Regression nicht mehr Bestandteil aktueller Forschung ist, sind viele Konzepte für weitere Erklärungen nützlich. Zudem können mithilfe linearer Regression sehr gute Ergebnisse erzielt werden.
@@ -46,11 +47,27 @@ Wobei $\mathbf{x}$ und $\mathbf{y}$ das arithmetische Mittel der beiden Variable
 
 Dennoch können wir davon ausgehen, das ein lineares Modell für komplexere Sachverhalte keine zufriedenstellenden Ergebnisse liefert. Deswegen wird nun die lineare Regression unter Berücksichtigung mehrerer unabhängiger Variablen behandelt. 
 \subsection{Allgemeine Lineare Regression}
-Hier ist die komplizierte Regression gemeint, wie wir sie brauchen also
+Das Prinzip der allgemeinen linearen Regression ist das Gleiche: Wir suchen eine Funktion, welche uns den abhängigen Wert schätzt. Diese Funktion hat im Allgemeineren die Form  $F:\mathbb{R}^m -> \mathbb{R}^1$, und bildet ein $m$-Eigenschaften umfassendes Tupel $x_i$ auf einen Wert $y_i$ ab. 
 
-$R^n -> R^1$
+Bezogen auf unser Beispiel \ref{tab:Bremsweg} haben wir ein 2-Tupel $x_i$ der Form <Geschwindigkeit,Gewicht> und weiterhin einen dazugehörigen Bremsweg $y_i$. Wir suchen eine Funktion $F(x_i) \approx y_i$. 
 
-mit vielen Vektoren, Matrizen und tollen Dingen
+~\newline Diese Funktion können wir ebenfalls durch ein lineares Modell ausdrücken. Sie hat die Gestalt: 
 
+\begin{equation}
+	F(x_i)= \vartheta_2 \cdot x^2_i + \vartheta_1 \cdot x^1_i + \vartheta_0 \cdot x^0_i
+\end{equation}
+Wobei $x^n_i$ die $n$-te Komponente des $i$-ten Elementes darstellt. $x^0$ ist eine Erweiterung um den Bias. Interpretiert man die Tupel (erweitert um den Bias) als transponierten Vektor $x^T$ so kann man die allgemeine Formel für größere Tupel zusammenfassen als:
+
+\begin{equation}
+	F(x) = \sum_{n=0}^{m} x^n \cdot \vartheta_n = x^T \cdot \vec{w}
+\end{equation}
+wobei $ \vec{w} = \begin{pmatrix}\vartheta_0 \\\ ... \\\ \vartheta_n \end{pmatrix}$ der Gewichtsvektor ist. Nun lässt sich unsere Funktion um den Fehler zu berechnen definieren als:
+
+\begin{equation}
+\label{eq:squared-error-1}
+\mathtt{MSE} := \frac{1}{m-1} \cdot \sum\limits_{i=1}^{m} \Bigl(F\bigl(\mathbf{x}^{(i)}\bigr) - y^{(i)}\Bigr)^2=\frac{1}{m-1} \cdot \sum\limits_{i=1}^m \Bigl(\bigl(\mathbf{x}^{(i)})^\top \cdot \vec{w}  - y^{(i)}\Bigr)^2
+\end{equation}
+
+\todo{Vektoren summieren und normalengleichung}
 \subsection{Bewertung der Linearen Regression}
 Wie berechne ich die statistische Signifikanz meines Linearen Modells?
