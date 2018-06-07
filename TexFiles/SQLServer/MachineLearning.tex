@@ -2,9 +2,9 @@
 \label{sec:MLSQL} \label{sec:MachineLearning}
 Innerhalb dieses Abschnittes befinden sich Code-Beispiele zur Umsetzung der in Kapitel \ref{cha:Theorie} vorgestellten Algorithmen. 
 
-Es werden direkt SQL-Befehle 
+Es werden im Folgenden kurz die Einbindung der R-Skripte in TSQL behandelt, anschließend werden nur die R-Skripte für die einzelnen Punkte erläutert.
 \paragraph{Möglichkeiten in  R}
-Die Sprache R besitzt verschiedene Optionen Machine-Learning Modelle zu erzeugen. Neben der Implementation \textit{von Grund auf} gibt es ebenfalls eine Vielzahl von Paketen und Bibliotheken. 
+Die Sprache R besitzt verschiedene Optionen Machine-Learning Modelle zu erzeugen. Neben der Implementation \textit{von Grund auf} gibt es eine Vielzahl von Paketen und Bibliotheken. 
 
 Für die lineare und logistische Regression wird die Bibliothek \textit{RevoscaleR} von Microsoft benutzt (Die Dokumentation findet sich unter \cite{RevoscaleR}). Sie wird bereits mit dem SQL-Server geliefert. 
 
@@ -15,13 +15,49 @@ Der SQL-Server 2017 unterstützt neben einem R-Server ebenfalls eine Instanz des
 Der ML-Server ist in Python implementiert und die Benutzung verhält sich ähnlich zu den Ansätzen von Tensorflow in Python. 
 
 \paragraph{Verwendung von R im SQL-Server}
-Hier zeige ich kurz, wie man ein einfaches R Skript in ner Stored Procedure aufruft
+Um R im SQL-Server zu benutzen wird die Stored Procedure \textit{sp\_execute\_external\_script} benötigt. Im Folgenden ein einfaches Beispiel: ~\newline
+
+\begin{lstlisting}[language=SQL]
+	EXECUTE sp_execute_external_script
+	@language = N'R',
+	@script = N' 
+		mytextvariable <- c("hello", " ", input_data);
+		OutputDataSet <- as.data.frame(mytextvariable);',
+	@input_data = N' SELECT name FROM readers'
+	WITH RESULT SETS (([Greetings] char(20) NOT NULL));
+\end{lstlisting}
+
+Hierbei wird in Zeile 2 zunächst die Sprache als Parameter übergeben, in Zeile 4 wird innerhalb des R Skriptes ein Begrüßungs-String erstellt, welcher in Zeile 5 als Ausgabe wiedergeben wird.
+
+In Zeile 6 wird die Inputvariable definiert, an dieser Stelle sind SQL Befehle und gültige T-SQL Variablen möglich. Es können beliebig viele Inputvariablen definiert werden. 
+
+In Zeile 7 wird die Ausgabe in Tabellenform normiert. Diese Zeile ist nicht notwendig.  
+
+~\newline Dieses Schema bleibt allen Skriptaufrufen gleich. Im Folgenden werden deswegen nur die R-Skripte vorgestellt.
 \subsection{Lineare Regression}
-Bedingungen an Lineare Regression in R
+Um ein Modell für die lineare Regression zu erstellen, sind in R nur wenige Zeilen notwendig: ~\newline
+\begin{lstlisting}[language=R]
+	formel <- C ~ A+B;
+	model <- rxLinMod(formula=formel, data=ABCData);
+	serializedModel <- data.frame(payload = as.raw(serialize(model, connection=null)));
+\end{lstlisting}
 
-Auflösen des Algorithmus in R (Programmcode)
+In der ersten Zeile wird zunächst eine allgemeine Formel definiert. Diese Formel ist zu interpretieren als $f: (A~x~B)\rightarrow C $ , das '+' ist hierbei nicht als Addition zu verstehen.
 
-Vllt Hintergrundwissen/Parameter wenn möglich mit Erklärung. 
+In Zeile 2 wird das Modell mithilfe der Bibliothek RevoscaleR und dem Methodenaufruf rxLinMod erstellt \textbf{und} Trainiert. Als Parameter werden die Formel und die Trainingsdaten benötigt. 
+
+In der dritten Zeile findet eine Serialisierung des Modells statt - dies ist nicht notwendig für eine direkte Verwendung, ermöglicht allerdings das speichern des Modells innerhalb des SQL-Servers als Blob.  
+
+Um das Modell zu benutzen reichen ebenfalls wenige Zeilen R-Skript: \newline
+
+\begin{lstlisting}[language=R]
+	model <- unserialize(as.raw(serializedModel)); 
+	C <- rxPredict(model,data.frame(ABData));
+\end{lstlisting}
+
+Hierbei wird zunächst in Zeile 1 das serialisierte Modell wieder nutzbar gemacht. 
+
+In Zeile 2 wird die Methode \textit{rxPredict} der RevoScaleR-Bibliothek aufgerufen, welche aus den zu testenden Daten und dem Model eine Prognose erstellt. 
 \subsection{Klassifikation}
 Wie Lin. Regression
 \subsection{Neuronale Netze}
