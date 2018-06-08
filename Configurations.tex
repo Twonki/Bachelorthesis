@@ -4,10 +4,6 @@
 \newcommandx{\improvement}[2][1=]{\todo[linecolor=Plum,backgroundcolor=Plum!25,bordercolor=Plum,#1]{#2}}
 \newcommandx{\thiswillnotshow}[2][1=]{\todo[disable,#1]{#2}}
 
-\newtheorem{satz}{Satz}
-\newtheorem{formel}{Formel}
-\newtheorem{defi}{Definition}[section]
-
 \pgfkeys{
 	/kiviatgrad/simplify label/.code={
 		\ifx\nv\undefined\else
@@ -19,44 +15,7 @@
 	}
 }	
 % ------------------Setting up environment for codes ---------------
-\lstset{
-	numbers=left,
-	language=python,  
-	morekeywords = {FROM, RUN, ADD, WORKDIR, EXPOSE, ENTRYPOINT, USER},
-	numberstyle=\small, 
-	numbersep=8pt,  
-	frame=bt,
-	keywordstyle=\color{ForestGreen}\bfseries,
-	commentstyle=\color{cyan},
-	framexleftmargin=0pt
-}
-\definecolor{groovyblue}{HTML}{0000A0}
-\definecolor{groovygreen}{HTML}{008000}
-\definecolor{darkgray}{rgb}{.4,.4,.4}
 
-\lstset{language=C,
-	numbers=left,
-	language=python,  
-%	morekeywords = {FROM, RUN, ADD, WORKDIR, EXPOSE, ENTRYPOINT, USER},
-	numberstyle=\small, 
-	numbersep=8pt,  
-	frame=bt,
-%	keywordstyle=\color{ForestGreen}\bfseries,
-%	commentstyle=\color{cyan},
-	framexleftmargin=0pt
-}
-\lstdefinestyle{BasicBashStyle}{
-	language=C,
-	basicstyle=\footnotesize\sffamily,
-	numbers=left,
-	numberstyle=\tiny,
-	numbersep=3pt,
-	frame=tb,
-	columns=fullflexible,
-	backgroundcolor=\color[rgb]{0.910,0.933,0.970},
-	linewidth=0.95\linewidth,
-	xleftmargin=0.1\linewidth
-}
 %% R-Markdown
 \lstset{ %
 	language=R,                     % the language of the code
