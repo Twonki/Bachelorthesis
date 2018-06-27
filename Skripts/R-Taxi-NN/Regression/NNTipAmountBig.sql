@@ -1,7 +1,6 @@
---=========================================================================================
--- Creates NN to estimate Tip given 
--- Only takes "good" Parameters which are predictable, such as time, locations and distance
---=========================================================================================
+--=============================================
+-- Mein NN Gerüst für Taschengeld
+--==============================================
 USE Taxi2Bachelor;
 GO
 
@@ -11,25 +10,19 @@ GO
 -- Safes a model with timestamp in ModelTable
 -- =============================================
 
-DROP PROCEDURE IF EXISTS [dbo].[TrainAmountNN];
+DROP PROCEDURE IF EXISTS [dbo].[TrainTipBigNN];
 GO
-CREATE PROCEDURE [dbo].[TrainAmountNN] 
+CREATE PROCEDURE [dbo].[TrainTipBigNN] 
 @TrainingSize BigInt	
 AS
 BEGIN
 	declare @inputCmd nvarchar(max)
 	set @inputCmd = CONCAT( N'Select Top(',@TrainingSize,N') 
-		tip_amount,trip_distance, total_amount,
+		tip_amount,total_amount,RatecodeID,trip_distance, 
 		DATEDIFF(MINUTE,pickup_datetime,dropoff_datetime) as duration_in_minutes,
-		passenger_count,
-		PULocationID,
-		DOLocationID
-		from [dbo].[mlYellowData] 
-		WHERE tip_amount>=0 AND tip_amount <50 AND 
-		DATEDIFF(MINUTE,pickup_datetime,dropoff_datetime)<180 AND 
-		DATEDIFF(MINUTE,pickup_datetime,dropoff_datetime)>=0 AND 
-		trip_distance <100
-		ORDER BY NEWID() ASC;')
+		WetBulbTemp,DryBulbTemp,RelativeHumidity,passenger_count,Windspeed,extra,
+		mta_tax,PULocationID,DOLocationID,fare_amount 
+		from [dbo].[yellowSample];')
 	SET NOCOUNT ON;
 	-- Construct the RML script.
 	declare @cmd nvarchar(max)
@@ -45,7 +38,15 @@ BEGIN
 		")
 		
 		dat_all <- InputData;
-		sizeAll <- length(InputData$tip_amount);
+		
+		LocationLevels <- as.factor(c(1:255));	
+		dat_all$PULocationID <- factor(dat_all$PULocationID, levels=LocationLevels);
+		dat_all$DOLocationID <- factor(dat_all$DOLocationID, levels=LocationLevels);
+		
+		dat_all$RatecodeID <- factor(dat_all$RatecodeID, levels=(as.factor(c(1:5))));
+		
+
+		sizeAll <- length(InputData$total_amount);
 
 		sample_train <- base::sample(nrow(dat_all), 
 									 size = (sizeAll*0.9))
@@ -58,7 +59,7 @@ BEGIN
 
 		dat_test <- dat_all %>% 
 		  slice(sample_test)
-		form <- tip_amount ~total_amount+trip_distance+duration_in_minutes+passenger_count+PULocationID+DOLocationID;
+		form <- tip_amount ~+total_amount+RatecodeID+trip_distance+duration_in_minutes+WetBulbTemp+DryBulbTemp+RelativeHumidity+passenger_count+Windspeed+extra+mta_tax+PULocationID+DOLocationID+fare_amount;
 
 		model <- rxNeuralNet(formula=form, data = dat_train,              
 						   type            = "regression",
@@ -80,12 +81,12 @@ BEGIN
 	, @output_data_1_name = N'trained_model ';
 	 
 	insert into Models (timest,model,model_name)
-	select CURRENT_TIMESTAMP as timest, model, 'NNtipModelMedium' as name from #m;  
+	select CURRENT_TIMESTAMP as timest, model, 'NNtipModelBig' as name from #m;  
 	drop table #m
 END
 
 GO
-EXEC TrainAmountNN @TrainingSize=100000;
+EXEC TrainTipBigNN @TrainingSize=1000000;
 GO
 
 -- =============================================
@@ -100,24 +101,25 @@ BEGIN
 	SET NOCOUNT ON;
 	DECLARE @dbModel varbinary(max) = (SELECT TOP (1) Model FROM Models WHERE [model_name] = @ModelName ORDER BY timest DESC);
 	declare @inputCmd nvarchar(max)
-	set @inputCmd = N'Select TOP (1000) 
-		NEWID() as id,
-		tip_amount,trip_distance,total_amount,
-		DATEDIFF(MINUTE,pickup_datetime,dropoff_datetime) as duration_in_minutes,
-		passenger_count,PULocationID,DOLocationID 
-		from mlYellowData 
-		ORDER BY NEWID() ASC;';
+	set @inputCmd = N'Select TOP (10000) NEWID() as id,tip_amount,total_amount,RatecodeID,trip_distance,DATEDIFF(MINUTE,pickup_datetime,dropoff_datetime) as duration_in_minutes,WetBulbTemp,DryBulbTemp,RelativeHumidity,passenger_count,Windspeed,extra,mta_tax,PULocationID,DOLocationID,fare_amount from yellowTest;';
 	DECLARE @predictScript nvarchar(max);
 	set @predictScript = N'
 	   library("MicrosoftML")
 	   print(summary(TestData));
-       model_un <- unserialize(as.raw(nb_model)); 
-	   print(summary(model_un));
-	   new <- data.frame(TestData);
+       model_un <- unserialize(as.raw(nb_model));
+
+	   dat_all <- data.frame(TestData);
+	   LocationLevels <- as.factor(c(1:255));	
+		dat_all$PULocationID <- factor(dat_all$PULocationID, levels=LocationLevels);
+		dat_all$DOLocationID <- factor(dat_all$DOLocationID, levels=LocationLevels);
+		
+		dat_all$RatecodeID <- factor(dat_all$RatecodeID, levels=(as.factor(c(1:5))));
+		
+
 	   #score the model
-	   prediction <- rxPredict(model= model_un, data = new, verbose = 1);
+	   prediction <- rxPredict(model= model_un, data = dat_all, verbose = 1);
 	   prediction <- round(prediction,2);
-	   sum <- cbind(new, prediction);
+	   sum <- cbind(dat_all, prediction);
 	   OutputDataSet <- data.frame(sum)
 	   '
 	  -- Execute the RML script (train & score).
@@ -131,12 +133,20 @@ BEGIN
 	WITH RESULT SETS ((
 	[ID] uniqueidentifier, 
 	[real_tip_amount] float,
+	[total_amount] float, 
+	[RatecodeID] smallint,
 	[trip_distance] float,
-	[total_amount] float,
-	[duration] int,
+	[duration_in_minutes] float,
+	[WetBulbTemp] real,
+	[DryBulbTemp] real,
+	[RelativeHumidity] smallint,
 	[passenger_count] smallint,
+	[Windspeed] smallint,
+	[extra] real,
+	[mta_tax] real,
 	[PULocationID] smallint,
 	[DOLocationID] smallint,
+	[fare_amount] real, 
 	[predicted_tip_amount] float)) 
 END
 GO
@@ -151,20 +161,43 @@ GO
 Create Table #Results (
 [ID] uniqueidentifier PRIMARY KEY NOT NULL, 
 	[real_tip_amount] float,
+	[total_amount] float, 
+	[RatecodeID] smallint,
 	[trip_distance] float,
-	[total_amount] float,
-	[duration] int,
+	[duration_in_minutes] float,
+	[WetBulbTemp] real,
+	[DryBulbTemp] real,
+	[RelativeHumidity] smallint,
 	[passenger_count] smallint,
+	[Windspeed] smallint,
+	[extra] real,
+	[mta_tax] real,
 	[PULocationID] smallint,
 	[DOLocationID] smallint,
+	[fare_amount] real, 
 	[predicted_tip_amount] float
 );
 GO
 Insert into #Results 
-Exec [PredictTipAmountNN] @Modelname = "NNtipModelMedium";
+Exec [PredictTipAmountNN] @Modelname = "NNTipModelBig";
 
-SELECT sum(abs(real_tip_amount-predicted_tip_amount)) as miss_in_Dollar,sum(predicted_tip_amount) as predicted_total_tip, sum(real_tip_amount) as real_tip from #Results;
-SELECT Top (100) abs(real_tip_amount-predicted_tip_amount) as miss_in_Dollar, predicted_tip_amount as estTip, real_tip_amount as realTip from #Results order by abs(real_tip_amount-predicted_tip_amount) desc;
+---------------------------
+-- Show me the Test Results
+---------------------------
+GO
+DECLARE @realMean float;
+SET @realMean = (SELECT AVG(real_tip_amount) FROM #Results);
+
+SELECT
+	(SUM(POWER(real_tip_amount - @realMean,2))) AS RSS,
+	(SUM(POWER((real_tip_amount - predicted_tip_amount),2))) AS TSS,
+	1- ((SUM(POWER((real_tip_amount - predicted_tip_amount),2)))/(SUM(POWER(real_tip_amount - @realMean,2)))) as RQuadrat,
+	sum(abs(real_tip_amount-predicted_tip_amount)) as miss_in_Dollar,
+	sum(predicted_tip_amount) as predicted_total_tip, 
+	sum(real_tip_amount) as real_tip
+FROM #Results;
+
+SELECT Top (100) abs(real_tip_amount-predicted_tip_amount) as miss_in_Dollar, predicted_tip_amount as estTip, real_tip_amount as realTip from #Results;
 GO
 DROP TABLE IF EXISTS #Results;
 GO

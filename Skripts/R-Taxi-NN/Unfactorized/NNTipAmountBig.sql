@@ -22,12 +22,7 @@ BEGIN
 		DATEDIFF(MINUTE,pickup_datetime,dropoff_datetime) as duration_in_minutes,
 		WetBulbTemp,DryBulbTemp,RelativeHumidity,passenger_count,Windspeed,extra,
 		mta_tax,PULocationID,DOLocationID,fare_amount 
-		from [dbo].[mlYellowData] 
-		WHERE tip_amount>=0 AND tip_amount <50 AND 
-		DATEDIFF(MINUTE,pickup_datetime,dropoff_datetime)<180 AND 
-		DATEDIFF(MINUTE,pickup_datetime,dropoff_datetime)>=0 AND 
-		trip_distance <100 and total_amount<150 
-		ORDER BY NEWID() ASC;')
+		from [dbo].[yellowSample];')
 	SET NOCOUNT ON;
 	-- Construct the RML script.
 	declare @cmd nvarchar(max)
@@ -78,12 +73,12 @@ BEGIN
 	, @output_data_1_name = N'trained_model ';
 	 
 	insert into Models (timest,model,model_name)
-	select CURRENT_TIMESTAMP as timest, model, 'NNtipModel' as name from #m;  
+	select CURRENT_TIMESTAMP as timest, model, 'NNtipModelBig' as name from #m;  
 	drop table #m
 END
 
 GO
-EXEC TrainAmountNN @TrainingSize=10000;
+EXEC TrainAmountNN @TrainingSize=1000000;
 GO
 
 -- =============================================
@@ -98,7 +93,7 @@ BEGIN
 	SET NOCOUNT ON;
 	DECLARE @dbModel varbinary(max) = (SELECT TOP (1) Model FROM Models WHERE [model_name] = @ModelName ORDER BY timest DESC);
 	declare @inputCmd nvarchar(max)
-	set @inputCmd = N'Select TOP (1000) NEWID() as id,tip_amount,total_amount,RatecodeID,trip_distance,DATEDIFF(MINUTE,pickup_datetime,dropoff_datetime) as duration_in_minutes,WetBulbTemp,DryBulbTemp,RelativeHumidity,passenger_count,Windspeed,extra,mta_tax,PULocationID,DOLocationID,fare_amount from mlYellowData;';
+	set @inputCmd = N'Select TOP (10000) NEWID() as id,tip_amount,total_amount,RatecodeID,trip_distance,DATEDIFF(MINUTE,pickup_datetime,dropoff_datetime) as duration_in_minutes,WetBulbTemp,DryBulbTemp,RelativeHumidity,passenger_count,Windspeed,extra,mta_tax,PULocationID,DOLocationID,fare_amount from yellowTest;';
 	DECLARE @predictScript nvarchar(max);
 	set @predictScript = N'
 	   library("MicrosoftML")
@@ -165,19 +160,29 @@ Create Table #Results (
 	[PULocationID] smallint,
 	[DOLocationID] smallint,
 	[fare_amount] real, 
-	[predicted_amount] float
+	[predicted_tip_amount] float
 );
 GO
 Insert into #Results 
-Exec [PredictTipAmountNN] @Modelname = "NNTipModel";
+Exec [PredictTipAmountNN] @Modelname = "NNTipModelBig";
 
 ---------------------------
 -- Show me the Test Results
 ---------------------------
+GO
+DECLARE @realMean float;
+SET @realMean = (SELECT AVG(real_tip_amount) FROM #Results);
 
-SELECT sum(abs(real_tip_amount-predicted_amount)) as miss_in_Dollar,sum(predicted_amount) as predicted_total_tip, sum(real_tip_amount) as real_tip from #Results;
+SELECT
+	(SUM(POWER(real_tip_amount - @realMean,2))) AS RSS,
+	(SUM(POWER((real_tip_amount - predicted_tip_amount),2))) AS TSS,
+	1- ((SUM(POWER((real_tip_amount - predicted_tip_amount),2)))/(SUM(POWER(real_tip_amount - @realMean,2)))) as RQuadrat,
+	sum(abs(real_tip_amount-predicted_tip_amount)) as miss_in_Dollar,
+	sum(predicted_tip_amount) as predicted_total_tip, 
+	sum(real_tip_amount) as real_tip
+FROM #Results;
 
-SELECT Top (100) abs(real_tip_amount-predicted_amount) as miss_in_Dollar, predicted_amount as estTip, real_tip_amount as realTip from #Results order by abs(real_tip_amount-predicted_amount) desc;
+SELECT Top (100) abs(real_tip_amount-predicted_tip_amount) as miss_in_Dollar, predicted_tip_amount as estTip, real_tip_amount as realTip from #Results;
 GO
 DROP TABLE IF EXISTS #Results;
 GO

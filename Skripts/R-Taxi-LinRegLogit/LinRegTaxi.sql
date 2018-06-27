@@ -20,15 +20,14 @@ BEGIN
     EXEC sp_execute_external_script
     @language = N'R'
     , @script = N'
-		form <- total_amount ~ RatecodeID+trip_type+trip_distance;
+		form <- total_amount ~ RatecodeID+duration_in_minutes+trip_distance+DOLocationID+PULocationID;
 		lrmodel <- rxLinMod(formula = form, data = TaxiData); 
 		summary(lrmodel);
 		lrModel <-  rxLinMod(formula = form, data = TaxiData);
         trained_model <- data.frame(payload = as.raw(serialize(lrModel, connection=NULL)));'
-    , @input_data_1 = N'Select total_amount,RatecodeID,trip_type,trip_distance from greenAmountSample;' 
+    , @input_data_1 = N'Select total_amount,RatecodeID,duration_in_minutes,trip_distance,DOLocationID,PULocationID from yellowSample;' 
     , @input_data_1_name = N'TaxiData' 
     , @output_data_1_name = N'trained_model';
-
 	
 	INSERT INTO Models (timest,model,model_name)
 	SELECT CURRENT_TIMESTAMP AS timest, model, 'LinRegAmountSmall' AS name FROM #m;  
@@ -41,18 +40,79 @@ EXEC generate_linear_model;
 -- Use Model
 --------------------------------
 
-DECLARE @amountmodel varbinary(max) = (SELECT Top(1) model FROM Models WHERE model_name='LinRegAmountSmall' ORDER BY timest DESC);
-EXEC sp_execute_external_script
-    @language = N'R'
-    , @script = N'
-            current_model <- unserialize(as.raw(amountmodel)); #unfolds the model from binary
-            new <- data.frame(greenAmountTest); # Curls my new Data
-            predicted.amount <- rxPredict(current_model, new);
-            OutputDataSet <- cbind(new, predicted.amount); #Combine resources and amount for smarter output
-            '
-    , @input_data_1 = N' SELECT RatecodeID,trip_type,trip_distance FROM greenAmountTest '
-    , @input_data_1_name = N'greenAmountTest'
-    , @params = N'@amountmodel varbinary(max)'
-    , @amountmodel = @amountmodel 
-WITH RESULT SETS (([RatecodeID] smallint,[trip_type] smallint,[trip_distance] float, [predicted_amount] float)) 
+DROP PROCEDURE IF EXISTS [dbo].[PredictAmountLinReg]
+GO
+CREATE PROCEDURE [dbo].[PredictAmountLinReg]
+@ModelName nvarchar(50)
+AS
+BEGIN	
+	SET NOCOUNT ON;
+	DECLARE @dbModel varbinary(max) = (SELECT TOP (1) Model FROM Models WHERE [model_name] = @ModelName ORDER BY timest DESC);
+	declare @inputCmd nvarchar(max)
+	set @inputCmd = N'Select TOP (10000) 
+		id,
+		total_amount,
+		RatecodeID,
+		DATEDIFF(MINUTE,pickup_datetime,dropoff_datetime) as duration_in_minutes,
+		trip_distance,
+		PULocationID,
+		DOLocationID 
+		from yellowTest;';
+	DECLARE @predictScript nvarchar(max);
+	set @predictScript = N'
+	   current_model <- unserialize(as.raw(nb_model));
+            new <- data.frame(TestData); # Curls my new Data
+            predicted.amount <- round(rxPredict(current_model, new),2);
+            OutputDataSet <- cbind(new, predicted.amount); 
+		'
+	execute sp_execute_external_script
+	  @language = N'R'
+	, @script = @predictScript
+	, @input_data_1 = @inputCmd
+	, @input_data_1_name = N'TestData'
+	, @params = N'@nb_model varbinary(max)'
+	, @nb_model = @dbModel
+WITH RESULT SETS ((
+	[id] UNIQUEIDENTIFIER,
+	[total_amount] float,
+	[rate] smallint,
+	[duration] int,
+	[trip_distance] float,
+	[PULocationID] smallint,
+	[DOLocationID] smallint,
+	[predicted_total_amount] float)) 
+	END
+GO
+
+DROP TABLE IF EXISTS #Results;
+GO
+Create Table #Results (
+[ID] uniqueidentifier PRIMARY KEY NOT NULL, 
+	[real_amount_amount] float,
+	[trip_distance] float,
+	[duration] int,
+	[passenger_count] smallint,
+	[PULocationID] smallint,
+	[DOLocationID] smallint,
+	[predicted_amount_amount] float
+);
+GO
+Insert into #Results 
+EXEC [PredictAmountLinReg] @ModelName="LinRegAmountSmall";
+GO
+DECLARE @realMean float;
+SET @realMean = (SELECT AVG(real_amount_amount) FROM #Results);
+
+SELECT
+	(SUM(POWER(real_amount_amount - @realMean,2))) AS RSS,
+	(SUM(POWER((real_amount_amount - predicted_amount_amount),2))) AS TSS,
+	1- ((SUM(POWER((real_amount_amount - predicted_amount_amount),2)))/(SUM(POWER(real_amount_amount - @realMean,2)))) as RQuadrat,
+	sum(abs(real_amount_amount-predicted_amount_amount)) as miss_in_Dollar,
+	sum(predicted_amount_amount) as predicted_total_amount, 
+	sum(real_amount_amount) as real_amount
+FROM #Results;
+
+SELECT Top (100) abs(real_amount_amount-predicted_amount_amount) as miss_in_Dollar, predicted_amount_amount as estamount, real_amount_amount as realamount from #Results;
+GO
+DROP TABLE IF EXISTS #Results;
 GO
