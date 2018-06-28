@@ -6,9 +6,7 @@ Es werden im Folgenden kurz die Einbindung der R-Skripte in TSQL behandelt, ansc
 \paragraph{Möglichkeiten in  R}
 Die Sprache R besitzt verschiedene Optionen Machine-Learning Modelle zu erzeugen. Neben der Implementation \textit{von Grund auf} gibt es eine Vielzahl von Paketen und Bibliotheken. 
 
-Für die lineare und logistische Regression wird die Bibliothek \textit{RevoscaleR} von Microsoft benutzt (Die Dokumentation findet sich unter \cite{RevoscaleR}). Sie wird bereits mit dem SQL-Server geliefert. 
-
-Für die Neuronalen Netze wird das Paket \textit{RSNNS} benutzt. Die vollständige Dokumentation findet sich unter \cite{RSNNSDoku}. Neben Umsetzungen von \textit{Computational Networks} befinden sich in dem Paket ebenfalls Funktionen zum Test der Modelle.
+Für die lineare und logistische Regression werden die Bibliotheken \textit{RevoscaleR} und \textit{MicrosoftML} von Microsoft benutzt (Die Dokumentation findet sich unter \cite{RevoscaleR}). Sie wird bereits mit dem SQL-Server geliefert. Hauptargument für diese Umsetzung waren die gründliche Dokumentation von Microsoft, die eine Benutzung innerhalb des SQL-Servers bereits behandelt, sowie die gemeinsame Produktfamilie die einen einheitlichen Technik-Stack ergibt. 
 \paragraph{Möglichkeiten in Python}
 Der SQL-Server 2017 unterstützt neben einem R-Server ebenfalls eine Instanz des Microsoft ML-Servers. Dieses Open Source Projekt zu finden auf Github \cite{GithubMLServer} stellt eine Alternative zu den in R vorgestellten Methoden dar. 
 
@@ -35,10 +33,10 @@ In Zeile 7 wird die Ausgabe in Tabellenform normiert. Diese Zeile ist nicht notw
 
 ~\newline Dieses Schema bleibt allen Skript-Aufrufen gleich. Im Folgenden werden nur die R-Skripte vorgestellt.
 \subsection{Lineare Regression}
-Für die diese Form der Regression gelten innerhalb des Paketes RevoScaleR folgende Bedingungen: ~\newline
+Für die diese Form der Regression gelten innerhalb des Paketes MicrosoftML folgende Bedingungen: ~\newline
 \begin{enumerate}
 	\item Alle Eingabewerte des Modells müssen (reelle)\footnote{Es gibt andere Pakete, die komplexe Zahlen unterstützen} Zahlen sein
-	\item Texteingabewerte müssen zuvor über ein Dictionary realisiert werden
+	\item Texteingabewerte müssen zuvor über einen Faktor realisiert werden. Dieser Faktor muss eine festgesetzte Anzahl an Leveln besitzen. 
 	\item Der Ausgabewerte ist eine reelle Zahl 
 \end{enumerate}
 
@@ -69,9 +67,10 @@ In Zeile 2 wird die Methode \textit{rxPredict} der RevoScaleR-Bibliothek aufgeru
 Für die Klassifikation mit RevoscaleR gelten folgende Bedingungen: ~\newline
 
 \begin{enumerate}
-	\item Alle Eingabewerte des Modells sind reelle Zahlen
-	\item Texteingabewerte müssen zuvor über ein Dictionary realisiert werden
-	\item Der Ausgabewerte ist eine Zahl zwischen 0 und 1, welche die Wahrscheinlichkeit 
+	\item Alle Eingabewerte des Modells sind reelle Zahlen.
+	\item Texteingabewerte müssen zuvor über einen Faktor realisiert werden. Dieser Faktor muss eine festgesetzte Anzahl an Leveln besitzen.
+	\item Die Klasse stellt einen Faktor mit Level 2 dar.
+	\item Der Ausgabewerte ist eine Wahrscheinlichkeit, mit der die Ausprägung positiv ausfällt
 	\item Es kann gleichzeitig nur eine Klasse überprüft werden
 \end{enumerate}
 
@@ -85,12 +84,6 @@ Der R-Code verhält sich parallel zum Code der linearen Regression:
 
 Als Beispiel wurde hierbei die Voraussage gewählt, ob es regnet anhand von Temperatur und Luftfeuchtigkeit.
 \subsection{Neuronale Netze}
-Vorsatz?
-\paragraph{Von Grund auf}
 Es ist Möglich, die im Abschnitt \ref{sec:NN} vorgestellten Konzepte direkt in R umzusetzen. Ein gutes Tutorial liefert hierbei \cite{SelbyNN}, welcher eine Schritt-Für-Schritt Anleitung und Erklärung bietet ein eigenes Neuronales Netz zu entwerfen. Das Tutorial von Selby setzt einen ähnlichen Blogeintrag von \cite{DennyNN} in R um. 
 
-Innerhalb dieser Arbeit wird allerdings das Paket \textit{RSNNS} verwendet. Hauptgründe hierfür sind die größeren Funktionsumfänge, die Auswahl mehrerer Computational Networks sowie die Dokumentation.
-\paragraph{Mit Package RSNNS}
-Ich denke, ich sollte das Package benutzen. Das haben totale Profis geschrieben. 
-
-\improvement{Check this if it works ! rxNNEt https://cloudblogs.microsoft.com/sqlserver/2017/01/05/how-six-lines-of-code-sql-server-can-bring-deep-learning-to-any-app/}
+Innerhalb dieser Arbeit wird allerdings das Paket \textit{MicrosoftML} verwendet.
