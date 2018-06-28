@@ -84,6 +84,85 @@ Der R-Code verhält sich parallel zum Code der linearen Regression:
 
 Als Beispiel wurde hierbei die Voraussage gewählt, ob es regnet anhand von Temperatur und Luftfeuchtigkeit.
 \subsection{Neuronale Netze}
-Es ist Möglich, die im Abschnitt \ref{sec:NN} vorgestellten Konzepte direkt in R umzusetzen. Ein gutes Tutorial liefert hierbei \cite{SelbyNN}, welcher eine Schritt-Für-Schritt Anleitung und Erklärung bietet ein eigenes Neuronales Netz zu entwerfen. Das Tutorial von Selby setzt einen ähnlichen Blogeintrag von \cite{DennyNN} in R um. 
+Es ist Möglich, die im Abschnitt \ref{sec:NN} vorgestellten Konzepte direkt in R umzusetzen. Ein gutes Tutorial liefert hierbei \cite{SelbyNN}, welcher eine Schritt-Für-Schritt Anleitung und Erklärung bietet ein eigenes Neuronales Netz zu entwerfen. Das Tutorial von Selby setzt einen ähnlichen Blogeintrag von Denny Britz (Siehe \cite{DennyNN}) in R um. 
 
 Innerhalb dieser Arbeit wird allerdings das Paket \textit{MicrosoftML} verwendet.
+
+\paragraph{Netz-Definition} ~\newline
+Eine der wichtigsten Einstellung stellt die Definition des Neuronalen Netzes dar. Für diese wird innerhalb der Microsoft-Umgebung (Innerhalb des ML-Servers, Azure und R-Services) einheitlich eine Definition in \textit{Net\#} verwendet. Diese Notation definiert  das gesamte Neuronale Netz, und stellt einen einheitlichen und übertragbaren Standard in der Microsoft Umgebung dar. Ein einfaches Beispiel: ~\newline
+
+\begin{lstlisting}[language=R]
+ netDefinition <- ("
+ 	input Data auto;
+ 	hidden Hidden[25] sigmoid from Data all;
+ 	output Result[2] from Hidden all;  
+ ")
+\end{lstlisting}
+
+In Zeile zwei wird die Eingabeschicht mit dem Namen \textit{Data} und einer automatisch-erkannten Größe erstellt. 
+
+In Zeile drei wird die versteckte Schicht \textit{Hidden} mit 25 Knoten, einer Verbindung zu allen Knoten in Data und der Aktivierungsfunktion \textit{Sigmoid} gewählt. 
+
+In Zeile vier wird die Ausgabeschicht \textit{Result} mit zwei Ausgabeknoten definiert. Es handelt sich um eine Binäre Klassifikation. Die Aktivierungsfunktion wird auf den Standardwert \textit{sigmoid} gesetzt. 
+
+~\newline Es werden an ein neuronales Netzwerk innerhalb von net\# folgende Anforderungen gestellt:
+
+\begin{itemize}
+	\item Jedes neuronale Netz besitzt mindestens eine Eingabeschichte und genau eine Ausgabeschicht
+	\item Die Anzahl der Knoten der Ausgabeschicht entspricht der Klasse des neuronalen Netzes (Ein Ausgabeknoten für Regression, zwei für Binäre Klassifikation, \textit{n} für eine Klassifikation von \textit{n-}Labeln)
+	\item Verbindungen müssen azyklisch sein, anders ausgedrückt, sie dürfen keine Kette von Verbindungen bilden, die zurück zum ursprünglichen Quellknoten führen.
+	\item Um eine Vorhersage mit dem Modell zu machen, werden bei den Eingabedaten mindestens alle in der Formel angegebenen Features benötigt. 
+\end{itemize}
+
+~\newline Nach diesem Schema lassen sich beliebig komplexe neuronale Netze definieren. Es gibt weitere Möglichkeiten, die Netzdefinition anzupassen:
+
+\begin{itemize}
+	\item Auswahl von Aktivierungsfunktionen (z.B. ReLU, Softmax, Linear)
+	\item Deklaration Konvolutionsbündeln, d.h. Schichten definieren, welche sich mit zusätzlichen Gewichten gegenseitig beeinflussen
+	\item Deklaration von Selektionsbündeln, d.h. Auswahlkriterien nach welchen die Schichten verknüpft werden
+	\item Deklaration von Poolingbündeln, d.h. Schichten und Teilnetze, welche eine ähnliche Funktion erfüllen, allerdings nicht trainiert werden. 
+\end{itemize} 
+
+\paragraph{Regression} ~\newline
+Ein neuronales Netz mithilfe des Paketes zu erstellen ist ähnlich einfach wie ein normales Modell hierfür:
+
+\begin{lstlisting}[language=R]
+netDefinition <- ("
+	input Data auto;
+	hidden Hidden[25] sigmoid from Data all;
+	output Result[1] linear from Hidden all; ")
+form <- C ~A+B;
+model <- rxNeuralNet(
+		formula = form, 
+		data = TrainingsData,              
+		type = "regression",
+		netDefinition = netDefinition,
+		numIterations = 100,
+		normalize = "yes"
+);
+\end{lstlisting}
+
+Zunächst wird ein Netz definiert, welches als Ausgabeschicht einen einzelnen Knoten mit linearer Ausgabefunktion besitzt. Anschließend wird die Formel aus dem obigen Beispiel für Lineare Regression definiert, und das Modell mit der Funktion \textit{rxNeuralNet(...)} erstellt. Diese erhält gegenüber anderen Modellen zusätzliche Parameter für die Netzdefinition, die Iterationen und den Typ des neuronalen Netzes. 
+
+Des Weiteren können Einstellungen über die Optimierungsfunktion, Initialisierung der Gewichte, sowie Lerngeschwindigkeit, Verfall und Beschleunigung vorgenommen werden.
+
+\paragraph{Multiclass-Labeling} ~\newline
+Um eine Multiklassen-Klassifizerung vorzunehmen benötigt man einen ähnlichen Aufbau:
+
+
+\begin{lstlisting}[language=R]
+netDefinition <- ("
+		input Picture auto;
+		hidden Hidden[250] sigmoid from Picture all;
+		output Species[4] softmax from Hidden all; ")
+form <- Species ~Sepal.Length+Sepal.Width+Petal.Length+Petal+Width;
+
+model <- rxNeuralNet(
+		formula = form, 
+		data = TrainingsData,              
+		type = "multiclass",
+		netDefinition = netDefinition
+);
+\end{lstlisting}
+
+Als Beispiel ist die Klassifizierung eines Bildes in eine von 4 Lotus-Spezien gewählt. Zu betonen ist, das die Ausgabe der Vorhersage 5 Werte erzeugt: Einen für die wahrscheinlichste Spezies, und für jede Spezies die Wahrscheinlichkeit.
