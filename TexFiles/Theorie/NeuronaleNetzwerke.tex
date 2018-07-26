@@ -1,30 +1,66 @@
+\newpage
 \section{Neuronale Netzwerke}
 \label{sec:NN}
-Hier Aufbereitung, Anreicherung und Übersetzung von Selby \cite{SelbyNN}!
-\subsection{Modell künstlicher neuronalen Netzen}
-\paragraph{Historisches Konzept}
-Hier sagen, wie das mit dem Gehirn zusammen hängt, woher kommt der Name und warum  spricht man heute von künstlichen NN
-\paragraph{Aufbau des Modells}
-Klassisches Bild mit Input-Layers, Hidden Layers, Output Layers
+Dieser Abschnitt widmet sich den Konzepten künstlicher Neuronaler Netze. Als Hauptquelle dient der Artikel von Selby \cite{SelbyNN} sowie die Vorlesung von Dr. Stroetmann \cite{stroetmann}.
 
-Bezug auf Logistische und Lineare Regression, das diese NN ohne Hidden Layers sind
+~\newline Neuronale Netze erhielten ihren Namen, da man zu Beginn der Forschung dachte, dass das menschliche Gehirn wie ein \textit{computational Graph} funktionierte. Diese These wurde biologisch weitgehend widerlegt und deswegen werden die Neuronalen Netze der Informatik mit dem Zusatz \textit{künstlich} markiert. 
 
-Zuordnung der Begriffe?
-\subsection{Hidden Layers}
-Wie wird das Modell der logistischen Regression erweitert?
+~\newline Im Folgenden wird zunächst der Aufbau des Modells und anschießend das Training vorgestellt.
+\subsection{Modell künstlicher neuronaler Netze}
+\begin{figure}[h]
+	\begin{center}
+		\includegraphics[width=0.4\linewidth]{Bilder/singleNeuron}
+		\caption[Einzelnes Neuron: \url{
+			http://caisplusplus.usc.edu/blog/curriculum/lesson4}]{Einzelnes Neuron}
+		\label{fig:Neuron}
+	\end{center}
+\end{figure}
 
-Deep Learning = Mehr als 1 Hidden Layer
+Grundidee des Modells bildet das Konzept eines \textbf{Neurons}. Dieses erhält Eingabewerte, und sobald ein gewisser Schwellwert erreicht wurde, \textit{feuert} es sein Signal ab, um andere Neuronen zu kontaktieren oder Handlungen hervorzurufen. 
 
-Manchmal: Deep Learning = Unsupervised Learning + viele Hidden Layers
+Im Rahmen der Informatik äußert sich diese Neuronen-Logik durch eine Aktivierungsfunktion, die üblicherweise ohne Bedingung eine Ausgabe erzeugt. Dies zeigt Abbildung \ref{fig:Neuron}.
+\begin{figure}[h]
+\begin{center}
+	\includegraphics[width=0.9\linewidth]{Bilder/petry19}
+	\caption[Modell eines Neuronalen Netzwerkes: \url{
+		http://www.jurpc.de/jurpc/show?id=19990187}]{Modell eines Neuronalen Netzwerkes}
+	\label{fig:NN-Modell}
+\end{center}
+\end{figure}
+~\newline Diese Neuronen werden zu einen Graphen, welche sich als \textit{Schichten} anordnen. Jedes Neuron einer Schicht erhält Eingaben von jedem Neuron der vorhergehenden. Diese Eingaben werden zusätzlich Gewichtet. 
+
+~\newline Die Eingabe in das Neuronale Netzwerk erfolgt über den Inputlayer, welcher keine Aktivierungsfunktion hat. Die Ausgabe des Neuronalen Netzwerkes erfolgt in der sog. Ausgabeschicht, welche je nach Art des Netzes einen (für Regressionen), zwei (für binäre Klassifikationen) oder $n$ (für n-Klassen Multiklassifikation) Knoten besitzt.
+
+Die Neuronen zur Berechnung befinden sich in den \textit{Hidden Layers}. Gibt es mehr als einen Hidden-Layer spricht man von einem \textit{Deep Neuronal Network}\footnote{Grund hierfür ist die Funktion der tieferen Schichten - Anstatt nur die Eingabe zu gewichten, werden hier weitere Features erkannt bzw. erzeugt, welche nur für den Algorithmus erkennbar sind}. Dieses vollständige Modell zeigt Abbildung \ref{fig:NN-Modell}.
+
+~\newline Um das Modell zu trainieren, muss ebenfalls der Fehler der Schätzung minimiert werden. Hierbei werden die Konzepte der linearen und logistischen Regression verwendet, jedoch mit dem Zusatz, das anstatt eines einzelnen Gewichtsvektors eine Gewichtsmatrix angepasst werden muss. 
 \subsection{Forward Propagation}
-Reinschmeißen eines Trainingsbeispiels und messen, wie schlimm es daneben liegt bzw. ob es daneben liegt
+Unter der \textit{Vorwärtsausbreitung} versteht man den Algorithmus, welcher einen Eingabevektor durch alle Gewichtsvektoren und Schichten transfomiert. 
+
+Dieser \textit{Feed Forward}-Prozess kann sowohl iterativ über alle Vektoren erfolgen, oder zusammengefasst als Matrizenoperation.
 \subsection{Backward Propagation}
-Nach dem Forward-Prograpagation nachjustieren der Gewichte in Matrix
+Die \textit{Rückwärtsausrichtung} bezeichnet den Algorithmus, welcher die Gewichte anhand des gemessenen Fehlers nachjustiert. 
 
-Optimierungsfunktion und Gewichte
+Hierbei wird in gleichem Maße wie in der logistischen Regression vorgegangen, mit dem Unterschied das die Gewichte in einer Matrix vorliegen. Die vorgestellten Optimierungsverfahren finden hier ebenfalls Anwendung. 
+
+Die Eigenschaften der Aktivierungsfunktionen bezüglich ihrer Ableitung finden hier im besonderen Maße Anwendung, denn um von der Ausgabeschicht auf den letzten Hidden-Layer nachzujustieren benötigt man die erste Ableitung. Um auf den nächsten Hidden Layer einfluss zu nehmen, muss die zweite Ableitung gebildet werden (usw.). Eine mathematische Ausarbeitung findet sich unter \cite{colah} \textit{Computational Victories}.
 \subsection{Training}
-Wie geht Training allgemein 
+Das Training bezeichnet den (iterativen) Prozess, solange mit den vorliegenden Trainingsdaten zunächst Forward-Propagation durchzuführen, und anschließend mittels Backward Propagation das Netz auszurichten. 
 
-worauf muss man bei Trainingsdaten achten, welche Größenordnungen sind notwendig
+~\newline Der Umfang dieses Trainings bleibt dem Anwender überlassen. Es ist möglich, bessere Ergebnisse zu erzielen, obwohl man mit denselben Daten häufiger trainiert. Einen solchen wiederholten Trainingsdurchlauf nennt man eine \textbf{Epoche}. 
+\subsection{Bewertung des Neuronalen Netzes}
+Die Bewertung des Neuronalen Netzes erfolgt, je nach Art des Ergebnisses, analog wie die der Linearen oder Logistischen Regression. 
+\subsection{Einflüsse auf den Trainingserfolg}
+Zum Abschluss dieses Abschnittes werden noch einmal die \textit{Stellschrauben} vorgestellt, anhand derer Änderungen des Trainingserfolges erzielt werden können. 
 
-Anmerkung zu teilweise Export des Modells
+\begin{itemize}
+	\item \textbf{Netzaufbau und Struktur:} Die Anzahl der Knoten, Schichten, und Einstellungen zur Verknüpfung können variiert werden.
+	\item \textbf{Optimierungsfunktion:} Hierbei können die das Grundlegende Verfahren (Gradient Descent, SGC, Adadelta) gewählt werden, sowie Trainingsparameter (Lerngeschwindigkeit, Beschleunigung, Verfall) gesetzt werden.
+	\item \textbf{Aktivierungsfunktion der Neuronen}
+	\item \textbf{Menge der Trainingsdaten:} Eine größere Menge an Trainingsdaten hilft maßgeblich, den Sachverhalt besser erfassen zu können. Auch sind große Datenmengen notwendig, um bei komplexeren Netzen \textit{overfitting} zu vermeiden.
+	\item \textbf{Umfang der Trainingsdaten} 
+	\item \textbf{Anzahl der Epochen und Iterationen}
+	
+\end{itemize}
+
+Konkrete Anwendungen dieser Parameter und die damit zusammenhängende Ergebnisse finden sich unter \ref{sec:UseCases}.
