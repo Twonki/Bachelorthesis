@@ -1,11 +1,10 @@
 \section{Lineare Regression}
 \label{sec:LineareRegression}
-\todo{Stroetmann und oder Formelsammlungen zitieren}
 Als erster Machine-Learning-Algorithmus soll die Lineare Regression vorgestellt werden. 
 
-Auch wenn lineare Regression nicht mehr Bestandteil aktueller Forschung ist, sind viele Konzepte für weitere Erklärungen nützlich. Zudem können mithilfe linearer Regression sehr gute Ergebnisse erzielt werden.
+Auch wenn lineare Regression nicht mehr Bestandteil aktueller Forschung ist, sind viele Konzepte für weitere Erklärungen nützlich. Zudem können mithilfe linearer Regression bereits sehr gute Ergebnisse erzielt werden.
 \subsection{Konzept und Ziele linearer Regression}
-Als Beispiel für die einfache lineare Regression dient uns das Abschätzen des Bremsweges von PKWs. Hierfür benötigen wir eine Tabelle der Gestalt
+Als Beispiel für die einfache lineare Regression dient das Abschätzen des Bremsweges von PKWs. Hierfür benötigen man eine Tabelle der Gestalt
 
 \begin{center}
 	\label{tab:Bremsweg}
@@ -19,16 +18,16 @@ Als Beispiel für die einfache lineare Regression dient uns das Abschätzen des 
 	\end{tabular}
 \end{center}
 ~\newline
-Es ist hierbei offensichtlich, das diese Messwerte zusammenhängen - lediglich die zugrunde liegende Formel ist uns Unbekannt. 
+Es ist hierbei offensichtlich, das diese Messwerte zusammenhängen - lediglich die zugrunde liegende Formel ist unbekannt. 
 
 Mithilfe linearer Regression wollen wir eine modellhafte Formel finden, die das beste Ergebnis anhand unserer Daten liefert. Die Werte müssen für 
 \subsection{Einfache Lineare Regression}
-Zunächst gehen wir zur Vereinfachung davon aus, dass der Bremsweg lediglich von der Geschwindigkeit abhängt. Bezeichnen wir $x_i$ als die Geschwindigkeit des $i$-ten Datensatzes der Tabelle \ref{tab:Bremsweg} und $y_i$ als den zugehörigen Bremsweg, kann man ein lineares Modell der Form 
+Zunächst geht man zur Vereinfachung davon aus, dass der Bremsweg lediglich von der Geschwindigkeit abhängt. Bezeichnen wir $x_i$ als die Geschwindigkeit des $i$-ten Datensatzes der Tabelle \ref{tab:Bremsweg} und $y_i$ als den zugehörigen Bremsweg, kann man ein lineares Modell der Form 
 \begin{equation}
 	y_i := \vartheta_1 \cdot x_i + \vartheta_0 
 \end{equation}
 
-herleiten. Wir wollen $\vartheta_1$ und $\vartheta_0$ so berechnen,dass der \textbf{Mean-Squared-Error} minimal ist. 
+herleiten.Zu berechnen ist $\vartheta_1$ und $\vartheta_0$ so, dass der \textbf{Mean-Squared-Error} minimal wird. 
 \begin{equation}
 \label{eq:mse}
 \mathtt{MSE}(\vartheta_0, \vartheta_1) := \frac{1}{m-1} \cdot \sum\limits_{i=1}^m \bigl(\vartheta_1 \cdot x_i + \vartheta_0 - y_i\bigr)^2
@@ -43,9 +42,9 @@ Die optimalen Ergebnisse des MSE liefern die Variablen:
 
 Wobei $\mathbf{x}$ und $\mathbf{y}$ das arithmetische Mittel der beiden Variablen darstellt, sowie $s_x$ und $s_y$ die Standart-Abweichungen. bei $r_{x,y}$ handelt es sich um den \textbf{Pearson-Korrelationskoeffizienten}. 
 
-~\newline Nach der Berechnung unserer \textit{Gewichte} besitzen wir ein Modell, welches für jeden beliebigen Geschwindigkeitswert den Bremsweg berechnet. 
+~\newline Nach der Berechnung der \textit{Gewichte} besitzt man ein Modell, welches für jeden beliebigen Geschwindigkeitswert den Bremsweg berechnet. 
 
-Dennoch können wir davon ausgehen, das ein lineares Modell für komplexere Sachverhalte keine zufriedenstellenden Ergebnisse liefert. Deswegen wird nun die lineare Regression unter Berücksichtigung mehrerer unabhängiger Variablen behandelt. 
+Dennoch kann man davon ausgehen, das ein lineares Modell für komplexere Sachverhalte keine zufriedenstellenden Ergebnisse liefert. Deswegen wird nun die lineare Regression unter Berücksichtigung mehrerer unabhängiger Variablen behandelt. 
 \subsection{Allgemeine Lineare Regression}
 Das Prinzip der allgemeinen linearen Regression ist das Gleiche: Wir suchen eine Funktion, welche uns den abhängigen Wert schätzt. Diese Funktion hat im Allgemeineren die Form  $F:\mathbb{R}^m -> \mathbb{R}^1$, und bildet ein $m$-Eigenschaften umfassendes Tupel $x_i$ auf einen Wert $y_i$ ab. 
 
@@ -56,18 +55,18 @@ Bezogen auf unser Beispiel \ref{tab:Bremsweg} haben wir ein 2-Tupel $x_i$ der Fo
 \begin{equation}
 	F(x_i)= \vartheta_2 \cdot x^2_i + \vartheta_1 \cdot x^1_i + \vartheta_0 \cdot x^0_i
 \end{equation}
-Wobei $x^n_i$ die $n$-te Komponente des $i$-ten Elementes darstellt. $x^0$ ist eine Erweiterung um den Bias. Interpretiert man die Tupel (erweitert um den Bias) als transponierten Vektor $x^T$ so kann man die allgemeine Formel für größere Tupel zusammenfassen als:
+Wobei $x^n_i$ die $n$-te Komponente des $i$-ten Elementes darstellt. $x^0$ ist eine Erweiterung um den Bias.
 
-\begin{equation}
-	F(x) = \sum_{n=0}^{m} x^n \cdot \vartheta_n = x^T \cdot \vec{w}
-\end{equation}
-wobei $ \vec{w} = \begin{pmatrix}\vartheta_0 \\\ ... \\\ \vartheta_n \end{pmatrix}$ der Gewichtsvektor ist. Nun lässt sich unsere Funktion um den Fehler zu berechnen definieren als:
 
-\begin{equation}
-\label{eq:squared-error-1}
-\mathtt{MSE} := \frac{1}{m-1} \cdot \sum\limits_{i=1}^{m} \Bigl(F\bigl(\mathbf{x}^{(i)}\bigr) - y^{(i)}\Bigr)^2=\frac{1}{m-1} \cdot \sum\limits_{i=1}^m \Bigl(\bigl(\mathbf{x}^{(i)})^\top \cdot \vec{w}  - y^{(i)}\Bigr)^2
-\end{equation}
-
-\todo{Vektoren summieren und normalengleichung}
+~\newline Für dieses Modell, bzw. allgemein für alle Modelle dieser Form kann ebenfalls der MSE berechnet und minimiert werden, um eine optimale Gewichtsmatrix zu erzeugen. Die genauen mathematischen Verfahren hierfür finden sich z.B. bei \cite{stroetmann} Kapitel 5 Abschnitt 2 und Unterabschnitte.
 \subsection{Bewertung der Linearen Regression}
-Wie berechne ich die statistische Signifikanz meines Linearen Modells?
+Um die statistische Aussagekraft des Modells zu bewerten, eignet sich ein \textbf{F-Test} (\cite{stroetmann} S. 86 Absatz 1), dieser ist definiert durch die Formel:
+\begin{equation}
+\label{eq:F-statistic}
+\mathrm{F} = \frac{\mathtt{TSS} - \mathtt{RSS}}{\mathtt{RSS}} \cdot \frac{m - p - 1}{p}
+\end{equation}
+Die $\mathtt{F}$-Statistik ist Fisher-Snedecor-verteilt mit $p-1$ Freiheitsgraden im Nenner und $m-$ Freiheitsgraden im Zähler. 
+
+$\mathtt{TSS}$ ist hierbei die \textit{Total Sum of Squares}, $\mathtt{RSS}$ für die \textit{Residual Sum of Squares}. (Weiterführend: \cite{stroetmann} S. 77 Absatz 4f). 
+
+~\newline Dieser Test ist dahingehend notwendig, da ein simples Vergleichen der Modell-Schätzung (immer) von den echten Werten abweicht. Innerhalb des F-Testes werden ebenfalls die Varianz der Grundgesamtheit in Relation zur Varianz der Modell-Werte betrachtet, um ein aussagekräftiges Ergebnis zu erzielen.  

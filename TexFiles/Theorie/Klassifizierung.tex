@@ -1,31 +1,41 @@
 \section{Klassifizerung}
 \label{sec:Klassifizierung}
-Hier vielleicht auch Stroetmann, oder etwas leichtgewichtigeres?
+Nach der linearen Regression soll nun die Klassifizierung vorgestellt werden. Hierfür werden zunächst allgemeine Ziele und ein Beispiel vorgestellt, anschließend wird die logistische Regression erläutert. 
+ 
 \subsection{Konzept und Ziele von Klassifizierung}
-Hier Beispiel bringen, vllt Binäre Klassifizierung
+Die Klassifizierung zählt zu den ältesten Anwendungen des Machine-Learning - Ein typisches Beispiel für (überwachte) Klassifizierung ist die Zuordnung einer E-Mail in \textit{Spam} oder \textit{Ham}.
 
-\subsection{Definitionen und Notationen}
-\paragraph{Features}
-\paragraph{Label \& Klassen}
-\paragraph{Model}
-\paragraph{Accuracy}
+~\newline Im Rahmen der Klassifizerung soll ein Modell erzeugt werden, das anhand der Eigenschaften einer E-Mail (z.B. dem Auftreten des Wortes \textit{Pharmacy} oder \textit{Sex}) feststellt, ob es sich um typische Spam-E-Mails handelt. 
 
-\paragraph{Supervised Learning}
-\paragraph{Unsupervised Learning}
+~\newline Das Modell erzeugt einen Wahrscheinlichkeitswert, mit welchem die Klasse angenommen wird (bzw. im Umkehrschluss, wie wahrscheinlich das Gegenereignis ist) und \textit{rät} die entsprechende Klasse. 
 
-\subsection{Digression: Gradientenanstieg}
-Erklärung was Stochastic Gradient Ascent ist, kurzes Vorgreifen warum man es braucht
+~\newline Des Weiteren ist es möglich, eine sog. Multiklassen-Klassifizierung durchzuführen. Hierbei werden mehr als zwei Klassen betrachtet. 
 \subsection{Logistische Regression}
+Innerhalb der Logistischen Regression wird ein Modell erzeugt, welches einen Eigenschaftsvektor mit einem Gewichtsvektor multipliziert, und das Ergebnis über eine Aktivierungsfunktion in eine Wahrscheinlichkeit abbildet. 
 
+~\newline Dieses Verfahren ermöglicht uns, anstatt der numerischen Zählung der \textit{Treffer}, die reale Wahrscheinlichkeit zu optimieren, und dahingehend unsere Gewichte \textit{smooth} zu justieren. 
+
+~\newline Das Optimieren des Modells benötigt Trainingsdaten und eine \textbf{Optimierungsfunktion}. Mit jedem Satz der Trainingsdaten wird der Gewichtsvektor dahingehend angepasst, das die resultierende Wahrscheinlichkeit in Richtung des korrekten Ergebnisses verschoben wird. Das Maß in welchem die Gewichte Angepasst werden, wird über die Optimierungsfunktion ermittelt. 
+
+~\newline Im Normalfall wird der Gewichtsvektor mit zufälligen Werten initialisiert. Es ist jedoch möglich, einen bereits bestehenden Vektor zu importieren. 
+
+Ebenso ist es üblich, sowohl Eingabewerte, als auch den Gewichtsvektor zu normieren. Dies beschleunigt die Optimierung. 
 \paragraph{Aktivierungsfunktion}
-Hier wird kurz erklärt was es für Aktivierungsfunktionen gibt, der Bezug zur Stochastic/Wahrscheinlichkeit und kurzes Vorgreifen warum man es braucht
-\paragraph{Sigmoid}
-Was ist das, was macht die, Eigenschaften beim Ableiten (Siehe Stroetmann)
+Bei der Aktivierungsfunktion handelt es sich um eine statistische Verteilungsfunktion. Sie bildet einen Wert auf eine Wahrscheinlichkeit ab. 
 
-Bild zur Sigmoidfunktion als Plot, ArcTang und Gauss daneben
+~\newline Als übliche Aktivierungsfunktionen werden $tanh$, die Sigmoid-Funktion oder die ReLu-Funktion gewählt. Diese besitzen besondere Eigenschaften innerhalb ihrer Ableitung, was eine Berechnung wesentlich erleichtert (\cite{stroetmann} S95ff \textit{6.3.1 The Sigmoid Function}) 
 
-Kurze Erklärung warum man nicht die anderen benutzt
-\paragraph{ReLU}
-Was ist das?? Wieso ist das "So super gut"
-\paragraph{Modell der Logistischen Regression}
-Wie spielen Aktivierungsfunktion, Optimierung und Lernen innerhalb der Logistischen Regression zusammen bei der Klassifizierung
+\paragraph{Optimierungsfunktion}
+Die Optimierungsfunktion hilft, für eine (unbekannte) Funktion ein Extremum zu finden und wird konkret benötigt, um das Minimum der Fehlerfunktion zu erreichen.  
+
+~\newline Im Rahmen des Machine-Learning verwaltet die Optimierungsfunktion ebenfalls Trainingsparameter, z.B. die Lernrate, eine Beschleunigungs- und Verfallslogik. Ebenso oft Bestandteil sind Funktionen, welche eine zufällige Verschiebung bewirken. Grund hierfür ist eine Schwäche der meisten Optimierungsfunktionen, sich auf ein lokales Extremum einzupendeln.
+
+~\newline Übliche Aktivierungsfunktionen sind das \textit{Gradientenverfahren} sowie das \textit{Stochastische Gradientenverfahren}. 
+\subsection{Bewertung der Klassifizierung}
+Die Klassifizierung ist simpel dahingehend zu Bewerten, wieviele der Testdaten korrekt Klassifiziert wurden. 
+
+~\newline Die Genauigkeit ergibt sich als: 
+
+\begin{equation}
+	acc = \dfrac{\#\{t \in  TestSample | guess(t)==class(t)\}}{\#TestSample}
+\end{equation}
