@@ -2,7 +2,9 @@
 \label{sec:LineareRegression}
 Als erster Machine-Learning-Algorithmus soll die lineare Regression vorgestellt werden. 
 
-Auch wenn lineare Regression nicht mehr Bestandteil aktueller Forschung ist, sind viele Konzepte für weitere Erklärungen nützlich. Zudem können mithilfe linearer Regression bereits sehr gute Ergebnisse erzielt werden.
+Auch wenn lineare Regression nicht mehr Bestandteil aktueller Forschung ist, sind sie für weitere Erklärungen hilfreich, da Neuronale Netze mit Regression sich ebenfalls auf dieses Verfahren stützen. 
+
+~\newline Zudem können mithilfe linearer Regression bereits sehr gute Ergebnisse erzielt werden.
 \subsection{Konzept und Ziele linearer Regression}
 Als Beispiel für die einfache lineare Regression dient das Abschätzen des Bremsweges von PKWs. Hierfür benötigen man eine Tabelle der Gestalt
 
@@ -67,7 +69,10 @@ Um die statistische Aussagekraft des Modells zu bewerten, eignet sich ein \textb
 \mathrm{F} = \frac{\mathtt{TSS} - \mathtt{RSS}}{\mathtt{RSS}} \cdot \frac{m - p - 1}{p}
 \end{equation}
 Die $\mathtt{F}$-Statistik ist Fisher-Snedecor-verteilt mit $p-1$ Freiheitsgraden im Nenner und $m-$ Freiheitsgraden im Zähler. 
-
+\begin{equation}
+\mathtt{TSS} = \sum\limits_{i=1}^m \bigl(y_i - \bar{\mathbf{y}}\bigr)^2 \ \ \
+\mathtt{RSS} := \sum\limits_{i=1}^m \bigl(\vartheta_1 \cdot x_i + \vartheta_0 - y_i\bigr)^2
+\end{equation}
 $\mathtt{TSS}$ ist hierbei die \textit{Total Sum of Squares}, $\mathtt{RSS}$ für die \textit{Residual Sum of Squares}. (Weiterführend: \cite{stroetmann} S. 77 Absatz 4f). 
 
 ~\newline Dieser Test ist dahingehend notwendig, da ein simples Vergleichen der Modell-Schätzung (immer) von den echten Werten abweicht. Innerhalb des F-Testes werden ebenfalls die Varianz der Grundgesamtheit in Relation zur Varianz der Modell-Werte betrachtet, um ein aussagekräftiges Ergebnis zu erzielen.  

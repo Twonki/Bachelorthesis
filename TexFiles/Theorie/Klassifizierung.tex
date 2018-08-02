@@ -21,12 +21,95 @@ Innerhalb der Logistischen Regression wird ein Modell erzeugt, welches einen Eig
 ~\newline Im Normalfall wird der Gewichtsvektor mit zufälligen Werten initialisiert. Es ist jedoch möglich, einen bereits bestehenden Vektor zu importieren. 
 
 Ebenso ist es üblich, sowohl Eingabewerte, als auch den Gewichtsvektor zu normieren. Dies beschleunigt die Optimierung. 
-\paragraph{Aktivierungsfunktion}
+\subsection{Aktivierungsfunktion}
+\label{subsec:Aktivierungsfunktion} 
 Bei der Aktivierungsfunktion handelt es sich um eine statistische Verteilungsfunktion. Sie bildet einen Wert auf eine Wahrscheinlichkeit ab. 
 
-~\newline Als übliche Aktivierungsfunktionen werden $tanh$, die Sigmoid-Funktion oder die ReLu-Funktion gewählt. Diese besitzen besondere Eigenschaften innerhalb ihrer Ableitung, was eine Berechnung wesentlich erleichtert (\cite{stroetmann} S95ff \textit{6.3.1 The Sigmoid Function}) 
+~\newline Als übliche Aktivierungsfunktionen werden $tanh$, die Sigmoid-Funktion oder die ReLu-Funktion gewählt. Diese besitzen besondere Eigenschaften innerhalb ihrer Ableitung, was eine Berechnung wesentlich erleichtert (\cite{stroetmann} S95ff \textit{6.3.1 The Sigmoid Function}).
 
-\paragraph{Optimierungsfunktion}
+\paragraph{Sigmoid und Tanh}~\newline
+Die Sigmoidfunktion ist eine stochastische Verteilungsfunktion und stellt eine Abwandlung der Tangens-Hyperbolicus Funktion dar. 
+\begin{equation}
+\label{eq:sigmoid}
+sig(t) = \dfrac{1}{1+e^{-t}}=\dfrac{e^t}{1+ e^t}= \frac{1}{2} \cdot ( 1 + tanh \frac{t}{2})
+\end{equation}
+Die Range der Sigmoidfunktion ist $[0,1]$ und eignet sich insofern explizit für die binäre Klassifizierung, um die Wahrscheinlichkeit der Klasse zu ermitteln. 
+
+Die Sigmoidfunktion und Tanh sind in Abbildung \ref{fig:SigTanh} zu sehen. 
+
+\begin{figure}[h]
+	\begin{center}
+		\includegraphics[width=0.65\linewidth]{Bilder/sigmoidtanhplot}
+		\caption[Sigmoid und Tanh: \url{
+			https://towardsdatascience.com/activation-functions-neural-networks-1cbd9f8d91d6}]{Sigmoid und Tanh}
+		\label{fig:SigTanh}
+	\end{center}
+\end{figure}  
+
+~\newline Die Tangens-Hyperbolicus Funktion unterscheidet sich dahingehend, das sie auf negative Eingaben stark negativ einschlägt, sowie auf Null-Eingaben ebenfalls Null liefert. 
+
+~\newline Die Ableitung der Sigmoidfunktion in Formel \ref{eq:sigmoidderivate} ist dahingehend besonders, da Sie sich ebenfalls auf die Sigmoidfunktion beruft. 
+
+Nach dem einmaligen Berechnen der Sigmoidfunktion für einen Wert t, lassen sich in einfachen Operationen alle Ableitungen bestimmen. 
+
+\begin{equation}
+	\label{eq:sigmoidderivate}
+	\dfrac{d \ sig(t)}{d \ t} = sig(t) \cdot (1 - sig(t))
+\end{equation}  
+\paragraph{Rectified Linear Unit}~\newline
+Die Rectified Linear Unit Funktion, kurz \textbf{ReLU} ist eine der am weitesten verwendeten Aktivierungsfunktionen in neuronalen Netzen und ist definiert als: 
+\begin{equation}
+\label{eq:ReLU}
+ReLU(t) := max(0,t)
+\end{equation}
+
+Der größte Kritikpunkt an der ReLU-Funktion ist, dass negative Eingabewerte stets als Null gewertet werden, was die Möglichkeiten des Modells von den Daten zu \textit{lernen} stark einschränkt (vgl. \cite{sigmoid} Abschnitt 3 Absatz 5). 
+\begin{figure}[h]
+	\begin{center}
+		\includegraphics[width=0.5\linewidth]{Bilder/ReluPlot}
+		\caption[Rectified Linear Unit: \url{
+			https://leonardoaraujosantos.gitbooks.io/artificial-inteligence/content/relu_layer.html}]{Plot der ReLU-Funktion}
+		\label{fig:ReLUplot}
+	\end{center}
+\end{figure}  
+Es gibt verschiedene Ansätze, diesen Nachteil auszugleichen: ~\newline
+\begin{enumerate}
+	 \item Bei \textbf{Leaky ReLU} werden negative Werte anstatt mit einem Bruchteil (ca. $\frac{1}{100}$-stel) ihres Wertes behandelt. 
+	\item Bei \textbf{Randomized ReLU} wird dieser Bruchteil zufällig gewählt und ggfs. während der Laufzeit angepasst. 
+	\item Bei \textbf{ELU} werden negative Werte mit der Funktion $a(e^x-1)$ wobei $a$ ein gewählter Parameter zwischen 0 und 1 ist.
+\end{enumerate}
+ 
+\paragraph{Softmax}~\newline
+Die (\textit{echte}) Softmax-Funktion stellt eine logistische Verteilungsfunktion für mehrere Parameter dar. Sie ist definiert als: 
+
+\begin{equation}
+	\label{eq:Softmax}
+	softmax: \mathtt{R}^K \rightarrow \lbrace z \in \mathtt{R}^K | z_i \geq 0 , \sum_{i=0}^{K} z_i = 1 \rbrace
+\end{equation}
+\begin{equation}
+\label{eq:Softmax2}
+	softmax(z)_j = \dfrac{e^{z_j}}{\sum_{k=1}^{K}e^{z_k}}  \ \  j = 1, ... , K
+\end{equation}
+
+Die Softmax-Funktion liefert eine Wahrscheinlichkeit für jede Klasse, der ein Trainingsbeispiel angehören kann.Die Wahrscheinlichkeit über alle Klassen ist 1. Sie ist eine Annäherung an die \textit{max}-Funktion.
+~\newline \textbf{Softmax als Aktivierungsfunktion} (eines Neurons) mit k-Eingaben ist definiert als:
+\begin{equation}
+	\label{SoftmaxNeuron}
+	softmax(\vec{t})=ln\sum_{i=1}^{K}e^{t_i}
+\end{equation}
+
+Die Softmax-Aktivierungsfunktion stellt eine Annäherung an die \textit{max} bzw. ReLU Funktion dar, wie dargestellt in Abbildung \ref{fig:Softmaxplot}.
+\begin{figure}[h]
+	\begin{center}
+		\includegraphics[width=0.4\linewidth]{Bilder/Softmaxplot}
+		\caption[Softmax: \url{
+			https://www.quora.com/Why-is-softmax-activate-function-called-softmax}]{ReLU(Rot) und Softmax(Blau)}
+		\label{fig:Softmaxplot}
+	\end{center}
+\end{figure}  \textit{Softmax} gewinnt dahingehend an Bedeutung, das sie ableitbar ist und somit in den versteckten Schickten des Neuronalen Netzes verwendet und trainiert werden kann (vgl. \cite{Softmax} Abschnitt \textit{What is the Purpose[...]}).
+
+~\newline Die Softmax-Funktion wird in der Ausgabeschicht verwendet für Multiklassen-Klassifizierung. Die Softmax-Aktivierungsfunktion kann innerhalb der versteckten Schichten verwendet werden. 
+\subsection{Optimierungsfunktion}
 Die Optimierungsfunktion hilft, für eine (unbekannte) Funktion ein Extremum zu finden und wird konkret benötigt, um das Minimum der Fehlerfunktion zu erreichen.  
 
 ~\newline Im Rahmen des Machine-Learning verwaltet die Optimierungsfunktion ebenfalls Trainingsparameter, z.B. die Lernrate, eine Beschleunigungs- und Verfallslogik. Ebenso oft Bestandteil sind Funktionen, welche eine zufällige Verschiebung bewirken. Grund hierfür ist eine Schwäche der meisten Optimierungsfunktionen, sich auf ein lokales Extremum einzupendeln.
