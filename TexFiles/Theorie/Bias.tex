@@ -1,6 +1,53 @@
-\section{Bias}
-In diese Abschnitt werden kurz verschiedene Formen von \textit{Bias} (dt. Abweichung, Verzerrung) vorgestellt. Diese Abweichungen spielen in allen Formen des Machine-Learnings und in der Auswahl der Trainingsdaten eine wichtige Rolle (vgl. \cite{BiasTypes} Absatz 1 ) und werden in den entsprechenden Algorithmen berücksichtigt. Die nachfolgenden Arten von Bias stellen Überbegriffe dar - v.A. im Bereich der Psychologie wird deutlich genauer unterschieden.
 
+\section{Definitionen und Notationen}
+\label{Sec:Definitionen}\label{Definitionen}\label{Defs}
+In diesem Abschnitt werden kurz die benötigten Begriffe und Definitionen vorgestellt. Der Bias wird anschließend gesondert behandelt. 
+
+\paragraph{Feature} Unter einer \textit{Eigenschaft} versteht man eine konkrete Ausprägung eines Merkmals der Eingabewerte des Models.  
+
+Die Summe aller Ausprägungen einer Eigenschaft bezeichnet man als Eigenschaftsvektor.  
+\paragraph{Label \& Class} Als Label wird eine bestimmte Eigenschaft deklariert, welche v.A. dadurch definiert ist, das sie die Ausgabe des Models darstellt. 
+
+Label und Klassen sind synonyme Bezeichner.
+\paragraph{Accuracy} Die \textit{Genauigkeit} stellt ein Maß dafür dar, wie genau das Modell die Funktion darstellt. 
+
+Je nach Art des Modells muss die Genauigkeit unterschiedlich evaluiert werden und sind im Abschnitt \ref{subsec:LinRegAcc} für Regressionen und im Abschnitt \ref{subsec:LogRegAcc} für Klassifikation vorgestellt.
+\section{Bias}
+Wenn man mit Vorhersagemodellen arbeitet, können die Fehler der Vorhersage in zwei Hauptursachen zerlegt werden: 
+Fehler aufgrund von Verzerrung und Fehler aufgrund von [natürlicher] Varianz. Es gibt einen Zusammenhang zwischen der Fähigkeit eines Modells, die Abweichung und die Varianz zu minimieren. Diese beiden Fehler zu verstehen, hilft die Ergebnisse des Modells auszuwerten und die Fehler für \textit{Under-} und \textit{Overfitting} zu vermeiden. (\cite{BiasVarianceDilemma} Vorwort, Übersetzt).
+
+~\newline Die \textbf{Verzerrung} (engl. Bias) ist der Fehler ausgehend von falschen Annahmen im Lernalgorithmus. Eine hohe Verzerrung kann einen Algorithmus dazu veranlassen, nicht die entsprechenden Beziehungen zwischen Eingabe und Ausgabe zu modellieren. Dieses Problem bezeichnet man als \textbf{Unteranpassung}.
+
+~\newline Die \textbf{Varianz} (engl. Variance) ist der Fehler ausgehend von der Empfindlichkeit auf kleinere Schwankungen in den Trainingsdaten. Eine hohe Varianz verursacht \textbf{Überanpassung}: es wird das Rauschen in den Trainingsdaten statt der vorgesehenen Ausgabe modelliert.
+
+
+~\newline In diese Abschnitt wird zuerst das Bias-Variance-Dilemma vorgestellt und anschließend kurz verschiedene Formen von \textit{Bias} (hier dt. Varianz). 
+
+Diese Abweichungen spielen in allen Formen des Machine-Learnings und in der Auswahl der Trainingsdaten eine wichtige Rolle (vgl. \cite{BiasTypes} Absatz 1 ) und werden in den entsprechenden Algorithmen berücksichtigt. Die nachfolgenden Arten von Bias stellen Überbegriffe dar - v.A. im Bereich der Psychologie wird deutlich genauer unterschieden.
+\paragraph{Bias-Variance-Dilemma}
+Das sogenannte Verzerrungs-Varianz-Dilemma tritt auf, wenn man die Komplexität eines Modells festlegt.
+\begin{figure}[h]
+	\begin{center}
+		\includegraphics[width=0.6\linewidth]{Bilder/BiasVariance}
+		\caption[Bias-Variance-Dilemma: \url{
+			http://scott.fortmann-roe.com/docs/BiasVariance.html}]{Bias-Variance-Dilemma}
+		\label{fig:BVDilemma}
+	\end{center}
+\end{figure}
+Mit steigender Komplexität eines Modells wird der Fehler Verzerrung verringert und die Varianz steigt. Werden mehr Parameter zum Modell aufgenommen, steigt die Komplexität des Modells und die Varianz wird zu einer immer größeren Fehlerquelle, während die Verzerrung sinkt (vgl. \cite{BiasVarianceDilemma} Abschnitt 4.4 Absatz 1). Eine Darstellung für ein einfaches Modell stellt Abbildung \ref{fig:Overfitting} dar: Die Kreuze markieren Trainingsdaten, die rote Linie stellt die Vorhersage des Modells dar. 
+
+\begin{figure}[h]
+	\begin{center}
+		\includegraphics[width=0.6\linewidth]{Bilder/Overfitting}
+		\caption[Über- und Unteranpassung: \url{
+			https://pythonmachinelearning.pro/a-guide-to-improving-deep-learnings-performance/}]{Über- und Unteranpassung}
+		\label{fig:Overfitting}
+	\end{center}
+\end{figure}
+
+Wählt man die Komplexität \textit{zu hoch}, so führt dies zu einem zu großen Fehler durch Verzerrung und wird als \textit{Overfitting} bezeichnet. 
+
+Wählt man die Komplexität \textit{zu niedrig}, so wird der Sachverhalt nicht vollständig erfasst, und man spricht von \textit{Underfitting}.
 \paragraph{Natürliche Varianz} Je nach Art und Gestalt der Erhebung können systematische Schwankungen der Werte auftreten. Diese stellen natürliche Verhältnisse dar, da kein perfektes Modell erfasst werden kann. 
 
 Als Beispiel sei die Messung der Zimmertemperatur genannt: Zwei Thermometer können im selben Raum unterschiedliche Ergebnisse liefern - etwa weil sie auf unterschiedlichen Höhen befestigt sind oder eines im Windzug liegt. Es ist im Allgemeinen nicht möglich, ein perfektes Modell zu erstellen welches alle Faktoren berücksichtigt.
@@ -13,22 +60,3 @@ Die Natürliche Varianz ist als Hauptgrund zu nennen, warum in jedem (modernen) 
 Im Gegensatz dazu wäre diese Stichprobe sehr wohl geeignet, die Ernährung deutscher Veganer zu beurteilen.  
 
 \paragraph{Confirmation Bias} Unter dem \textit{Confirmation Bias} (dt. Bestätigungsfehler) versteht man mehrere psychologische Aspekte die zu einer Verzerrung der Ergebnisse durch den Prüfer führen (vgl. \cite{ConfirmationBias} S. 21 Absatz 5 und S. 22 Absatz 1f). Im Wesentlichen bezieht sich diese Abweichung darauf, das unbewusst Ergebnisse so interpretiert werden um bestehende Meinungen zu bestätigen. Dies wird hauptsächlich über zwei Mechanismen erreicht: Die Interpretation nicht-übereinstimmender Ergebnisse und Daten als Fehlerhaft, sowie eine überproportionale Gewichtung übereinstimmender Ergebnisse. Hierzu gehört ebenfalls die explizite Suche nach Ergebnissen welche eine Hypothese bestätigen, ohne dieselbe Sorgfalt der Gegenhypothese zukommen zu lassen. 
-
-\section{Definitionen und Notationen}
-\label{Sec:Definitionen}\label{Definitionen}\label{Defs}
-Nach dem Bias werden nun weitere Begriffe vorgestellt.
-\paragraph{Feature} Unter einer \textit{Eigenschaft} versteht man eine konkrete Ausprägung eines Merkmals der Eingabewerte des Models.  
-
-Die Summe aller Ausprägungen einer Eigenschaft bezeichnet man als Eigenschaftsvektor.  
-\paragraph{Label \& Class} Als Label wird eine bestimmte Eigenschaft deklariert, welche v.A. dadurch definiert ist, das sie die Ausgabe des Models darstellt. 
-
-Label und Klassen sind synonyme Bezeichner.
-\paragraph{Accuracy} Die \textit{Genauigkeit} stellt ein Maß dafür dar, wie genau das Modell die Funktion darstellt. 
-
-Je nach Art des Modells muss die Genauigkeit unterschiedlich evaluiert werden. 
-\paragraph{Supervised Learning} Beim \textit{überwachtem Lernen} werden dem Algorithmus Trainingspaare aus Ein- und Ausgabewerten geliefert. 
-
-Beispiele hierfür sind typische Klassifikationsverfahren, z.B. Handschrifterkennung.
-\paragraph{Unsupervised Learning} Beim \textit{unüberwachtem Lernen} erhält der Algorithmus lediglich Eingabe-Werte und erzeugt selbst (Klassen von) Ausgabewerten. 
-
-Ein Beispiel hierfür ist das \textit{Clustering}. 
