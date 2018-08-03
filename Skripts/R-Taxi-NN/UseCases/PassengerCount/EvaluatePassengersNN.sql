@@ -4,7 +4,7 @@ GO
 -- Produce some NN's for UseCase Passengers #3 Issue 24
 --==============================
 
-EXEC TrainPassengersNN @TrainingSize=100000;
+--EXEC TrainPassengersNN @TrainingSize=100000;
 GO
 --EXEC PredictPassengersNN @ModelName="NNPassengers";
 --==============================

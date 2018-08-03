@@ -23,7 +23,7 @@ BEGIN
 		EXEC [PredictUseCaseTipNN] @Modelname = "NNTip";
 	
 	SELECT TOP(10) * FROM #Results;
-	--Lookup for R^2 in RegressionModels
+
 	DECLARE @realMean float;
 	SET @realMean = (SELECT AVG(real_tip_amount) FROM #Results);
 

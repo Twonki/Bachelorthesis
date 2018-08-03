@@ -25,13 +25,12 @@ BEGIN
 	INSERT INTO #Results 
 		EXEC [PredictPassengersNN] @Modelname = "NNPassengers";
 
-	SELECT Count(*) AS total_misses FROM #Results WHERE [real_Passengers] != [predicted_Passengers];
-	SELECT TOP(10) * FROM #Results;
-	--Lookup for R^2 in RegressionModels
+	DECLARE @Total bigint;
+	SET @Total = (SELECT Count(*) FROM #Results);
 
-	--==============================
-	-- Plot here?
-	--==============================
+	SELECT Count(*) AS total_misses, @Total as total_results,(1-Count(*)/CONVERT(float,@Total)) as accuracy  FROM #Results WHERE [real_Passengers] != [predicted_Passengers];
+	SELECT TOP(10) * FROM #Results;
+	--Lookup for R^2 in RegressionMod
 
 	DROP TABLE IF EXISTS #Results;
 END

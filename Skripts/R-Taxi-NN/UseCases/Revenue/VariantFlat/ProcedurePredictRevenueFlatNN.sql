@@ -6,28 +6,14 @@ GO
 -- Inputs
 -- Outputs
 -- =============================================
-DROP PROCEDURE IF EXISTS [dbo].[PredictUseCaseNN]
+DROP PROCEDURE IF EXISTS [dbo].[PredictRevenueFlatNN]
 GO
-CREATE PROCEDURE [dbo].[PredictUseCaseNN]
+CREATE PROCEDURE [dbo].[PredictRevenueFlatNN]
 @ModelName nvarchar(50)
 AS
 BEGIN	
 	SET NOCOUNT ON;
-	--=================
-	-- Temporary Table for Usecase  
-	-- Not every time necessary
-	--=================
-	DROP TABLE IF EXISTS #TmpTestData;
-	CREATE TABLE #TmpTestData (
-		Placeholder BIT,
-		Placeholder2 smallint,
-	)
-	INSERT INTO #TmpTestData
-		SELECT
-			CONVERT(BIT, tip_amount),
-			RatecodeID
-	FROM [dbo].[yellowTest]
-
+	
 	--=====================
 	-- Inputselection and Skript as Strings
 	-- Curling newest Model from Database 
@@ -35,9 +21,12 @@ BEGIN
 	DECLARE @dbModel varbinary(max) = (SELECT TOP (1) Model FROM Models WHERE [model_name] = @ModelName ORDER BY timest DESC);
 	DECLARE @inputCmd nvarchar(max)
 	SET @inputCmd = N'SELECT
-		Placeholder,
-		Placeholder2
-		FROM #TmpTestData;';
+		Revenue as trainRevenue, 
+		Date as trainDate,
+		Location as trainLocation,
+		DayTime as trainDayTime,
+		TempLevel as trainTempLevel
+		FROM aggregatedTest;';
 	DECLARE @predictScript nvarchar(max);
 	SET @predictScript = N'
 		library("MicrosoftML")
@@ -45,17 +34,17 @@ BEGIN
 
 		data <- data.frame(TestData);
 	   
-		#Factorize Input Accodringly
-		PlaceholderLevels <- as.factor(c("Test1","Test2"));	
-		data$Placeholder <- factor(data$Placeholder, levels=LocationLevels);
-		
+		# Werte als Faktoren aufbereiten
+		LocationLevels <- as.factor(c(1:255));	
+		data$trainLocation <- factor(data$trainLocation, levels=LocationLevels);
+		data$trainTempLevel <- as.factor(data$trainTempLevel);
+		data$trainDayTime <- as.factor(data$trainDayTime);
+
+		data$trainDate <- as.factor(data$trainDate);
 		#Use Prediction
 		prediction <- rxPredict(model= model, data = data, verbose = 0);
 
-		#For (multi)-class prediction
-		sum <- cbind(data, prediction$PredictedLabel);
-
-		#For Regression
+		#Check Prediction for really needed Values and Combine for good Output
 		sum <- cbind(data,prediction);
 		OutputDataSet <- data.frame(sum)'
 
@@ -67,8 +56,11 @@ BEGIN
 	, @params = N'@nb_model varbinary(max)'
 	, @nb_model = @dbModel
 	WITH RESULT SETS ((
-		[real_Placeholder] Bit,
-		[ID] uniqueidentifier, 
-		[predicted_Placeholder] Bit)) 
+		trainRevenue FLOAT,
+		trainDate DATE,
+		trainLocation SMALLINT,
+		trainDayTime SMALLINT,
+		trainTempLevel SMALLINT, 
+		[predictedRevenue] FLOAT)) 
 END
 GO

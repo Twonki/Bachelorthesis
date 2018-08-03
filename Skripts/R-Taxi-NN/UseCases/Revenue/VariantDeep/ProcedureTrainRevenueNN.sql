@@ -33,7 +33,6 @@ BEGIN
 			,Convert(Date, pickup_datetime) as trainDate
 			,PULocationID as trainLocation
 			,DatePart(HOUR, pickup_datetime) as trainDayTime
-			--,AVG(RelativeHumidity) as Humidity
 			,CONVERT(SMALLINT,AVG(DryBulbTemp)/10) as trainTempLevel
 		--from mlYellowData 
 		from yellowSample
@@ -41,22 +40,9 @@ BEGIN
 			PULocationID
 			,Convert(DATE,pickup_datetime)
 			,DATEPART(HOUR,pickup_datetime)
-		Having Count(total_amount)>2
+		Having Count(total_amount)>3 
+			--AND Count(total_amount)<25
 	;
-	--SELECT * FROM #TmpData;
-
-	--Select SUM(total_amount)as trainRevenue 
-	--		,Convert(Date, pickup_datetime) as trainDate
-	--		,PULocationID as trainLocation
-	--		--,DatePart(HOUR, pickup_datetime) as trainDayTime
-	--		--,AVG(RelativeHumidity) as Humidity
-	--		,CONVERT(SMALLINT,AVG(DryBulbTemp)/10) as trainTempLevel
-	--	--from mlYellowData 
-	--	from yellowSample
-	--	group by
-	--	Convert(DATE,pickup_datetime)
-	--		,PULocationID
-	--		,DATEPART(HOUR,pickup_datetime)
 	--=====================
 	-- Inputselection and Skript as Strings
 	--=====================
@@ -78,15 +64,15 @@ BEGIN
 		#Netz definieren
 		netDefinition <- ("
 			input Data auto;
-			hidden Mystery [50] sigmoid from Data all;
-			hidden Magic [50] sigmoid from Mystery all;
+			hidden Mystery [50] tanh from Data all;
+			hidden Magic [50] rlinear from Mystery all;
 			output Result auto from Magic all;
 		")
 		
 		data <- InputData;
 		
 		# Werte als Faktoren aufbereiten
-		LocationLevels <- as.factor(c(1:255));	
+		LocationLevels <- as.factor(c(1:265));	
 		data$trainLocation <- factor(data$trainLocation, levels=LocationLevels);
 		data$trainTempLevel <- as.factor(data$trainTempLevel);
 		data$trainDayTime <- as.factor(data$trainDayTime);
@@ -99,8 +85,8 @@ BEGIN
 
 		#Optimiser
 		optimParms <- list(
-		  optimizer = "sgd",
-		  learningRate = 0.15,
+		  optimizer = "adadelta",
+		  learningRate = 0.05,
 		  lRateRedRatio = 0.97,
 		  lRateRedFreq = 10,
 		  momentum = 0.3,
@@ -117,10 +103,9 @@ BEGIN
 				data = data,         
 				type            = "regression",
 				netDefinition   = netDefinition,
-				numIterations = 50,
-				norm="no",
+				numIterations = 150,
 				optimizer= optimiser,
-				verbose         = 0);
+				verbose         = 1);
 		trained_model <- data.frame(payload = as.raw(serialize(model, connection=NULL)));
 	'
 

@@ -20,11 +20,29 @@ BEGIN
 	);
 	INSERT INTO #Results 
 		EXEC [PredictUseCaseNN] @Modelname = "NNUseCase";
+	
+	--=========================================================
+	-- For Classification:
+	DECLARE @Total bigint;
+	SET @Total = (SELECT Count(*) FROM #Results);
 
-	SELECT Count(*) AS total_misses FROM #Results WHERE real_Placeholder != predicted_Placeholder;
+	SELECT Count(*) AS total_misses, @Total as total_results,(1-Count(*)/CONVERT(float,@Total)) as accuracy  FROM #Results WHERE [real_Placeholder] != [predicted_Placeholder];
 	SELECT TOP(10) * FROM #Results;
-	--Lookup for R^2 in RegressionModels
 
+	--=========================================================
+	-- For Regression
+	DECLARE @realMean float;
+	SET @realMean = (SELECT AVG(real_Placeholder) FROM #Results);
+
+	SELECT
+		(SUM(POWER(real_Placeholder - @realMean,2))) AS RSS,
+		(SUM(POWER((real_Placeholder - predicted_Placeholder),2))) AS TSS,
+		1- ((SUM(POWER((real_Placeholder -  predicted_Placeholder),2)))/(SUM(POWER(real_Placeholder - @realMean,2)))) as RQuadrat,
+		sum(abs(real_Placeholder- predicted_Placeholder)) as miss_in_total,
+		sum( predicted_Placeholder) as  predicted_total_Placeholder, 
+		sum(real_Placeholder) as real_total_Placeholder
+	FROM #Results;
+	SELECT TOP 10 * FROM #Results;
 	--==============================
 	-- Plot here?
 	--==============================
