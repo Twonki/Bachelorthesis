@@ -60,6 +60,17 @@ BEGIN
 		
 		data$Rate <- factor(data$Rate, levels=(as.factor(c(1:5))));
 
+		optimParms <- list(
+		  optimizer = "sgd",
+		  learningRate = 0.05,
+		  lRateRedRatio = 0.97,
+		  lRateRedFreq = 10,
+		  momentum = 0.3,
+		  decay = 0.95
+		);
+
+		optimiser <- with(optimParms, sgd(learningRate  = learningRate,lRateRedRatio = lRateRedRatio,lRateRedFreq  = lRateRedFreq,momentum      = momentum));
+
 		#Formel
 		form <-  Placeholder ~ Placeholder2
 		model <- rxNeuralNet(
@@ -67,6 +78,7 @@ BEGIN
 				data = data,         
 				type            = "binary",
 				netDefinition   = netDefinition,
+				optimizer=optimiser,
 				numIterations = 250,
 				verbose         = 0);
 		trained_model <- data.frame(payload = as.raw(serialize(model, connection=NULL)));
