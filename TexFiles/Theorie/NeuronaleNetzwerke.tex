@@ -1,7 +1,7 @@
 \newpage
 \section{Neuronale Netzwerke}
 \label{sec:NN}
-Dieser Abschnitt widmet sich den Konzepten künstlicher Neuronaler Netze. Als Hauptquelle dient der Artikel von Selby \cite{SelbyNN} sowie die Vorlesung von Dr. Stroetmann \cite{stroetmann}.
+Dieser Abschnitt widmet sich den Konzepten künstlicher Neuronaler Netze. Als Hauptquelle dient der Artikel \textit{Building a Neural Network from Scratch} von David Selby \cite{SelbyNN} sowie die Vorlesung \textit{Artificial Intelligence} von Dr. Stroetmann \cite{stroetmann}.
 
 ~\newline Neuronale Netze erhielten ihren Namen, da man zu Beginn der Forschung dachte, dass das menschliche Gehirn wie ein \textit{computational Graph} funktionierte. Diese These wurde biologisch weitgehend widerlegt und deswegen werden die Neuronalen Netze der Informatik mit dem Zusatz \textit{künstlich} markiert. 
 
@@ -41,13 +41,13 @@ Dieser \textit{Feed Forward}-Prozess kann sowohl iterativ über alle Vektoren er
 \subsection{Backward Propagation}
 Die \textit{Rückwärtsausrichtung} bezeichnet den Algorithmus, welcher die Gewichte anhand des gemessenen Fehlers nachjustiert. 
 
-Hierbei wird in gleichem Maße wie in der logistischen Regression vorgegangen, mit dem Unterschied das die Gewichte in einer Matrix vorliegen. Die vorgestellten Optimierungsverfahren finden hier ebenfalls Anwendung. 
+Hierbei wird in gleichem Maße wie in der logistischen Regression vorgegangen, mit dem Unterschied das die Gewichte in einer Matrix vorliegen. 
 
 Die Eigenschaften der Aktivierungsfunktionen bezüglich ihrer Ableitung finden hier im besonderen Maße Anwendung, denn um von der Ausgabeschicht auf den letzten Hidden-Layer nachzujustieren benötigt man die erste Ableitung. Um auf den nächsten Hidden Layer einfluss zu nehmen, muss die zweite Ableitung gebildet werden (usw.). Eine mathematische Ausarbeitung findet sich unter \cite{colah} \textit{Computational Victories}.
 \subsection{Training}
 Das Training bezeichnet den (iterativen) Prozess, solange mit den vorliegenden Trainingsdaten zunächst Forward-Propagation durchzuführen, und anschließend mittels Backward Propagation das Netz auszurichten. 
 
-~\newline Der Umfang dieses Trainings bleibt dem Anwender überlassen. Es ist möglich, bessere Ergebnisse zu erzielen, obwohl man mit denselben Daten häufiger trainiert. Einen solchen wiederholten Trainingsdurchlauf nennt man eine \textbf{Epoche}. 
+~\newline Der Umfang dieses Trainings bleibt dem Anwender überlassen. Es ist möglich, bessere Ergebnisse zu erzielen, indem man mit denselben Daten häufiger trainiert. Einen solchen wiederholten Trainingsdurchlauf nennt man eine \textbf{Epoche}. 
 \subsection{Bewertung des Neuronalen Netzes}
 Die Bewertung des Neuronalen Netzes erfolgt, je nach Art des Ergebnisses, analog wie die der Linearen oder Logistischen Regression. 
 \subsection{Einflüsse auf den Trainingserfolg}
@@ -58,7 +58,7 @@ Zum Abschluss dieses Abschnittes werden noch einmal die \textit{Stellschrauben} 
 	\item \textbf{Optimierungsfunktion:} Hierbei können die das Grundlegende Verfahren (Gradient Descent, SGC, Adadelta) gewählt werden, sowie Trainingsparameter (Lerngeschwindigkeit, Beschleunigung, Verfall) gesetzt werden.
 	\item \textbf{Aktivierungsfunktion der Neuronen}
 	\item \textbf{Menge der Trainingsdaten:} Eine größere Menge an Trainingsdaten hilft maßgeblich, den Sachverhalt besser erfassen zu können. Auch sind große Datenmengen notwendig, um bei komplexeren Netzen \textit{overfitting} zu vermeiden.
-	\item \textbf{Umfang der Trainingsdaten} 
+	\item \textbf{Anzahl der Features} 
 	\item \textbf{Anzahl der Epochen und Iterationen}
 	
 \end{itemize}
