@@ -44,6 +44,17 @@ BEGIN
 		# Werte als Faktoren aufbereiten
 		LocationLevels <- as.factor(c(1:255));	
 		data$PULocationID <- factor(data$PULocationID, levels=LocationLevels);
+
+		optimParms <- list(
+		  optimizer = "sgd",
+		  learningRate = 0.05,
+		  lRateRedRatio = 0.97,
+		  lRateRedFreq = 10,
+		  momentum = 0.3,
+		  decay = 0.95
+		);
+
+		optimiser <- with(optimParms, sgd(learningRate  = learningRate,lRateRedRatio = lRateRedRatio,lRateRedFreq  = lRateRedFreq,momentum      = momentum));
 		
 		#Formel
 		form <-  tip_amount~distance+PULocationID+passengers
@@ -52,7 +63,8 @@ BEGIN
 				data = data,         
 				type            = "regression",
 				netDefinition   = netDefinition,
-				numIterations = 250,
+				optimizer=optimiser,
+				numIterations = 50,
 				verbose         = 1);
 		trained_model <- data.frame(payload = as.raw(serialize(model, connection=NULL)));
 	'

@@ -54,15 +54,28 @@ BEGIN
 		#data$Date <- factor(data$Date, level=(as.factor(c(0:364))));
 
 		data$Rate <- factor(data$Rate, levels=(as.factor(c(1:5))));
+		
+		optimParms <- list(
+		  optimizer = "sgd",
+		  learningRate = 0.05,
+		  lRateRedRatio = 0.97,
+		  lRateRedFreq = 10,
+		  momentum = 0.3,
+		  decay = 0.95
+		);
+
+		optimiser <- with(optimParms, sgd(learningRate  = learningRate,lRateRedRatio = lRateRedRatio,lRateRedFreq  = lRateRedFreq,momentum      = momentum));
+
 
 		#Formel
 		form <-  PCount ~ PULocationID+Hour+Date+Rate;
 		model <- rxNeuralNet(
 				formula=form, 
-				data = data,         
+				data = data, 
+				optimizer=optimiser,        
 				type            = "multiClass",
 				netDefinition   = netDefinition,
-				numIterations = 100,
+				numIterations = 250,
 				verbose         = 1);
 		trained_model <- data.frame(payload = as.raw(serialize(model, connection=NULL)));
 	'
