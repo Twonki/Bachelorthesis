@@ -1,2 +1,41 @@
 \section{Programmiersprache R}
 \label{sec:R}
+R ist eine Sprache und eine Entwicklungsumgebung für statistische Berechnungen und Grafiken. R ist ein GNU-Projekt und beruht auf der Sprache $S$, welche von John Chambers et Alii entwickelt wurde. R stellt eine Implementation von S dar (vgl. \cite{RProject} Absatz 1) und liegt als Open Source Projekt vor.
+
+~\newline R bietet eine große Bandbreite an statistischen Funktionen (z.B. Lineare und Nichtlineare Modellierung, Classification und Signifikanztests) sowie grafische Aufbereitungen dieser und ist hochgradig Modular (vgl. \cite{RProject} Absatz 2). 
+
+~\newline Die größten Stärken von R liegen neben der einfachen Anwendung statistischer Funktionen in der Aufbereitung als Plots. R erzeugt schnell verständliche Grafiken der Daten, bieten erfahrenen Nutzern allerdings viele Optionen exakt benötigte Darstellungen zu erzeugen. 
+
+\paragraph{ R Umfeld} 
+Die Umgebung von R umfasst folgende integrierte Dienste (Siehe \cite{RProject} Absatz 5f):
+\begin{enumerate}
+	\item Eine Speichereinheit und Daten-Engine
+	\item Eine Umgebung für Berechnungen auf Listen, Vektoren und insbesondere Matrizen
+	\item Eine Sammlung an Werkzeugen zur Datenanalyse, statistischen Auswertung und Erzeugung von Grafiken
+	\item Eine Programmiersprache, welche auf Bedingungen, Schleifen und nutzerdefinierte Funktionen eingeht
+\end{enumerate}
+
+Für rechen- und Zeitintensive Operationen kann zusätzlich C und C++ Code zur Laufzeit eingebunden werden. Ebenso kann man mit C direkt Objekte manipulieren. 
+
+~\newline Die Funktionalitäten von R können über ein Paket-System erweitert werden. Das wichtigste Paket innerhalb dieser Arbeit stellt \textit{RevoScaleR} dar, welches eine persistente Speicherung von Datenobjekten in Datenbanken und Files ermöglicht. 
+
+\paragraph{Programmatische Besonderheiten}~\newline
+Die wichtigste Besonderheit in R ist, das jedes Objekt als Vektor aufgefasst wird. Ein einzelner Wert wird ebenfalls als Vektor der Größe 1 betrachtet.
+
+~\newline Vektoren können für arithmetische Ausdrücke verwendet werden, in diesem Fall werden die Operationen Element für Element ausgeführt. Zwei Vektoren, welche in einer Anweisung vorkommen, müssen nicht die selbe Länge besitzen. Falls dies nicht der Fall ist, ist die Ausgabe der Anweisung ein Vektor der Länge des längsten Vektors. Die kürzen Vektoren werden solange wiederholt, bis sie die Länge des längsten Vektors erreicht haben. Ein Vektor kann dadurch \textit{abgetrennt} werden.
+
+Insbesondere konstanten werden auf jedes Element angewendet (vgl. \cite{RIntro} Seite 13 Abschnitt 2.2 \textit{Vektorarithmetik} Absatz 1).
+
+~\newline Diese Eigenschaft der Vektoren ist vor dem Hintergrund, mit Datenbanken zu arbeiten ein zweischneidiges Schwert: Zum einen werden die Operationen und Anweisungen sehr \textit{einfach} und Übersichtlich (Hilfsstrukturen für Schleifen entfallen), allerdings bringt v.A. die Wiederholung der kleineren Vektoren erhebliche Fehlerquellen mit sich. 
+
+~\newline Ein Faktor ist ein Vektor mit einem fest definierten Wertebereich (z.B. ein Charakter-Vektor, Siehe auch \cite{RIntro} Kapitel 4 \textit{Ordered and Unordered Factors} Absatz 1).
+
+~\newline Ein \textit{Array} stellt in R eine Kombination aus einem Wert-Vektor und einem Dimensions-Vektor dar. Der Dimensionsvektor gibt hierbei eine Form für den Wert-Vektor dar, und bestimmt in welcher Reihenfolge und ggfs. mit welchen Eigenschaften Operationen ausgeführt werden. Für arithmetische Operationen zweier Arrays wird ebenfalls die o.G. \textit{Recycling Rule} angewendet. Im Flale einer Anweisung eines Arrays und eines Vektors, wird zunächst versucht aus dem Vektor ein Array derselben Dimension zu erzeugen. Eine Matrix stellt ein zweidimensionales Array dar. 
+
+~\newline Ein \textit{DataFrame} stellt eine besondere Form einer Liste dar, die folgende Eigenschaften erfüllen muss (Siehe \cite{RIntro} Abschnitt 6.3 \textit{DataFrames} Absatz 1f): 
+\begin{enumerate}
+	\item Ein DataFrame darf lediglich Vektoren, Matrizen, Faktoren und DataFrames enthalten
+	\item Alle Vektoren und Faktoren des Data-Frames müssen diesselbe Länge besitzen, Matrizen zusätzlich eine einheitliche Breite
+	\item Charakter- und String-Vektoren werden zu Faktoren vereinfacht
+\end{enumerate} 
+Data-Frames sind dahingehend wichtig, da der Import einer Tabelle aus dem SQL-Server als DataFrame erfolgt. 
