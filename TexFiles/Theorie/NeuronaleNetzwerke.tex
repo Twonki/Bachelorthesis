@@ -41,7 +41,7 @@ Dieser \textit{Feed Forward}-Prozess kann sowohl iterativ über alle Vektoren er
 \subsection{Backward Propagation}
 Die \textit{Rückwärtsausrichtung} bezeichnet den Algorithmus, welcher die Gewichte anhand des gemessenen Fehlers nachjustiert. 
 
-Hierbei wird in gleichem Maße wie in der logistischen Regression vorgegangen, mit dem Unterschied das die Gewichte in einer Matrix vorliegen. 
+Hierbei wird in gleichem Maße wie in der logistischen Regression vorgegangen, mit dem Unterschied, dass die Gewichte in einer Matrix vorliegen. 
 
 Die Eigenschaften der Aktivierungsfunktionen bezüglich ihrer Ableitung finden hier im besonderen Maße Anwendung, denn um von der Ausgabeschicht auf den letzten Hidden-Layer nachzujustieren benötigt man die erste Ableitung. Um auf den nächsten Hidden Layer einfluss zu nehmen, muss die zweite Ableitung gebildet werden (usw.). Eine mathematische Ausarbeitung findet sich unter \cite{colah} \textit{Computational Victories}.
 \subsection{Training}

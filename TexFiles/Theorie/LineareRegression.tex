@@ -22,9 +22,9 @@ Als Beispiel für die einfache lineare Regression dient das Abschätzen des Brem
 ~\newline
 Es ist hierbei offensichtlich, das diese Messwerte zusammenhängen - lediglich die zugrunde liegende Formel ist unbekannt. 
 
-Mithilfe linearer Regression wollen wir eine modellhafte Formel finden, die das beste Ergebnis anhand unserer Daten liefert. Die Werte müssen für 
+Mithilfe linearer Regression wollen wir eine modellhafte Formel finden, die das beste Ergebnis anhand unserer Daten liefert.
 \subsection{Einfache Lineare Regression}
-Zunächst geht man zur Vereinfachung davon aus, dass der Bremsweg lediglich von der Geschwindigkeit abhängt. Bezeichnen wir $x_i$ als die Geschwindigkeit des $i$-ten Datensatzes der Tabelle \ref{tab:Bremsweg} und $y_i$ als den zugehörigen Bremsweg, kann man ein lineares Modell der Form 
+Zunächst geht man zur Vereinfachung davon aus, dass der Bremsweg lediglich von der Geschwindigkeit abhängt. Bezeichnet man $x_i$ als die Geschwindigkeit des $i$-ten Datensatzes der Tabelle \ref{tab:Bremsweg} und $y_i$ als den zugehörigen Bremsweg, kann man ein lineares Modell der Form 
 \begin{equation}
 	y_i := \vartheta_1 \cdot x_i + \vartheta_0 
 \end{equation}
@@ -60,7 +60,7 @@ Bezogen auf unser Beispiel \ref{tab:Bremsweg} haben wir ein 2-Tupel $x_i$ der Fo
 Wobei $x^n_i$ die $n$-te Komponente des $i$-ten Elementes darstellt. $x^0$ ist eine Erweiterung um den Bias.
 
 
-~\newline Für dieses Modell, bzw. allgemein für alle Modelle dieser Form kann ebenfalls der MSE berechnet und minimiert werden, um eine optimale Gewichtsmatrix zu erzeugen. Die genauen mathematischen Verfahren hierfür finden sich z.B. bei \cite{stroetmann} Kapitel 5 Abschnitt 2 und Unterabschnitte.
+~\newline Für dieses Modell, bzw. allgemein für alle Modelle dieser Form kann ebenfalls der MSE berechnet und minimiert werden, um eine optimale Gewichtsmatrix zu erzeugen. Die genauen mathematischen Verfahren hierfür finden sich z.B. im Vorlesungsskript von Prof. Stroetmann \cite{stroetmann} Kapitel 5 Abschnitt 2 und Unterabschnitte.
 \subsection{Bewertung der Linearen Regression}
 \label{subsec:LinRegAcc}
 Um die statistische Aussagekraft des Modells zu bewerten, eignet sich ein \textbf{F-Test} (\cite{stroetmann} S. 86 Absatz 1), dieser ist definiert durch die Formel:
@@ -68,11 +68,11 @@ Um die statistische Aussagekraft des Modells zu bewerten, eignet sich ein \textb
 \label{eq:F-statistic}
 \mathrm{F} = \frac{\mathtt{TSS} - \mathtt{RSS}}{\mathtt{RSS}} \cdot \frac{m - p - 1}{p}
 \end{equation}
-Die $\mathtt{F}$-Statistik ist Fisher-Snedecor-verteilt mit $p-1$ Freiheitsgraden im Nenner und $m-$ Freiheitsgraden im Zähler. 
+Die $\mathtt{F}$-Statistik ist Fisher-Snedecor-verteilt mit $p-1$ Freiheitsgraden im Nenner und $m-p$ Freiheitsgraden im Zähler. 
 \begin{equation}
 \mathtt{TSS} = \sum\limits_{i=1}^m \bigl(y_i - \bar{\mathbf{y}}\bigr)^2 \ \ \
 \mathtt{RSS} := \sum\limits_{i=1}^m \bigl(\vartheta_1 \cdot x_i + \vartheta_0 - y_i\bigr)^2
 \end{equation}
-$\mathtt{TSS}$ ist hierbei die \textit{Total Sum of Squares}, $\mathtt{RSS}$ für die \textit{Residual Sum of Squares}. (Weiterführend: \cite{stroetmann} S. 77 Absatz 4f). 
+$\mathtt{TSS}$ wird hierbei als die \textit{Total Sum of Squares} bezeichnet, $\mathtt{RSS}$ für die \textit{Residual Sum of Squares}. (Weiterführend: \cite{stroetmann} S. 77 Absatz 4f). 
 
 ~\newline Dieser Test ist dahingehend notwendig, da ein simples Vergleichen der Modell-Schätzung (immer) von den echten Werten abweicht. Innerhalb des F-Testes werden ebenfalls die Varianz der Grundgesamtheit in Relation zur Varianz der Modell-Werte betrachtet, um ein aussagekräftiges Ergebnis zu erzielen.  

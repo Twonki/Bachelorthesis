@@ -1,6 +1,6 @@
 \section{Klassifizerung}
 \label{sec:Klassifizierung}
-Nach der linearen Regression soll nun die Klassifizierung vorgestellt werden. Hierfür werden zunächst allgemeine Ziele und ein Beispiel vorgestellt, anschließend wird die logistische Regression erläutert. 
+Nach der linearen Regression soll nun die Klassifizierung vorgestellt werden. Hierfür werden zunächst allgemeine Ziele und ein Beispiel vorgestellt, anschließend wird als ausgewähltes Verfahren die logistische Regression erläutert. 
  
 \subsection{Konzept und Ziele von Klassifizierung}
 Die Klassifizierung zählt zu den ältesten Anwendungen des Machine-Learning - Ein typisches Beispiel für (überwachte) Klassifizierung ist die Zuordnung einer E-Mail in \textit{Spam} oder \textit{Ham}.
@@ -20,7 +20,7 @@ Innerhalb der Logistischen Regression wird ein Modell erzeugt, welches einen Eig
 
 ~\newline Im Normalfall wird der Gewichtsvektor mit zufälligen Werten initialisiert. Es ist jedoch möglich, einen bereits bestehenden Vektor zu importieren. 
 
-Ebenso ist es üblich, sowohl Eingabewerte, als auch den Gewichtsvektor zu normieren. Dies beschleunigt die Optimierung. 
+Ebenso ist es üblich, sowohl Eingabewerte, als auch den Gewichtsvektor zu normieren. Einige Optimierungsfunktionen, wie z.B. \textit{Stochastic Gradient Descent} terminieren schneller für normierte Daten (vgl. \cite{GDQuora} Absatz 2). Grund hierfür sind die Eigenschaften der Loss-Function, die bei einer normierten Eingabe eine \textit{glatte} Oberfläche besitzt, und somit eine detailliertere Anpassung der Gewichte ermöglicht (Weiterführend \cite{GDBoost} Abschnitt \textit{Gradient Descent} und Abschnitt \textit{Learning Rate} ). 
 \subsection{Aktivierungsfunktion}
 \label{subsec:Aktivierungsfunktion} 
 Bei der Aktivierungsfunktion handelt es sich um eine statistische Verteilungsfunktion. Sie bildet einen Wert auf eine Wahrscheinlichkeit ab. 
