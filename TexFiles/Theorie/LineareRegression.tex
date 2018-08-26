@@ -4,7 +4,7 @@ Als erster Machine-Learning-Algorithmus soll die lineare Regression vorgestellt 
 
 Auch wenn lineare Regression nicht mehr Bestandteil aktueller Forschung ist, sind sie für weitere Erklärungen hilfreich, da Neuronale Netze mit Regression sich ebenfalls auf dieses Verfahren stützen. 
 
-~\newline Zudem können mithilfe linearer Regression bereits sehr gute Ergebnisse erzielt werden.
+~\newline Zudem können mithilfe einfacher linearer Regression bereits sehr gute Ergebnisse erzielt werden.
 \subsection{Konzept und Ziele linearer Regression}
 Als Beispiel für die einfache lineare Regression dient das Abschätzen des Bremsweges von PKWs. Hierfür benötigen man eine Tabelle der Gestalt
 
@@ -75,4 +75,9 @@ Die $\mathtt{F}$-Statistik ist Fisher-Snedecor-verteilt mit $p-1$ Freiheitsgrade
 \end{equation}
 $\mathtt{TSS}$ wird hierbei als die \textit{Total Sum of Squares} bezeichnet, $\mathtt{RSS}$ für die \textit{Residual Sum of Squares}. (Weiterführend: \cite{stroetmann} S. 77 Absatz 4f). 
 
-~\newline Dieser Test ist dahingehend notwendig, da ein simples Vergleichen der Modell-Schätzung (immer) von den echten Werten abweicht. Innerhalb des F-Testes werden ebenfalls die Varianz der Grundgesamtheit in Relation zur Varianz der Modell-Werte betrachtet, um ein aussagekräftiges Ergebnis zu erzielen.  
+~\newline Dieser Test ist dahingehend notwendig, da ein simples Vergleichen der Modell-Schätzung (immer) von den echten Werten abweicht. Innerhalb des F-Testes werden ebenfalls die Varianz der Grundgesamtheit in Relation zur Varianz der Modell-Werte betrachtet, um ein aussagekräftiges Ergebnis zu erzielen.
+
+
+~\newline \textit{Anmerkung:} Für die Bewertung eines ML-Algorithmus, welcher lediglich eine einzelne Variable vorhersagt, ist ein Test auf den $r^2$-Wert ausreichend. 
+
+Da die Ergebnisse und  Varianz der Test-Werte mit den Ergebnissen und der  Varianz der Bild-Werte verglichen werden, liegt lediglich ein Freiheitsgrad vor.  

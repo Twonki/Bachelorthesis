@@ -74,9 +74,9 @@ Der größte Kritikpunkt an der ReLU-Funktion ist, dass negative Eingabewerte st
 \end{figure}  
 Es gibt verschiedene Ansätze, diesen Nachteil auszugleichen: ~\newline
 \begin{enumerate}
-	 \item Bei \textbf{Leaky ReLU} werden negative Werte anstatt mit einem Bruchteil (ca. $\frac{1}{100}$-stel) ihres Wertes behandelt. 
-	\item Bei \textbf{Randomized ReLU} wird dieser Bruchteil zufällig gewählt und ggfs. während der Laufzeit angepasst. 
-	\item Bei \textbf{ELU} werden negative Werte mit der Funktion $a(e^x-1)$ wobei $a$ ein gewählter Parameter zwischen 0 und 1 ist.
+	 \item Bei \textbf{Leaky Rectified Linear Unit} werden negative Werte anstatt als 0 mit einem Bruchteil (ca. $\frac{1}{100}$-stel) ihres Wertes behandelt. 
+	\item Bei \textbf{Randomized Rectified Linear Unit} wird dieser Bruchteil zufällig gewählt und ggfs. während der Laufzeit angepasst. 
+	\item Bei \textbf{Euler Linear Unit} (\textit{kurz: ELU}) werden negative Werte mit der Funktion $a(e^x-1)$ abgebildet,  wobei $a$ ein gewählter Parameter zwischen 0 und 1 ist.
 \end{enumerate}
  
 \paragraph{Softmax}~\newline
@@ -116,8 +116,7 @@ Die Optimierungsfunktion hilft, für eine (unbekannte) Funktion ein Extremum zu 
 
 ~\newline Übliche Aktivierungsfunktionen sind das \textit{Gradientenverfahren} sowie das \textit{Stochastische Gradientenverfahren}. 
 \subsection{Bewertung der Klassifizierung}
-Die Klassifizierung ist simpel dahingehend zu Bewerten, wieviele der Testdaten korrekt Klassifiziert wurden. 
-
+Die Bewertung einer Klassifizierung erfolgt anhand dessen, wie viele Testdaten korrekt klassifiziert wurden. Dieses Verfahren eignet sich sowohl für die Binäre-, als auch für eine Multiklassen-Klassifikation
 ~\newline Die (relative) Genauigkeit ergibt sich als: 
 
 \begin{equation}

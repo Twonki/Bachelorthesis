@@ -45,7 +45,7 @@ Hierbei wird in gleichem Maße wie in der logistischen Regression vorgegangen, m
 
 Die Eigenschaften der Aktivierungsfunktionen bezüglich ihrer Ableitung finden hier im besonderen Maße Anwendung, denn um von der Ausgabeschicht auf den letzten Hidden-Layer nachzujustieren benötigt man die erste Ableitung. Um auf den nächsten Hidden Layer einfluss zu nehmen, muss die zweite Ableitung gebildet werden (usw.). Eine mathematische Ausarbeitung findet sich unter \cite{colah} \textit{Computational Victories}.
 \subsection{Training}
-Das Training bezeichnet den (iterativen) Prozess, solange mit den vorliegenden Trainingsdaten zunächst Forward-Propagation durchzuführen, und anschließend mittels Backward Propagation das Netz auszurichten. 
+Das Training bezeichnet den (iterativen) Prozess, mit den vorliegenden Trainingsdaten zunächst Forward-Propagation durchzuführen, und anschließend mittels Backward Propagation das Netz auszurichten. 
 
 ~\newline Der Umfang dieses Trainings bleibt dem Anwender überlassen. Es ist möglich, bessere Ergebnisse zu erzielen, indem man mit denselben Daten häufiger trainiert. Einen solchen wiederholten Trainingsdurchlauf nennt man eine \textbf{Epoche}. 
 \subsection{Bewertung des Neuronalen Netzes}
@@ -55,7 +55,7 @@ Zum Abschluss dieses Abschnittes werden noch einmal die \textit{Stellschrauben} 
 
 \begin{itemize}
 	\item \textbf{Netzaufbau und Struktur:} Die Anzahl der Knoten, Schichten, und Einstellungen zur Verknüpfung können variiert werden.
-	\item \textbf{Optimierungsfunktion:} Hierbei können die das Grundlegende Verfahren (Gradient Descent, SGC, Adadelta) gewählt werden, sowie Trainingsparameter (Lerngeschwindigkeit, Beschleunigung, Verfall) gesetzt werden.
+	\item \textbf{Optimierungsfunktion:} Hierbei können die das Grundlegende Verfahren (Gradient Descent oder Stochastic Gradient Descent) gewählt werden, sowie Trainingsparameter (Lerngeschwindigkeit, Beschleunigung, Verfall) gesetzt werden.
 	\item \textbf{Aktivierungsfunktion der Neuronen}
 	\item \textbf{Menge der Trainingsdaten:} Eine größere Menge an Trainingsdaten hilft maßgeblich, den Sachverhalt besser erfassen zu können. Auch sind große Datenmengen notwendig, um bei komplexeren Netzen \textit{overfitting} zu vermeiden.
 	\item \textbf{Anzahl der Features} 

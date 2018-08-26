@@ -1,20 +1,38 @@
 \section{SQL-Server 2017}
 \label{sec:SQLServer}
-In diesem Abschnitt werden zunächst Grundlagen des SQL-Server 2017 vorgestellt, und anschließend vor dem Hintergrund Neuronaler Netze zwei besondere Dienste, der ML-Server und die R-Services gesondert erläutert. 
+In diesem Abschnitt werden zunächst Grundlagen des SQL-Server 2017 vorgestellt, und anschließend vor dem Hintergrund des Machine Learnings zwei besondere Dienste, der ML-Server und die R-Services gesondert erläutert. 
 
 Microsoft’s SQL Server ist ein Relationales Datenbankmanagementsystem (kurz RDBMS), hat sich allerdings zu einer größeren Plattform für Business Intelligence, Data Mining, Reporting und ETL-Prozesse weiterentwickelt. Es wird ein Dialekt von SQL verwendet, das sog. Transact-SQL (Siehe \cite{SQLData} Seite 4 Absatz 7). Seit der Version 2016 werden ebenfalls die beiden Dienste R-Services und der Machine-Learning Server unterstützt, seid 2017 sind sie nativ integriert. 
 
-~\newline Neben der reinen Datenhaltung bietet der SQL-Server folgende Schlüsselelemente:
+~\newline Neben der reinen Datenhaltung bietet der SQL-Server folgende Schlüsselelemente (vgl. \cite{SQLServerWP} S9-12):
 \begin{enumerate}
 	\item (Web-) Schnittstellen um Remote auf Daten zu zugreifen
 	\item Möglichkeiten zur prozeduralen Programmierung
 	\item Unterstützende Tools für ETL-Prozesse und Reporting
-	\item Schnittstellen zu anderen Programmiersprachen, wie JavaScript, C# und Python
+	\item Schnittstellen zu anderen Programmiersprachen, wie JavaScript, C\# und Python
 	\item Security-Dienste zur Verschlüsselung der Daten on Rest sowie Nutzer und Rechteverwaltung
 	\item Performance-Optimierung, z.B. durch In-Memory-Column-Stores
 \end{enumerate}
 
-~\newline Diese Features führen dazu, das der SQL-Server zu den Marktführern der RDBMS´ gezählt wird. Ein weiteres, besonders wichtiges Feature für diese Arbeit stellen die R-Services dar.
+~\newline Diese Features führen dazu, das der SQL-Server zu den Marktführern der RDBMS´ gezählt wird. Ein weiteres, besonders wichtiges Feature für diese Arbeit stellen die R-Services dar, welche innerhalb des ML-Servers bereitgestellt werden:
+
+\subsection{Machine-Learning-Server} ~\newline
+Der Microsoft Machine-Learning-Server stellt eine Erweiterung des 2015 eingeführten R-Servers dar (vgl. \cite{MLServerInfo} Absatz 1f) und erweitert diesen um eine Python-Engine. Die unter R-Services vorgestellten Funktionen werden ebenfalls über den Machine-Learning Server bereitgestellt. 
+
+Prinzipiell ist der ML-Server eine eigene Anwendung und kann ohne einen SQL-Server in Betrieb genommen werden. Die stärken des ML-Servers liegen allerdings in der engen Integration des SQL-Servers: Der ML-Server kann auf Datenbanken, Sichten, Funktionen und Nutzerverwaltung des SQL-Servers zugreifen, und bildet somit eine umfangreiche Entwicklungsumgebung.
+
+~\newline Insbesondere kann der Machine-Learning Server aber auch als einfache Webschnittstelle benutzt werden, um bereits erzeugte Modelle zu nutzen.
+
+Eine weitere Besonderheit ist die nahtlose Verwendung von Skripts in der Azure-Cloud. 
+\paragraph{Möglichkeiten in  R}
+Die Sprache R besitzt verschiedene Optionen Machine-Learning Modelle zu erzeugen. Neben der Implementation \textit{von Grund auf} gibt es eine Vielzahl von Paketen und Bibliotheken. 
+
+Für die lineare und logistische Regression werden die Bibliotheken \textit{RevoscaleR} und \textit{MicrosoftML} von Microsoft benutzt (Die Dokumentation findet sich unter \cite{RevoscaleR}). Sie wird bereits mit dem SQL-Server geliefert. Hauptargument für diese Umsetzung waren die gründliche Dokumentation von Microsoft, die eine Benutzung innerhalb des SQL-Servers bereits behandelt, sowie die gemeinsame Produktfamilie welche einen einheitlichen Technik-Stack ergibt. 
+\paragraph{Möglichkeiten in Python}
+Neben den R-Services wird Ebenfalls eine Python-ML-Umgebung (welche ebenfalls ML-Server heißt) unterstützt. Dieses Open Source Projekt zu finden auf Github \cite{GithubMLServer} stellt eine Alternative zu den in R vorgestellten Methoden dar. 
+
+Der ML-Server selbst ist in Python implementiert.
+
 \subsection{R-Services}
 Die R-Services stellen eine Erweiterung des SQL-Servers dar, und bilden eine integrierte Plattform für R-Programme. Die wichtigsten Erweiterung zu einer \textit{normalen} R-Plattform bietet sich durch die \textbf{ScaleR}-Bibliothek, welche es ermöglicht die Datenobjekte von R persistent als Datenbank oder Datei zu speichern (vgl. \cite{SQLData} Seite 7 Absatz 9). Des Weiteren werden hier auch parallelisierung und ggfs. Verteilung (bei einem verteilten SQL-Server-Cluster) behandelt.
 
@@ -26,22 +44,13 @@ Die R-Services stellen eine Erweiterung des SQL-Servers dar, und bilden eine int
 
 \begin{enumerate}
 	\item \textbf{Bewegung des Codes zu den Daten:} Die Operationen werden dort ausgeführt, wo die Daten liegen. Somit entfallen Probleme bezüglich großen Datentransfers, Latenz sowie der Last auf dem Client, die Berechnungen durchzuführen (vgl. \cite{SQLData} Seite 7 Absatz 6). Vor Allem im Bereich des Machine-Learning werden sowohl rechenintensive Operationen benötigt, als auch große Datenmengen, zwei Probleme die hiermit adressiert werden. 
-	\item \textbf{Integration in bestehende Systeme:} Viele Unternehmen benutzen bereits eine Instanz des SQL-Servers für ihre Datenhaltung, und benutzen periphere Ansätze zur Analyse und Forecasting. Durch die Verwendung der R-Services können hier barrierefreie Lösungen auf bestehenden Systemen erarbeitet werden. 
+	\item \textbf{Integration in bestehende Systeme:} Viele Unternehmen benutzen bereits eine Instanz des SQL-Servers für ihre Datenhaltung, und benutzen periphere Ansätze zur Analyse und Forecasting. Durch die Verwendung der R-Services können hier Lösungen auf bestehenden Systemen erarbeitet werden. 
 \end{enumerate}
 
 ~\newline Dennoch entstehen (derzeit) auch Probleme bei der Verwendung der Integrierten R-Services, konkret im Bereich der Entwicklung: 
 
 ~\newline Bei Verwendung der R-GUI oder R-Plattform wird keine direkte Einsicht in die Datenstrukturen des SQL-Servers gewährt. Insofern müssen benötigte Tabellen sowie ihre Definitionen bekannt sein, bzw. ein zweites Tool zur Einsicht der Datenbank bereitstehen. Vor Allem bei komplexeren Datenbankabfragen, die Joins und Aggregationen beinhalten, stellt diese Einschränkung ein starkes Handicap dar. 
 
-~\newline Bei Verwendung der R-Services als Skript in T-SQL liegt das Problem darin, dass das R-Skript als Text übergeben wird, und somit nicht in der Vorschau \textit{compiled} wird. Liegt ein Fehler im Code vor, so zeigt sich dieser erst zur Laufzeit - teilweise nachdem bereits längere Operationen durchgeführt wurden. 
+~\newline Bei Verwendung der R-Services als Skript in T-SQL liegt das Problem darin, dass das R-Skript als Text übergeben wird, und somit nicht in der Vorschau \textit{kompiliert} wird. Liegt ein Fehler im Code vor, so zeigt sich dieser erst zur Laufzeit - teilweise nachdem bereits längere Operationen durchgeführt wurden. 
 
 ~\newline Aufgrund dieser beiden Probleme sollte die Entwicklungsumgebung dahingehend gewählt werden, wo die komplexeren Anforderungen der Lösung liegen: Im Falle komplexer Datenaufbereitung sollte mit integriertem Skript gearbeitet werden, im Falle komplexer R-Anfragen mit der R-GUI \footnote{Prinzipiell lassen sich ebenfalls alle Aggregationen und Aufbereitungen in R vornehmen. Die speziellen Operationen und Strukturen von R machen dies allerdings v.A. für Neulinge teilweise deutlich komplexer als SQL.}.  Optional bietet sich eine Auswahl nach bestehendem Vorwissen der Sprachen SQL und R an. 
-
-\paragraph{Machine-Learning-Server} 
-Der Microsoft Machine-Learning-Server stellt eine Erweiterung des 2015 eingeführten R-Servers dar (vgl. \cite{MLServerInfo} Absatz 1f) und erweitert diesen um eine Python-Engine. Die unter R-Services vorgestellten Funktionen werden ebenfalls über den Machine-Learning Server bereitgestellt. 
-
-Prinzipiell ist der ML-Server eine eigene Anwendung und kann ohne einen SQL-Server in Betrieb genommen werden. Die stärken des ML-Servers liegen allerdings in der engen Integration des SQL-Servers. Insbesondere kann der Machine-Learning Server aber auch als einfache Webschnittstelle benutzt werden, um bereits erzeugte Modelle zu nutzen.
-
-Eine weitere Besonderheit ist die nahtlose Verwendung von Skripts in der Azure-Cloud. 
-
-~\newline Im Allgemeinen bezieht sich der Machine-Learning Server auf Projekte, die mit Python realisiert werden, sowie den ML-Bibliotheken von Microsoft.
