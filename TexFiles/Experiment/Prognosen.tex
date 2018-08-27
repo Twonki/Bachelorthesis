@@ -1,20 +1,138 @@
+\newpage
 \label{Prognosen}
 \section{Trinkgeldprognose}
 \label{sec:TipPred}
-\paragraph{Zielsetzung}
-\paragraph{Versuchsaufbau}
-\paragraph{Netzaufbau und Einstellungen}
-\paragraph{Tuning/Verbesserung}
-\paragraph{Ergebnisse}
+Als erstes Beispiel wird die Vorhersage des gegebenen Trinkgeldes behandelt. 
+
+~\newline Dies stellt zwar nicht unbedingt ein für das Unternehmen hochgradig relevantes Thema dar, bietet jedoch einen guten Einstieg in das Thema Regression mit Hilfe von \textit{Deep Learning}:
+
+~\newline Es ist anzunehmen, dass Passagiere nach einem gewissen Schema Trinkgeld geben, etwa um Beträge aufzurunden oder eine schnelle Fahrt zu \textit{belohnen}. Ebenso kann es Kriterien geben, welche nicht innerhalb der Daten erfasst sind, wie die Stimmung der Passagiere oder die Freundlichkeit des Fahrers. Genauso treten eventuell Kriterien auf, welche zu einem Entfall des Trinkgeldes führen, eine lange Fahrt, eine Panne, oder ein Taxifahrer der \textit{Extrarunden dreht}. 
+
+~\newline Dennoch lassen sich diese potenziellen Kriterien schwer in einen anwendbaren Katalog zusammenfassen, nachdem man logisch das Trinkgeld erschließen kann. Vor diesem Hintergrund bietet sich die Verwendung eines tiefen Neuronalen Netzes an: 
+
+Die erste versteckte Schicht extrahiert (uns unbekannte, nicht genauer definierte) Kriterien automatisch, und die zweite Schicht gewichtet diese. 
+\paragraph{Zielsetzung} ~\newline
+Das Modell soll vorhersagbare Attribute erhalten, um für eine geplante Fahrt das Trinkgeld zu schätzen. 
+
+Ziel ist es eine gute Prognose mit realistischen, d.h. abschätzbaren Features zu erzeugen. 
+
+~\newline Aus unternehmerisches Sicht ist dieser Use-Case relevant, da Fahrer voraussichtlich die Fahrten mit höherem Trinkgeld bevorzugen werden, obwohl sich diese nicht mit dem größten Nutzen des Unternehmens decken müssen. 
+\paragraph{Versuchsaufbau} ~\newline
+Die Fahrten liegen in gefilterter, aber nicht weiter aufbereiteter Form vor. 
+
+Als Eingabefeatures werden die Fahrtdauer in Minuten, der Start- und Ziel-Ort, die Kosten der Fahrt, die gefahrene Strecke und die Anzahl der Passagiere gewählt. 
+
+Die Ausgabe ist eine Schätzung des Trinkgeldes in Dollar.
+\paragraph{Netzaufbau und Einstellungen} ~\newline
+Das neuronale Netz wurde mit zwei Schichten á 100 Knoten definiert. Die Schichten sind vollvermascht und verwenden beide die Sigmoidfunktion. Als Ausgabefunktion wurde \textit{Linear} gewählt.
+
+~\newline Die Lernrate wurde auf 5\% gesetzt und als Optimierungsfunktion Stochastic Gradient Descent gewählt. Es werden jeweils 500 Epochen durchgeführt. 
+\paragraph{Tuning und Verbesserung} ~\newline
+Wesentliche Unterschiede in der Genauigkeit dieses Beispiels verbucht die Auswahl der Features:
+\begin{itemize}
+	\item Modelle, welche nicht die Gesamtkosten der Fahrt als Eingabe erhalten, erzielen nur Genauigkeiten von 75\%.
+	\item Ein Modell, welches sich auf ausschließlich die Kosten der Fahrt stützt, erzielte eine Genauigkeit von ca. 40\%. 
+	\item Werden die im Versuchsaufbau genannten Features um (grobe) Wetterdaten und eine Tageszeit erweitert, verbessert sich die Genauigkeit des Modells auf bis zu 98\%. 
+	\item Werden die im Versuchsaufbau genannten Features um die Passagieranzahl gekürzt wird nur eine Genauigkeit von ca. 80\% erzielt - die Passagieranzahl scheint also ein wesentliches Feature darzustellen.
+	\item Weitere Features, welche sich auf den Preis beziehen (z.B. die Rate der Fahrt, Steuerliche Zulagen, diverse Aufschläge), welche bereits im Gesamtpreis enthalten sind, bringen keine Veränderung der Genauigkeit. 
+\end{itemize} 
+~\newline Im Rahmen der Zielsetzung wurden aber lediglich die unter dem Versuchsaufbau gewählten Attribute verwendet. Die Vorhersage des Wetters gestaltet sich weitestgehend schwierig für ein Taxiunternehmen bzw. den Fahrer. 
+
+~\newline Weitere Unterschiede erzeugten Veränderungen in der Netzdefinition: 
+
+Eine Verkleinerung einer der beiden Schichten unter 50 Knoten führte zu drastisch schlechteren Ergebnissen (max. 60\% Genauigkeit). 
+
+Eine Vergrößerung der Schichten über 100 Knoten führte zu keinem Gewinn an Genauigkeit, jedoch zu längeren Laufzeiten (Ein Trainingsdurchlauf mit je 200 Knoten dauert ca. 4 mal so lange).
+
+~\newline Eine Verwendung der Aktivierungsfunktion \textit{tanh} führte zu keinen Unterschieden, eine Verwendung der Softmax-Aktivierungsfunktion führte zu einer um ca. 20\% längeren Laufzeit und ähnlichen Genauigkeiten. 
+\paragraph{Ergebnisse} ~\newline
+Die folgenden Ergebnisse wurden mithilfe der unter \textbf{Netzaufbau und Einstellungen} genannten Optionen erzielt:
+
+\begin{figure}[h]
+	\begin{center}
+		\includegraphics[width=0.95\linewidth]{Bilder/TrinkgeldErgebnisse}
+		\caption[Ergebnisse der Trinkgeldprognose]{Ergebnisse der Trinkgeldprognose}
+		\label{fig:TipErg}
+	\end{center}
+\end{figure}
+
+\todo{"Minifazit" hier? Kurze bewertung oder einfach so stehen lassen?}
+\newpage
 \section{Ratenerkennung}
 \label{sec:RatePred}
-wie in Trinkgeld
+Als zweites Beispiel wird die Erkennung der Fahrrate behandelt. Dieser Fall ist weitestgehend Trivial, wurde dennoch als einfache Referenz für Multiklassen-Klassifikation aufgenommen. 
+
+~\newline Im Gegensatz zur Trinkgeldprognose sind die Kriterien, nach welchen sich die Fahrtkosten berechnen, klar dokumentiert: Je nach Rate kostet jede Meile und jede Minute einen bestimmten Betrag. Zusätzlich kommt je nach Gebiet (z.B. JFK-Airport) ein Aufschlag hinzu. Dahingehend lässt sich diese Formel zur Erkennung der Rate umformen.
+
+~\newline Interessant wird dieser Use-Case vor dem Hintergrund, das die Raten bzw. ihre zugehörigen Verrechnungssätze nicht innerhalb der Daten auftreten, und das Modell erkennen muss, welche Beträge Aufschläge sind, und welche Beträge die Raten ausmachen. 
+
+Das Modell soll also in diesem Fall einen für den Menschen eindeutigen, klar nachvollziehbaren Sachverhalt reproduzieren. 
+\paragraph{Versuchsaufbau} ~\newline
+Die Fahrten liegen in gefilterter, aber nicht weiter aufbereiteter Form vor. 
+
+Als Eingabefeatures werden die Fahrtdauer in Minuten, der Start- und Ziel-Ort, die Kosten der Fahrt, die gefahrene Strecke sowie die Anzahl der Passagiere gewählt. 
+
+Die Ausgabe ist die Rate der Taxifahrt als Dictionary-ID.
+\paragraph{Netzdefinition} ~\newline
+Das neuronale Netz wurde mit zwei Schichten á 100 Knoten definiert. Die Schichten sind vollvermascht und verwenden beide die Sigmoidfunktion. Als Ausgabefunktion wurde \textit{Softmax} gewählt.
+
+~\newline Die Lernrate wurde auf 5\% gesetzt und als Optimierungsfunktion Stochastic Gradient Descent gewählt. Es werden jeweils 250 Epochen durchgeführt. 
+\paragraph{Tuning und Verbesserung} ~\newline
+Innerhalb der Ratenerkennung ließen sich wenig Verbesserungen vornehmen: Grund hierfür ist die bereits anfänglich hohe Genauigkeit. 
+
+Eine Verbesserung der Geschwindigkeit lässt sich mit einem kleineren Netz erzielen. Eine Netzdefinition mit 60 und 10 Knoten in den Hidden Layern erzielte bei größeren Trainingsmengen ebenfalls eine Genauigkeit von 99\%, was für die meisten Anwendungen ausreichend ist. Es benötigt allerdings nur ca. ein Fünftel der Zeit fürs Training.
+\paragraph{Ergebnisse} ~\newline
+Die unter Netzdefinition genannten Optionen erzielten folgende Werte:
+
+\begin{figure}[h]
+	\begin{center}
+		\includegraphics[width=0.95\linewidth]{Bilder/RatenErgebnisse}
+		\caption[Ergebnisse der Trinkgeldprognose]{Ergebnisse der Ratenerkennung}
+		\label{fig:RateErg}
+	\end{center}
+\end{figure}
+
+~\newline Ein wichtiges Teilergebnis ist die Veränderung des ersten Versuches mit 1000 Trainingsdaten zu dem mit 5000 Trainingsdaten: 
+~\newline Zwar steigt die Genauigkeit nur minimal, dennoch werden erst ab 5000 Trainingsdaten die weniger vertretenen Daten korrekt erkannt. Das Modell für 1000 Trainingsdaten gab immer die Rate \textit{Standard} aus - welche zu 97\% auftritt. 
+
+
+~\newline Von den (zuletzt) nicht erkannten Daten besitzen 75\% die Rate \textit{Negotiated}.
+
+~\newline Als Nebenergebnis ist zu nennen, das die Trainingsverfahren meist nach ca. 100 Epochen aufhören, weil keine weiteren Änderungen in der Genauigkeit erzielt werden.
+\newpage
 \section{Fahrtenaufkommen}
 \label{sec:RidesPred}
-wie in Trinkgeld
+
+\paragraph{Zielsetzung} ~\newline
+
+\paragraph{Versuchsaufbau} ~\newline
+
+\paragraph{Netzdefinition} ~\newline
+
+\paragraph{Tuning und Verbesserung} ~\newline
+
+\paragraph{Ergebnisse} ~\newline
+\newpage
 \section{Umsatzvorhersage}
 \label{sec:RevPred}
-wie in Trinkgeld
+\paragraph{Zielsetzung} ~\newline
+
+\paragraph{Versuchsaufbau} ~\newline
+
+\paragraph{Netzdefinition} ~\newline
+
+\paragraph{Tuning und Verbesserung} ~\newline
+
+\paragraph{Ergebnisse} ~\newline
+\newpage
 \section{Passagieranzahl}
 \label{sec:PasPred}
-wie in Trinkgeld
+\paragraph{Zielsetzung} ~\newline
+
+\paragraph{Versuchsaufbau} ~\newline
+
+\paragraph{Netzdefinition} ~\newline
+
+\paragraph{Tuning und Verbesserung} ~\newline
+
+\paragraph{Ergebnisse} ~\newline
