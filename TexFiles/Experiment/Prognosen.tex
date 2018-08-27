@@ -102,31 +102,58 @@ Die unter Netzdefinition genannten Optionen erzielten folgende Werte:
 \newpage
 \section{Fahrtenaufkommen}
 \label{sec:RidesPred}
+Als nächstes Beispiel wird die Prognose des Fahrtenaufkommens behandelt. 
 
+~\newline Diese Prognose stellt die Erste für aggregierte Daten dar, und besitzt somit wesentlich weniger Trainingsdaten.
+
+~\newline Eine weitere Schwierigkeit für das Modell besteht darin, das die Testdaten aus der Menge der Trainingsdaten entfernt wurden, und somit die Gruppierungen der Testdaten in dieser Form nicht vorliegen. 
+
+Das Modell muss also, um die Fahrten des 31. August um 12:00 vom JFK-Airport vorherzusagen,welche in dieser Kombination nicht im Training vorkommen, einen Transfer auf unbekannte Daten leisten. Das Neuronale Netz kann sich in diesem Fall nicht \textit{erinnern}.
+
+~\newline Eine letzte Schwierigkeit für dieses Modell stellt die große Reichweite der Werte dar: Während es in den Äußeren Zonen häufig zu wenigen oder keinen Fahrten kommt, werden Börsenviertel und Flughäfen stark frequentiert. 
+
+Hierbei gibt es sowohl in den Orten als auch in den kalendarischen Daten starke Ausschläge, welche innerhalb der gruppierten Daten zu einer breiten Streuung führt.
 \paragraph{Zielsetzung} ~\newline
+Ziel des Modells ist es, für einen gegebenen Ort und eine gegebene Stunde eines Tages die Anzahl der \textbf{ausgehenden} Fahrten vorherzusagen. 
 
+~\newline Dieses Modell hilft dem Unternehmen, seine Taxi-Kontingente strategisch zu verteilen bzw. kann dem Taxifahrer helfen, vor einer Rushhour am richtigen Taxistand einzutreffen. 
 \paragraph{Versuchsaufbau} ~\newline
+Die Taxifahrten liegen in aggregierter Form vor: Sie wurden nach Datum, Tageszeit auf Stunde gerundet und Startort gruppiert. Die daraus Resultierenden Trainingsdaten sind Wertepaare aus der Anzahl der Fahrten, Ort, Stunde und Datum. 
+
+Die Gruppierungskriterien werden in R als Faktoren repräsentiert. 
+
+Ausgabe des Modells ist eine Schätzung der Fahrten, welche auf eine Ganzzahl gerundet wird. 
 
 \paragraph{Netzdefinition} ~\newline
+Für die endgültige Netzdefinition wurde ein einzelner Layer mit 300 Knoten und der \textit{tanh}-Aktivierungsfunktion gewählt. Die Ausgabe erfolgt über die \textit{Linear}-Funktion.
 
+~\newline Die Lernrate wurde auf 15\% gesetzt und als Optimierungsfunktion Stochastic Gradient Descent gewählt. Es wurde ein Verfall von 5\% gewählt. Es werden jeweils 500 Epochen durchgeführt. 
 \paragraph{Tuning und Verbesserung} ~\newline
+Die Prognose des Fahrtenaufkommen hat in den ersten Versuchen mit zwei Hidden Layern keine Ergebnisse erzielt (genau genommen negative $r^2$-Werte \footnote{negative $r^2$-Werte bedeuten, das eine Gerade bessere Werte erzielt, als das Modell}). Das erzeugte Modell gab in jedem Fall den Mittelwert der Fahrten aus, die Gewichte innerhalb des Modells hatten verschwindend geringe Werte und der Mittelwert wurde als Bias addiert. 
 
-\paragraph{Ergebnisse} ~\newline
-\newpage
-\section{Umsatzvorhersage}
-\label{sec:RevPred}
-\paragraph{Zielsetzung} ~\newline
 
-\paragraph{Versuchsaufbau} ~\newline
+~\newline Hierfür gibt es zwei mögliche Erklärungen: Die erste ist simples Overfitting.  
 
-\paragraph{Netzdefinition} ~\newline
-
-\paragraph{Tuning und Verbesserung} ~\newline
-
+~\newline Eine Verbesserung der Genauigkeit hat sich ebenfalls durch das Erhöhen der Neuronenanzahl sowie der Anzahl der Epochen ergeben. Die in Netzdefinition genannten Einstellungen ergaben hierbei die kleinsten Werte mit gleichbleibender Genauigkeit.
 \paragraph{Ergebnisse} ~\newline
 \newpage
 \section{Passagieranzahl}
 \label{sec:PasPred}
+
+\todo{Vorher \textit{Flat Learning} auf die Menge ohne Einzelfahrten testen, nicht das es noch gute Ergebnisse gibt}
+\paragraph{Zielsetzung} ~\newline
+
+\paragraph{Versuchsaufbau} ~\newline
+
+\paragraph{Netzdefinition} ~\newline
+
+\paragraph{Tuning und Verbesserung} ~\newline
+
+\paragraph{Ergebnisse} ~\newline
+
+\newpage
+\section{Umsatzvorhersage}
+\label{sec:RevPred}
 \paragraph{Zielsetzung} ~\newline
 
 \paragraph{Versuchsaufbau} ~\newline
