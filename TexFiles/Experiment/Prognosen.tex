@@ -182,7 +182,20 @@ Dies stellt zwar nicht die besten Ergebnisse dar, dennoch stellen die unter \tex
 \newpage
 \section{Umsatzvorhersage}
 \label{sec:RevPred}
+Als letztes Beispiel wird die Umsatzvorhersage behandelt. Dieses stellt für das Unternehmen offensichtlich den wichtigsten Use-Case dar.Sie gibt dem Unternehmen nicht nur eine Übersicht über den ist-Zustand, sondern zeigt ebenfalls detailliert an welchen Punkten noch gearbeitet werden muss. 
+
+Ein gut funktionierendes Modell kann ggfs. auch zur Prognose von Änderungen erweitert werden.
 \paragraph{Zielsetzung} ~\newline
+Ziel des Modells ist es, für einen gegebenen Ort und eine gegebene Stunde eines Tages Summe der Fahrtenkosten auszugeben. 
+
+\paragraph{Versuchsaufbau} ~\newline
+Der Gesamtumsatz wird aus den Einzelfahrten aufsummiert: Sie wurden nach Datum, Tageszeit auf Stunde gerundet und Startort gruppiert. Die daraus Resultierenden Trainingsdaten sind Wertepaare aus dem Gesamtumsatz, Ort, Stunde und Datum. 
+
+Die Gruppierungskriterien werden in R als Faktoren repräsentiert. 
+
+Ausgabe des Modells ist eine Schätzung des Umsatzes, welche auf zwei Nachkommastellen gerundet wird. 
+
+\paragraph{Netzdefinition} ~\newline
 
 \paragraph{Versuchsaufbau} ~\newline
 
