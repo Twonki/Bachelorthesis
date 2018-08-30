@@ -132,10 +132,38 @@ Für die endgültige Netzdefinition wurde ein einzelner Layer mit 300 Knoten und
 Die Prognose des Fahrtenaufkommen hat in den ersten Versuchen mit zwei Hidden Layern keine Ergebnisse erzielt (genau genommen negative $r^2$-Werte \footnote{negative $r^2$-Werte bedeuten, das eine Gerade bessere Werte erzielt, als das Modell}). Das erzeugte Modell gab in jedem Fall den Mittelwert der Fahrten aus, die Gewichte innerhalb des Modells hatten verschwindend geringe Werte und der Mittelwert wurde als Bias addiert. 
 
 
-~\newline Hierfür gibt es zwei mögliche Erklärungen: Die erste ist simples Overfitting.  
+~\newline Hierfür gibt es zwei mögliche Erklärungen: Die erste ist Overfitting. Die zweite ist eine mögliche, noch zu geringe Komplexität bzw. fehlende Features. 
 
-~\newline Eine Verbesserung der Genauigkeit hat sich ebenfalls durch das Erhöhen der Neuronenanzahl sowie der Anzahl der Epochen ergeben. Die in Netzdefinition genannten Einstellungen ergaben hierbei die kleinsten Werte mit gleichbleibender Genauigkeit.
+Um das Problem zu analysieren wurden dahingehend verschiedene Netzparameter durchgespielt, von [10,10] bis [1000,1000]-Netzen wurde eine große Bandbreite getestet. Auch die Veränderung der Aktivierungsfunktionen zu Sigmoid, Tanh, Softmax und Linear, bzw. Kombinationen dieser, erzeugte keine Ergebnisse. 
+
+~\newline Die ersten Ergebnisse wurden erzielt, als die zweite versteckte Schicht entfernt wurde. Das neue Modell mit einer einzelnen, 100 Knoten großen Schicht zeigte das zu erwartende, trainierbare verhalten. Hier zeigten größere Trainingsdaten sowie mehr Epochen eine Positive Wirkung auf die erstmals positive Genauigkeit. Ebenso zeigten unterschiedliche Aktivierungsfunktionen verschiedene Ergebnisse (Linear sehr schlechte, Softmax und Sigmoid gute, Tanh sehr gute). 
+
+~\newline Dieses Verhalten legt nahe, das es sich um eine Art von Overfitting gehandelt hat. 
+
+~\newline Die besseren Ergebnisse der Tanh-Aktivierungsfunktion gegenüber der Sigmoid- und Softmax-Funktion sind voraussichtlich auf das Verhalten um die Nullstelle zurückzuführen: Während die $sig(0)=0.5$ ist, gilt $tanh(0)=0$. Somit werden Null-Werte, wie sie in den Faktorisierten Werten (z.B. Ort) häufig auftreten, besser abgebildet und werden unabhängig vom angelegten Gewicht nicht in die weiteren Berechnungen aufgenommen. 
+
+Unter Verwendung der Sigmoid-Funktion werden bei vielen Epochen und Trainingsdaten zwar ebenfalls akzeptable Ergebnisse erzielt, dennoch liegt das i.A. daran, dass die Gewichte der Faktorisierten Daten gegen Null reduziert werden. Dies führt dazu, das faktorisierte Features nicht (stark) in die Prognose aufgenommen werden, und durch den \textit{Wegfall} der Features ein schwächeres Modell erzeugt wird. 
+
+~\newline Eine Verbesserung der Genauigkeit hat sich ebenfalls durch das Erhöhen der Neuronenanzahl sowie der Anzahl der Epochen ergeben. Die in Netzdefinition genannten Einstellungen ergaben hierbei die kleinsten Werte mit der höchsten erzielten Genauigkeit.
+
+~\newline Eine potenzielle Verbesserung würde eine komplexere Netzdefinition darstellen, welche zwei (oder drei) parallele Schichten besitzt: Eine für die numerischen Daten mit der Sigmoid- oder Softmax-Funktion sowie eine getrennte Schicht für die faktorisierten Daten. 
+~\newline Was (meiner Meinung) nach ebenfalls eine wesentliche Verbesserung darstellen kann ist die Aufnahme eines zweiten Jahres in die Trainingsdaten.
 \paragraph{Ergebnisse} ~\newline
+Die unter Netzdefinition genannten Optionen erzielten folgende Werte:
+
+\begin{figure}[h]
+	\begin{center}
+		\includegraphics[width=0.95\linewidth]{Bilder/FahrtenErgebnisse}
+		\caption[Ergebnisse der Trinkgeldprognose]{Ergebnisse der Fahrten-Prognose}
+		\label{fig:RidesErg}
+	\end{center}
+\end{figure}
+
+Dies stellt zwar nicht die besten Ergebnisse dar, dennoch stellen die unter \textbf{Tuning} vorgestellten Maßnahmen die wichtigsten praktischen Erkenntnisse dieser Arbeit dar. 
+
+~\newline Bei Eintausend Trainingsdaten gibt das Modell lediglich den Mittelwert aus - es liegen noch zu wenig Trainingsdaten vor. Bei Fünf- und Zehntausend liegt zunächst ein starker Einbruch vor, was darauf zurückzuführen ist, dass sich das Modell an den (wenigen) Trainingsdaten ausrichtet, die inhaltlich zu weit entfernt sind von den tatsächlichen Testdaten (Es könnten z.B. keine Daten für den Oktober, oder keine Daten für Nachtfahrten ins Training eingeflossen sein).
+
+~\newline Werden die Ergebnisse nicht gerundet (auf \textit{ganze Fahrten}) so liegen die $r^2$-Werte ca. 2\% höher (in allen Versuchen).
 \newpage
 \section{Passagieranzahl}
 \label{sec:PasPred}
