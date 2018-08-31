@@ -167,18 +167,60 @@ Dies stellt zwar nicht die besten Ergebnisse dar, dennoch stellen die unter \tex
 \newpage
 \section{Passagieranzahl}
 \label{sec:PasPred}
+Ein weiteres Beispiel ist die Vorhersage der Anzahl der Passagiere, welche an einer Fahrt teilnehmen. 
 
-\todo{Vorher \textit{Flat Learning} auf die Menge ohne Einzelfahrten testen, nicht das es noch gute Ergebnisse gibt}
+Dieser Use-Case ist eher für technische Belange interessant, denn die Verteilung der Passagieranzahl\footnote{Es handelt sich hierbei um die ungefilterten Daten} über die Fahrten stellt eine Besonderheit dar: 
+
+
+\begin{figure}[h]
+	\begin{center}
+		\includegraphics[width=0.8\linewidth]{Bilder/PassagierVerteilung}
+		\caption[Verteilung der Passagieranzahl]{Verteilung der Passagieranzahl über alle Fahrten}
+		\label{fig:PassagierVerteilung}
+	\end{center}
+\end{figure}
+
+
+Wie zu erkennen ist, besitzen die meisten Fahrten einen einzelnen Passagier. Diese machen Rund 70\% der Fahrten aus.
+
+Von den verbleibenden Fahrten machen Zwei-Passagier-Fahrten ca. 60\% aus.  Dies hat sich im Verlauf der Entwicklung als überaus herausfordernd herausgestellt. 
 \paragraph{Zielsetzung} ~\newline
-
+Ziel des Modells ist es, für einen gegebenen Ort, Datum und Stunde einer Fahrt die Anzahl der Passagiere vorherzusagen. 
+ 
 \paragraph{Versuchsaufbau} ~\newline
+Für diesen Use-Case wurden verschiedene Versuche durchgeführt. Gemeinsamkeit bilden die Eingegebenen Daten: Datum, Tageszeit und Ort des Fahrtbeginns. 
+\begin{enumerate}
+	\item In \textit{Variante 1} wurde das Modell mit Regression erstellt. 
+	\item In \textit{Variante 2} wurde das Modell für Multiklassen-Klassifizierung erstellt.
+	\item In \textit{Variante 3} wurden Einzelfahrten gefiltert und ein Regressionsmodell erstellt. 
+	\item In \textit{Variante 4} wurden ebenfalls Einzelfahrten gefiltert und ein Multiklassen-Modell generiert. 
+\end{enumerate}
+Ausgabe war, abhängig von der Variante, die Anzahl der Fahrten als Ganzzahl (1 \& 3) oder Klasse (2 \& 4). 
 
-\paragraph{Netzdefinition} ~\newline
-
-\paragraph{Tuning und Verbesserung} ~\newline
-
+Es wurden verschiedene Netzdefinitionen durchgespielt (Was Tiefe, Schichtgröße und Aktivierungsfunktionen angeht), dennoch erzielten diese für alle 4 Varianten die selben Ergebnisse:
 \paragraph{Ergebnisse} ~\newline
+Variante 1 \& 2 erreichten, bei größeren Trainingsmengen (ca. 10000), eine Genauigkeit von 70\% \footnote{Variante 1 nur bei einer Rundung auf Ganzzahl, ansonsten etwa 65\%}. Während dies Objektiv ein akzeptabler Wert ist, gibt das Modell für jede Eingabe stets eine \textit{Ein-Personen-Fahrt} aus. Diese Annahme stimmt in 70\% aller Fälle. 
 
+~\newline Variante 3 \& 4 zeigten dieselbe Schwäche für \textit{Zwei-Personen-Fahrten}. Für kleinere Trainingsdaten wurden Modelle erzeugt, welche andere Ausgaben erzeugten, allerdings wurden mit zunehmenden Iterationen und Trainingsdaten wieder nur die statistisch häufigsten Werte ausgegeben. 
+
+~\newline Die dabei entstehenden Modelle zeichnen sich alle durch verschwindend geringe Gewichte aus. Die einzige Änderung geschieht innerhalb des Bias, welcher in beiden Modellen (nach Abschluss des Trainings) dem Ergebnis entspricht.
+
+~\newline Da auch die Verwendung von der $Tanh$-Funktion und der Linear-Funktion in keinem befriedigendem Maße Ergebnisse zeigte (Welche sich für stark von Faktoren abhängige Schichten besser zu eignen scheinen, Siehe \ref{sec:RidesPred}), ist anzunehmen, dass elementare Features fehlen. Ein oder mehrere ausschlaggebende Kriterien, um die Passagieranzahl zu ermitteln, wurde innerhalb der Trainingsdaten noch nicht abgebildet/berücksichtigt. 
+
+~\newline Ein Nebenergebnis des Versuches ist der direkte Vergleich der Geschwindigkeiten: Variante 1 und 3, sowie Variante 2 und 4 verhielten sich in ihrer Trainingsdauer jeweils Analog. 
+
+Die Multiklassen-Varianten benötigten aber ca. die 3 fache Zeit ihrer Regressions-Gegenstücke.
+
+\begin{figure}[h]
+	\begin{center}
+		\includegraphics[width=0.8\linewidth]{Bilder/PassagierErgebnisse}
+		\caption[Ergebnisse der Passagiervorhersage]{Ergebnisse der Passagiervorhersage (Variante 2)}
+		\label{fig:PasErg}
+	\end{center}
+\end{figure}
+ 
+ 
+ Die oben stehenden Ergebnisse in Abbildung \ref{fig:PasErg} entsprechen den Zeiten von 250 Iterationen bei einem einzelnen $tanh$-Layer mit 250 Knoten und einer Multiklassen-Ausgabe. 
 \newpage
 \section{Umsatzvorhersage}
 \label{sec:RevPred}
