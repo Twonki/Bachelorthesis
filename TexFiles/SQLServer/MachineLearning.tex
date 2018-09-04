@@ -55,7 +55,7 @@ Hierbei wird zunächst in Zeile 1 das serialisierte Modell wieder nutzbar gemach
 
 In Zeile 2 wird die Methode \textit{rxPredict} der RevoScaleR-Bibliothek aufgerufen, welche aus den zu testenden Daten und dem Model eine Prognose erstellt. 
 \subsection{Klassifikation}
-Für die Klassifikation mit RevoscaleR gelten folgende Bedingungen: ~\newline
+Für die binäre Klassifikation mit RevoscaleR gelten folgende Bedingungen: ~\newline
 
 \begin{enumerate}
 	\item Die Klasse stellt einen Faktor mit Level 2 dar.
@@ -94,7 +94,7 @@ In Zeile drei wird die versteckte Schicht \textit{Hidden} mit 25 Knoten, einer V
 
 In Zeile vier wird die Ausgabeschicht \textit{Result} mit zwei Ausgabeknoten definiert. Es handelt sich um eine Binäre Klassifikation. Die Aktivierungsfunktion wird auf den Standardwert \textit{sigmoid} gesetzt. 
 
-Optional ist es möglich, die Größe eines Layers in der Form [5,5,2] anzugeben. Dies bedeutet, das zunächst zwei Layer mit 5 Knoten und anschließend ein Layer mit 2 Knoten vorliegt, welche eine Einheit bilden. Die anderen Parameter, z.B. die Aktivierungsfunktion, werden für alle Teilschichten übernommen.
+Optional ist es möglich, die Größe eines hidden Layers in der Form [X,X,Y] anzugeben. Dies bedeutet, das zunächst zwei Layer mit X Knoten und anschließend ein Layer mit Y Knoten vorliegt, welche eine Einheit bilden. Die anderen Parameter, z.B. die Aktivierungsfunktion, werden für alle Teilschichten übernommen.
 
 ~\newline Es werden an ein neuronales Netzwerk innerhalb von net\# folgende Anforderungen gestellt:
 
@@ -157,51 +157,3 @@ model <- rxNeuralNet(
 \end{lstlisting}
 
 Als Beispiel ist die Klassifizierung eines Bildes in eine von 4 Lotus-Spezien gewählt. Zu betonen ist, das die Ausgabe der Vorhersage 5 Werte erzeugt: Einen für die wahrscheinlichste Spezies, und für jede Spezies die Wahrscheinlichkeit.
-
-\subsection{Best Practices: Verwendung der ML-Algorithmen}
-Im Rahmen des Praxisteils haben sich im Wesentlichen 3 Best-Practices herauskristalliesiert, welche nun genauer vorgestellt werden. 
-
-\paragraph{Auschnitts-Tabellen und Aggregatstabellen} ~\newline
-Im Rahmen des Trainings mussten zufällige Daten ausgewählt werden. Dies wird innerhalb von SQL über die Sortierung einer zufälligen \textit{ID} realisiert. 
-
-~\newline Dieses Verfahren dauert für die vorliegenden Daten (113 Millionen Datensätze) ca. 26 Minuten \footnote{Bei Verwendung eines einfachen Desktop-PCs}. Während diese Zahl bei Modellen, die Stunden trainieren, eher unbedeutend ist, stellte Sie gerade für die ersten "TestModelle" einen Großteil der benötigten Zeit dar. Eine wesentliche Verbesserung ergab sich durch die Erzeugung einer (kleineren) Tabelle, die bereits zufällig Sortiert ist, und ein Training mithilfe dieser Tabelle. 
-
-~\newline Vor Allem für kleinere Modelle, welche lediglich mit wenigen Tausend Daten trainiert wurden, führte dies zu einer markanten Beschleunigung.
-
-~\newline Bei den Modellen welche sich auf aggregierte Daten stützen, fiel dieser Effekt noch größer aus: Eine Aufsummierung des Umsatzes nach Ort und Stunde dauerte ca. eine Stunde. Hierfür wurde ebenfalls eine (redundante) Tabelle erstellt, welche bereits (mehrere) Aggregierte Werte hält. 
-
-\paragraph{ML-Templates} ~\newline
-Nach den ersten Schritten mit den Neuronalen Netzen kristallisierte sich ein Muster heraus, welches sich auf alle Use-Cases übertragen lies. Dieses Muster lässt sich mithilfe von 4 SQL-Files darstellen:
-
-\begin{enumerate}
-	\item Ein File zur Erstellung einer Prozedur, welche das Neuronale Netz erstellt, trainiert und abspeichert.
-	
-	Hier findet sich die Netzdefinition, Trainingsparameter und ggfs. eine Aufbereitung der Trainingsdaten.
-	\item Ein File zur Erstellung einer Prozedur, welche alle Testdaten mithilfe des Neuronalen Netzes Vorhersagt
-	Hier findet sich eine analoge Aufbereitung der Testdaten zu den Trainingsdaten.
-	\item Ein File zur Erstellung einer Prozedur, welche die Vorhersage bewertet. Je nach Art des Netzes wird die Genauigkeit berechnet und eine Stichprobe der Vorhersagen genommen.
-	
-	Diese Prozedur lässt sich soweit vereinfachen, das es jedes beliebige Modell bewertet.
-	\item Ein File, welches die Prozeduren ausführt
-\end{enumerate}
-
-Mithilfe dieser Templates ließen sich sehr schnell Use-Cases umsetzen und die Modelle sowie Prozeduren waren einheitlich und übersichtlich. 
-
-Für eine reelle Anwendung sollten noch zwei weitere Prozeduren aufgenommen werden: Eine zum \textit{weitertrainieren} eines Modells, sowie eine zur konkreten Vorhersage eines einzelnen Datensatzes. 
-
-\paragraph{Speicherung der Modelle} ~\newline
-Für die Organisation, den Vergleich der Modelle und die allgemeine Verwendung wurden die serialisierten Modelle in einer eigenen Tabelle abgespeichert. 
-
-Während diese zunächst nur das Binärfile und den Namen hielten, war dies nicht wirklich hilfreich bei der Wiederverwendung. Deswegen wurde die Tabelle um folgende Eigenschaften erweitert, welche innerhalb der oben genannten Prozeduren mitgesetzt werden:
-
-\begin{enumerate}
-	\item Das Erstellungsdatum
-	\item Die Art des Modells (Klassifizerung oder Regression)
-	\item Die Anzahl der Trainingsdaten
-	\item Die Genauigkeit
-	\item Einen Kommentar
-\end{enumerate}
-
-Die ersten 3 werden hierbei von der Trainings-Prozedur erstellt, die Genauigkeit durch die Bewertungs-Prozedur.
-
-Diese erweiterte Tabelle stellte sich als Wesentlich benutzerfreundlicher heraus und lässt sich über das Template problemlos warten.

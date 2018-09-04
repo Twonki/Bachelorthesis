@@ -64,7 +64,7 @@ Als zweites Beispiel wird die Erkennung der Fahrrate behandelt. Dieser Fall ist 
 
 ~\newline Im Gegensatz zur Trinkgeldprognose sind die Kriterien, nach welchen sich die Fahrtkosten berechnen, klar dokumentiert: Je nach Rate kostet jede Meile und jede Minute einen bestimmten Betrag. Zusätzlich kommt je nach Gebiet (z.B. JFK-Airport) ein Aufschlag hinzu. Dahingehend lässt sich diese Formel zur Erkennung der Rate umformen.
 
-~\newline Interessant wird dieser Use-Case vor dem Hintergrund, das die Raten bzw. ihre zugehörigen Verrechnungssätze nicht innerhalb der Daten auftreten, und das Modell erkennen muss, welche Beträge Aufschläge sind, und welche Beträge die Raten ausmachen. 
+~\newline Interessant wird dieser Use-Case vor dem Hintergrund, dass die Raten bzw. ihre zugehörigen Verrechnungssätze nicht innerhalb der Daten auftreten, und das Modell erkennen muss, welche Beträge Aufschläge sind, und welche Beträge die Raten ausmachen. 
 
 Das Modell soll also in diesem Fall einen für den Menschen eindeutigen, klar nachvollziehbaren Sachverhalt reproduzieren. 
 \paragraph{Versuchsaufbau} ~\newline
@@ -72,7 +72,7 @@ Die Fahrten liegen in gefilterter, aber nicht weiter aufbereiteter Form vor.
 
 Als Eingabefeatures werden die Fahrtdauer in Minuten, der Start- und Ziel-Ort, die Kosten der Fahrt, die gefahrene Strecke sowie die Anzahl der Passagiere gewählt. 
 
-Die Ausgabe ist die Rate der Taxifahrt als Dictionary-ID.
+Die Ausgabe ist die Rate der Taxifahrt als ID.
 \paragraph{Netzdefinition} ~\newline
 Das neuronale Netz wurde mit zwei Schichten á 100 Knoten definiert. Die Schichten sind vollvermascht und verwenden beide die Sigmoidfunktion. Als Ausgabefunktion wurde \textit{Softmax} gewählt.
 
@@ -146,7 +146,7 @@ Unter Verwendung der Sigmoid-Funktion werden bei vielen Epochen und Trainingsdat
 
 ~\newline Eine Verbesserung der Genauigkeit hat sich ebenfalls durch das Erhöhen der Neuronenanzahl sowie der Anzahl der Epochen ergeben. Die in Netzdefinition genannten Einstellungen ergaben hierbei die kleinsten Werte mit der höchsten erzielten Genauigkeit.
 
-~\newline Eine potenzielle Verbesserung würde eine komplexere Netzdefinition darstellen, welche zwei (oder drei) parallele Schichten besitzt: Eine für die numerischen Daten mit der Sigmoid- oder Softmax-Funktion sowie eine getrennte Schicht für die faktorisierten Daten. 
+~\newline Eine potenzielle Verbesserung würde eine komplexere Netzdefinition darstellen, welche zwei (oder drei) parallele Schichten besitzt: Eine für die numerischen Daten mit der Sigmoid- oder Softmax-Funktion sowie eine getrennte Schicht für die faktorisierten Daten. Dies wurde aufgrund der technischen und terminlichen Limits der Arbeit nicht umgesetzt (Zu hoher Speicherverbrauch sowie lange Trainingszeiten). 
 ~\newline Was (meiner Meinung) nach ebenfalls eine wesentliche Verbesserung darstellen kann ist die Aufnahme eines zweiten Jahres in die Trainingsdaten.
 \paragraph{Ergebnisse} ~\newline
 Die unter Netzdefinition genannten Optionen erzielten folgende Werte:

@@ -10,9 +10,9 @@ Die Summe aller Ausprägungen einer Eigenschaft bezeichnet man als Eigenschaftsv
 Label und Klassen sind synonyme Bezeichner.
 \paragraph{Accuracy} Die \textit{Genauigkeit} stellt ein Maß dafür dar, wie genau das Modell die Funktion darstellt. 
 
-Je nach Art des Modells muss die Genauigkeit unterschiedlich evaluiert werden und sind im Abschnitt \ref{subsec:LinRegAcc} für Regressionen und im Abschnitt \ref{subsec:LogRegAcc} für Klassifikation vorgestellt.
+Je nach Art des Modells muss die Genauigkeit unterschiedlich evaluiert werden und wird jeweils im Abschnitt \ref{subsec:LinRegAcc} für Regressionen und im Abschnitt \ref{subsec:LogRegAcc} für Klassifikation vorgestellt.
 \section{Bias}
-Wenn man mit Vorhersagemodellen arbeitet, können die Fehler der Vorhersage in zwei Hauptursachen zerlegt werden: 
+Wenn man mit Prognosemodellen arbeitet, können die Fehler der Vorhersage in zwei Hauptursachen zerlegt werden: 
 Fehler aufgrund von Verzerrung und Fehler aufgrund von [natürlicher] Varianz. Es gibt einen Zusammenhang zwischen der Fähigkeit eines Modells, die Abweichung und die Varianz zu minimieren. Diese beiden Fehler zu verstehen, hilft die Ergebnisse des Modells auszuwerten und die Fehler für \textit{Under-} und \textit{Overfitting} zu vermeiden. (vgl. \cite{BiasVarianceDilemma} Vorwort).
 
 ~\newline Die \textbf{Verzerrung} (engl. Bias) ist der Fehler ausgehend von falschen Annahmen im Lernalgorithmus. Eine hohe Verzerrung kann einen Algorithmus dazu veranlassen, nicht die entsprechenden Beziehungen zwischen Eingabe und Ausgabe zu modellieren. Dieses Problem bezeichnet man als \textbf{Unteranpassung}.
@@ -58,7 +58,7 @@ Die Natürliche Varianz ist als Hauptgrund zu nennen, warum in jedem (modernen) 
 ~\newline Insbesondere ist  zu betonen, das die Genauigkeit eines Models, welches auf Machine-Learning beruht, nie höher sein kann als die Varianz der zugrunde liegenden Trainings-Daten. Ein Modell kann lediglich erreichen, die selbe bzw. eine ähnliche Varianz zu simulieren.
 
 ~\newline Neben diesen \textit{harten} Kriterien, gibt es noch zwei Arten von Verzerrung, die mit der Auswahl der Trainingsdaten einhergehen. Da diese nicht über technische Maßnahmen ausgeglichen werden können, werden diese gesondert vorgestellt:
-\paragraph{Selection Bias} ~\newline  Unter der Selektionsverzerrung versteht man einen Fehler der Ergebnisse, welcher durch die Auswahl einer \textbf{nicht repräsentativen} Stichprobe entsteht (vgl. \cite{SelectionBias} Definition). Ein Beispiel einer Selektionsverzerrung tritt auf \footnote{Es handelt sich hierbei um eine Vermutung}, wenn Anhand der Umfragen auf einer Messe für vegane Ernährung die Ernährungsgewohnheiten aller Deutscher interpretiert wird. 
+\paragraph{Selection Bias} ~\newline  Unter der Selektionsverzerrung versteht man einen Fehler der Ergebnisse, welcher durch die Auswahl einer \textbf{nicht repräsentativen} Stichprobe entsteht (vgl. \cite{SelectionBias} Definition). Ein Beispiel einer Selektionsverzerrung tritt auf, wenn Anhand der Umfragen auf einer Messe für vegane Ernährung die Ernährungsgewohnheiten aller Deutscher interpretiert wird. 
 
 ~\newline  Im Gegensatz dazu wäre diese Stichprobe sehr wohl geeignet, die Ernährung deutscher Veganer zu beurteilen.  
 
