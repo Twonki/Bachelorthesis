@@ -56,7 +56,11 @@ Die folgenden Ergebnisse wurden mithilfe der unter \textbf{Netzaufbau und Einste
 	\end{center}
 \end{figure}
 
-\todo{"Minifazit" hier? Kurze bewertung oder einfach so stehen lassen?}
+Die Ergebnisse der Modelle sind sehr zufriedenstellend: Unter Verwendung absehbarer Daten können signifikante Modelle erstellt werden, ebenfalls verhält sich der Trainingserfolg (sowohl unter Zuwachs der Epochen, als auch an der Menge der Trainingsdaten) wie man ihn erwartet. 
+
+~\newline Die Entwicklung des Modells ist allerdings mit mehreren Entscheidungen verbunden: Vor Allem die Auswahl der Features hatte in diesem Beispiel große Auswirkungen auf die Genauigkeit. Während schwer abzuschätzende Parameter, wie das Wetter, exzellente Ergebnisse ermöglichen, können hiermit keine zuverlässigen Aussagen über Fahrten in der kommenden Woche getroffen werden. Sollte das Modell allerdings nur für den jeweiligen Tag (oder kürzere Intervalle) eingesetzt werden, und das Wetter relativ absehbar, ist eine Aufnahme dieser Features durchaus denkbar. 
+
+~\newline Ein wichtiges Nebenergebnis stellt die gleichbleibende Genauigkeit bei größeren hidden Layern dar. Durch die wachsende Trainingszeit sollte die optimale Größe des Netzes zunächst mit einer kleineren Menge an Trainingsdaten evaluiert werden.  
 \newpage
 \section{Ratenerkennung}
 \label{sec:RatePred}
