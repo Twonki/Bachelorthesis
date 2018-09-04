@@ -84,7 +84,7 @@ Das neuronale Netz wurde mit zwei Schichten á 100 Knoten definiert. Die Schicht
 \paragraph{Tuning und Verbesserung} ~\newline
 Innerhalb der Ratenerkennung ließen sich wenig Verbesserungen vornehmen: Grund hierfür ist die bereits anfänglich hohe Genauigkeit. 
 
-Eine Verbesserung der Geschwindigkeit lässt sich mit einem kleineren Netz erzielen. Eine Netzdefinition mit 60 und 10 Knoten in den Hidden Layern erzielte bei größeren Trainingsmengen ebenfalls eine Genauigkeit von 99\%, was für die meisten Anwendungen ausreichend ist. Es benötigt allerdings nur ca. ein Fünftel der Zeit fürs Training.
+Eine Verbesserung der Geschwindigkeit lässt sich mit einem kleineren Netz erzielen. Eine Netzdefinition mit 60 und 10 Knoten in den Hidden Layern erzielte bei größeren Trainingsmengen ebenfalls eine Genauigkeit von 99\%, was für die meisten Anwendungen ausreichend ist. Es benötigt allerdings nur ca. ein Fünftel der Zeit für das Training.
 \paragraph{Ergebnisse} ~\newline
 Die unter Netzdefinition genannten Optionen erzielten folgende Werte:
 
@@ -114,9 +114,9 @@ Als nächstes Beispiel wird die Prognose des Fahrtenaufkommens behandelt.
 
 Das Modell muss also, um die Fahrten des 31. August um 12:00 vom JFK-Airport vorherzusagen,welche in dieser Kombination nicht im Training vorkommen, einen Transfer auf unbekannte Daten leisten. Das Neuronale Netz kann sich in diesem Fall nicht \textit{erinnern}.
 
-~\newline Eine letzte Schwierigkeit für dieses Modell stellt die große Reichweite der Werte dar: Während es in den Äußeren Zonen häufig zu wenigen oder keinen Fahrten kommt, werden Börsenviertel und Flughäfen stark frequentiert. 
+~\newline Eine letzte Schwierigkeit für dieses Modell stellt die große Reichweite der Werte dar: Während es in den äußeren Gebieten wenige oder keine Fahrten gibt, werden Börsenviertel und Flughäfen stark frequentiert. 
 
-Hierbei gibt es sowohl in den Orten als auch in den kalendarischen Daten starke Ausschläge, welche innerhalb der gruppierten Daten zu einer breiten Streuung führt.
+Hierbei gibt es sowohl in den Orten als auch in den kalendarischen Daten starke Ausschläge, welche innerhalb der gruppierten Daten zu einer breiten Streuung führen.
 \paragraph{Zielsetzung} ~\newline
 Ziel des Modells ist es, für einen gegebenen Ort und eine gegebene Stunde eines Tages die Anzahl der \textbf{ausgehenden} Fahrten vorherzusagen. 
 
@@ -241,12 +241,21 @@ Die Gruppierungskriterien werden in R als Faktoren repräsentiert.
 
 Ausgabe des Modells ist eine Schätzung des Umsatzes, welche auf zwei Nachkommastellen gerundet wird. 
 
-\paragraph{Netzdefinition} ~\newline
-
 \paragraph{Versuchsaufbau} ~\newline
+Für diesen Use-Case wurden ebenfalls zwei Versuche durchgeführt. Gemeinsamkeit bilden die Eingegebenen Daten: Datum, Tageszeit und Ort des Fahrtbeginns. 
 
-\paragraph{Netzdefinition} ~\newline
+~\newline Hierbei ist die Ausgabe von Variante 1 der aufsummierte Umsatz aller Fahrten innerhalb der Stunde, und bei Variante 2 der durchschnittliche Umsatz pro Fahrt in dieser Stunde. 
 
-\paragraph{Tuning und Verbesserung} ~\newline
-
+~\newline Es wurden verschiedene Netzdefinitionen durchgespielt (Was Tiefe, Schichtgröße und Aktivierungsfunktionen angeht), dennoch erzielten (im Wesentlichen) alle vergleichbare Ergebnisse. Die unten aufgeführten Ergebnisse sind die zuletzt mit einem einzelnen hidden Layer mit 250 Knoten und der $tanh$-Aktivierungsfunktion erzielten Genauigkeiten.
 \paragraph{Ergebnisse} ~\newline
+Trotz intensiver Versuche erreichte Variante 1 nie positive $r^2$ Werte. 
+
+~\newline Da allerdings verschiedene Netzeinstellungen, insbesondere die Erkenntnisse aus den anderen Use-Cases, ebenfalls eingeflossen sind, lässt sich Overfitting im Allgemeinen Ausschließen. 
+
+~\newline Für Variante 2 wurden mithilfe der Erkenntnisse aus \ref{sec:RidesPred} bezüglich des Overfittings ein $r^2$-Wert von 31\% erzielt.
+
+~\newline Die Ergebnisse legen nahe, das es ähnlich wie bei den Passagieranzahlen noch fehlende, dringend benötigte Features gibt. Potenziell denkbar wären Feiertags-Kalender oder Angaben eines Tourismus-Büros.  
+
+~\newline Nachdem die Schätzung des Fahrtenaufkommens zufriedenstellend umgesetzt werden konnte, muss die Schwierigkeit explizit bei der Berechnung des Umsatzes liegen. 
+
+Die hierfür wahrscheinlichste Ungewissheit stellt die Unberechenbarkeit des Zielortes dar. Innerhalb der Daten gibt es keine Ausschläge der Verteilung Fahrten pro Zielort und Startort - es gibt entsprechend ebenfalls keine (wahrscheinliche) Aussage darüber wohin eine einzelne Fahrt geht. Da der Umsatz einer Fahrt, und entsprechend die Summe über alle Fahrten stark von den jeweiligen Distanzen und Zeiten abhängt, kann ein Modell keine genauen Ergebnisse erzielen.
