@@ -20,7 +20,7 @@ Innerhalb der Logistischen Regression wird ein Modell erzeugt, welches einen Eig
 
 ~\newline Im Normalfall wird der Gewichtsvektor mit zufälligen Werten initialisiert. Es ist jedoch möglich, einen bereits bestehenden Vektor zu importieren. 
 
-Ebenso ist es üblich, sowohl Eingabewerte, als auch den Gewichtsvektor zu normieren. Einige Optimierungsfunktionen, wie z.B. \textit{Stochastic Gradient Descent} terminieren schneller für normierte Daten (vgl. \cite{GDQuora} Absatz 2). Grund hierfür sind die Eigenschaften der Loss-Function, die bei einer normierten Eingabe eine \textit{glatte} Oberfläche besitzt, und somit eine detailliertere Anpassung der Gewichte ermöglicht (Weiterführend \cite{GDBoost} Abschnitt \textit{Gradient Descent} und Abschnitt \textit{Learning Rate} ). 
+Ebenso ist es üblich, sowohl Eingabewerte, als auch den Gewichtsvektor zu normieren. Einige Optimierungsfunktionen, wie z.B. \textit{Stochastic Gradient Descent} terminieren schneller für normierte Daten (vgl. \cite{GDQuora} Absatz 2). Grund hierfür sind die Eigenschaften der Loss-Function, die bei einer normierten Eingabe eine \textit{glatte} Oberfläche besitzt, und somit eine bessere Anpassung der Gewichte ermöglicht (Weiterführend \cite{GDBoost} Abschnitt \textit{Gradient Descent} und Abschnitt \textit{Learning Rate} ). 
 \subsection{Aktivierungsfunktion}
 \label{subsec:Aktivierungsfunktion} 
 Bei der Aktivierungsfunktion handelt es sich um eine statistische Verteilungsfunktion. Sie bildet einen Wert auf eine Wahrscheinlichkeit ab. 
@@ -114,7 +114,7 @@ Die Optimierungsfunktion hilft, für eine (unbekannte) Funktion ein Extremum zu 
 
 ~\newline Im Rahmen des Machine-Learning verwaltet die Optimierungsfunktion ebenfalls Trainingsparameter, z.B. die Lernrate, eine Beschleunigungs- und Verfallslogik. Ebenso oft Bestandteil sind Funktionen, welche eine zufällige Verschiebung bewirken. Grund hierfür ist eine Schwäche der meisten Optimierungsfunktionen, sich auf ein lokales Extremum einzupendeln.
 
-~\newline Übliche Optimierungsfunktionen sind das \textit{Gradientenverfahren} sowie das \textit{Stochastische Gradientenverfahren}. 
+~\newline Im Folgenden wird der Gradientenanstieg und Optimierungen dessen vorgestellt. Dieser Unterabschnitt stellt im Wesentlichen eine Auswahl und Aufbereitung von Sebastian Ruders Blogeintrag \textit{An overview of gradient descent optimization algorithms} \cite{OptimizationFunction} dar.
 \subsection{Bewertung der Klassifizierung}
 Die Bewertung einer Klassifizierung erfolgt anhand dessen, wie viele Testdaten korrekt klassifiziert wurden. Dieses Verfahren eignet sich sowohl für die Binäre-, als auch für eine Multiklassen-Klassifikation
 ~\newline Die (relative) Genauigkeit ergibt sich als: 
