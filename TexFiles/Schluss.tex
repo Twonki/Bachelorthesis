@@ -1,2 +1,22 @@
 \chapter{Fazit}
 \label{cha:Fazit} \label{cha:Schluss}
+Im Rahmen der Arbeit haben sich verschiedene, übergreifende Ergebnisse herauskristallisiert welche nun abschließend aufsummiert werden.
+
+~\newline In Bezug auf die Benutzung der Algorithmen gilt: \textit{\textbf{Easy to learn, hard to master}}. Moderne Frameworks und Bibliotheken ermöglichen es \textit{kinderleicht} komplexe Modelle zu erstellen und zu benutzten. Sogar die Aufbereitung der Daten erfolgt einfach mithilfe optischer Oberflächen oder wird automatisch übernommen (z.B. die Normierung und Faktorisierung innerhalb von RevoScaler).
+
+Dennoch liefern diese Modelle nicht unbedingt zufriedenstellende Ergebnisse: Entweder sind die Standard-Einstellungen nicht geeignet, oder die Aufbereitung der Daten produziert neue Fehler (z.B. wenn die Orte als ID übergeben werden, sind diese nicht faktorisiert). Auch entstehen häufig Fehler bei automatisch faktorisierten Daten, etwa weil innerhalb der Trainingsmenge ein Merkmalsausprägung gefehlt hat, welche in den Testdaten vorkommt und nicht auf den Eingabevektor übertragen werden kann. Fehler dieser Art zeigen sich erst bei der konkreten Anwendung des Modells auf separate Testdaten: Sollte bei den \textit{korrumpierten} Trainingsdaten und Einstellungen in Standardeinstellungen verwendet werden, so zeigt das Modell bei zunehmenden Training ebenfalls erfolge - diese spiegeln nur nicht zwangsläufig echte Erfolge wieder.
+
+Insofern sind die Frameworks und Standardeinstellungen zwar angenehm für den Einstieg, sollten allerdings für die Umsetzung eines Projektes genau inspiziert werden. Vor allem die Aufbereitung der Trainingsdaten und die Kontrolle des Modells sollte der Entwickler selbst übernehmen.  
+
+~\newline Ein häufiger Satz, welcher v.A. in Internetforen auftritt, ist \textit{\textbf{building neural networks is more art than science}}.
+
+Diesen Satz kann ich so nur ablehnen - viele Änderungen, Designentscheidungen und Trainingserfolge wurden bewusst durch die wissenschaftlichen Eigenschaften der einzelnen Komponenten erzielt. Konkret zeigte sich dies bei der Benutzung der $tanh$-Funktion gegenüber der Sigmoid-Funktion in Abschnitt \ref{sec:RidesPred} welche Aufgrund ihrer Eigenschaften mit negativen Werten bessere Ergebnisse erzielte. 
+
+Zwar sind viele Fortschritte, z.B. das beheben von Over- und Underfitting experimentell entstanden, dennoch können 
+grundlegende Probleme auftreten, welche sich nicht über \textit{herumprobieren} lösen lassen, im Rahmen dieser Arbeit konkret Abschnitt \ref{sec:RevPred} zur Schätzung des Umsatzes und \ref{sec:PasPred} für das Passagieraufkommen. Hier haben selbst umfangreiche Experimente keine Ergebnisse erzielt.
+
+Als letzter, großer Themenblock ist ebenfalls das Performancetuning zu nennen: Alle Hyperparameter der Optimierungsfunktion haben einen technischen Ursprung, und ein Verständnis der Algorithmen ist notwendig, um die Parameter sinnvoll zu wählen. Zwar sind die Standardeinstellungen hier meistens hinreichend, allerdings können durch bewusste Anpassung ebenfalls markante Besserungen in der Trainingsgeschwindigkeit erzielt werden. So zeigten höhere Lern- und Verfalls-Parameter bei den weitestgehend homogenen Trinkgelddaten ein wesentlich schnelleres Terminieren das Trainings bei gleichbleibender Genauigkeit. Für andere Experimente, z.B. dem Fahrtenaufkommen, zeigten diese Einstellungen katastrophale Ergebnisse - die Daten waren einfach zu verschieden, um in diesem Maße behandelt zu werden. 
+
+~\newline Somit kann zwar jedes Problem rein experimentell gelöst werden, allerdings stellt dies oft mehr einen \textit{Glückstreffer} dar. Ein Verständnis der Algorithmen, ihrer Eigenschaften und der verwendeten Funktionen ermöglicht nicht nur eine bessere Ausgangslage für das Tuning, sondern ist eine Grundvoraussetzung für die Fehleranalyse und Problembehebung. 
+
+Insofern ist der Ansatz, die Herangehensweise \textit{a priori} als Kunst zu bezeichnen meiner Meinung nach sogar schädlich für das Thema und die Weiterentwicklung der Technologie. 
