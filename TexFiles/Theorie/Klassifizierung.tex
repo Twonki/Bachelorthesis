@@ -115,6 +115,56 @@ Die Optimierungsfunktion hilft, für eine (unbekannte) Funktion ein Extremum zu 
 ~\newline Im Rahmen des Machine-Learning verwaltet die Optimierungsfunktion ebenfalls Trainingsparameter, z.B. die Lernrate, eine Beschleunigungs- und Verfallslogik. Ebenso oft Bestandteil sind Funktionen, welche eine zufällige Verschiebung bewirken. Grund hierfür ist eine Schwäche der meisten Optimierungsfunktionen, sich auf ein lokales Extremum einzupendeln.
 
 ~\newline Im Folgenden wird der Gradientenanstieg und Optimierungen dessen vorgestellt. Dieser Unterabschnitt stellt im Wesentlichen eine Auswahl und Aufbereitung von Sebastian Ruders Blogeintrag \textit{An overview of gradient descent optimization algorithms} \cite{OptimizationFunction} dar.
+\paragraph{Der Gradientenanstieg} Kern des Gradientenanstiegs bildet die iterative Suche nach dem (globalen) Minima der Loss-Funktion. 
+\begin{figure}[h]
+	\begin{center}
+		\includegraphics[width=0.6\linewidth]{Bilder/optimization}
+		\caption[Loss-Function: \url{
+			http://www.ahozer.com/research.html}]{Beispiel einer visualisierten Verlust-Funktion}
+		\label{fig:Loss}
+	\end{center}
+\end{figure}
+Einen Beispielhaften Plot einer Verlustfunktion liefert Abbildung \ref{fig:Loss}: Der Verlust ist hierbei auf der Z-Achse eingetragen, die Y- und X-Achse bilden die Gewichte ab. Die vorgestellten Verfahren sind ebenfalls in Räumen höherer Dimension möglich.
+
+Stellt man sich diese Funktion als (hügelige) Landschaft vor (Siehe Abbildung \ref{fig:Loss}), so hilft als Veranschaulichung \textit{the blindfolded hiker}: Ein Wanderer mit Augenbinde steht an einem Berghang und möchte sicher das nächste Tal erreichen. Hierfür findet er zunächst heraus, wo es gerade bergab geht, und tätigt einen vorsichtigen Schritt. Dies wiederholt er so lange, bis er an einer Stelle steht, wo es ausschließlich bergauf geht.
+
+~\newline Um mathematisch \textit{die Hanglage} zu bestimmen benötigt man den Gradienten der Verlustfunktion. Prinzipiell ist es möglich, anhand des Gradienten bereits alle Extrema der Verlustfunktion zu bestimmen - allerdings stellt dies vor den Anwendungen, welche mehrere Tausend Dimensionen aufweisen können, keine technisch umsetzbare Variante dar. 
+
+Vor diesem Hintergrund wird nicht direkt versucht, die \textbf{besten} Gewichte zu bestimmen, sondern lediglich ausgehend von den bisherigen \textbf{bessere}. Hierfür werden die bestehenden Gewichte um einen Bruchteil des Gradienten verändert. Diesen Bruchteil bezeichnet man als \textbf{Lernrate} (engl. learning rate, oft auch Schrittgröße).
+
+~\newline Der Gradient kann hierbei numerisch approximiert werden, oder über die Ableitung gebildet werden. Im Rahmen des Machine Learnings ist die Ableitung üblich - die oben vorgestellten Aktivierungsfunktionen besitzen einfach zu berechnende, bzw. bekannte Ableitungen und erzeugen keine Rechenlast, wie dies bei einer Approximation der Fall ist.
+
+~\newline Die Wahl der Lernrate ist für die Anwendung des Algorithmus entscheidend: Wird bis zu einem Minima iteriert \footnote{Das Verfahren des Gradientenanstiegs kann ggfs. nicht terminieren - in den tatsächlichen Implementierungen wird deswegen immer eine gewisse Anzahl an Iterationen durchgeführt oder andere Kontrollparameter aufgestellt}, so kann die Terminierung des Algorithmus sehr hohe Zeit in Anspruch nehmen. Wird eine gewisse Anzahl an Iterationen durchgeführt, so liegen die Ergebnisse eventuell sehr nah an den zufällig initialisierten Gewichten.
+
+Auf der anderen Seite kann eine hohe Lernrate zu einem \textit{herumspringen} der Gewichte führen, und eine tatsächliche Optimierung verhindern.
+
+~\newline Ausgehend von diesem Grundverfahren, gibt es mehrere Ansätze den Gradientenanstieg zu verbessern:
+
+\paragraph{(Stochastischer Gradientenanstieg}
+Im Rahmen des Stochastischen Gradientenanstieg wird das Set der Trainingsdaten in jeder Epoche zufällig Sortiert. 
+
+Der durchgeführte Schritt ist also in einer zufälligen Reihenfolge, und kann dazu führen das sich der Algorithmus nicht dem nächsten Minimum nähert, sondern sich zunächst hiervon entfernt. 
+
+~\newline Dies stellt allerdings einen Vorteil dar: Durch dieses Verhalten wird verhindert, dass lediglich ein lokales Minimum gefunden wird. Allerdings terminiert der Stochastische Gradientenanstieg nicht so schnell, bzw. nicht so nah am reellen Minima wie der normale Gradientenanstieg, zumindest ohne Einbindung weiterer Verbesserungen.
+
+\paragraph{Mini-Batch-Gradientdescent} In dieser Variante wird die Veränderung der Gewichte nicht anhand des Gradientens eines einzelnen Datensatzes, sondern aufgrund einer n-großen Teilmenge (\textit{Batch}) geupdatet. 
+
+~\newline Diese Variation reduziert die auftretende Varianz innerhalb der Schritte und sorgt somit für eine besser absehbare Konvergenz. Zusätzlich wird Batch-Processing von Vektoren innerhalb vieler Prozessoren und Grafikkarten unterstützt. Die \textbf{Batch-Größe} stellt den zweiten wichtigen Hyperparameter dar und wird im Normalfall (aus technischen Gründen) als Zweierpotenz gewählt.   
+
+~\newline Es ist weiterhin üblich, diese Variante mit dem Stochastischen Gradientenanstieg zu kombinieren. In jeder Epoche werden hierbei die Batches zufällig sortiert. Diese Kombination adressiert die Probleme des stochastischen Gradientenverfahrens bezüglich der Terminierung und besitzt trotzdem die Möglichkeit lokale Minima zu verlassen.  
+
+~\newline Während nun bereits ein gutes Grundverfahren vorliegt, gibt es noch weiter Möglichkeiten und Hyperparameter um die Optimierung zu beschleunigen:
+
+\paragraph{Momentum} Eine einfache Verbesserung stellt die \textbf{Beschleunigung} dar: Sie verwaltet für jedes Gewicht einen Parameter, welcher bei einer Änderung angepasst wird. Werte die häufige bzw. große Änderungen erfahren erhalten eine größere Lernrate. Hiermit soll erreicht werden, dass ausschlaggebende Werte besser berücksichtigt sind und der Algorithmus im Gesamten schneller terminiert. 
+
+~\newline Ergänzend zur Beschleunigung gibt es ebenfalls den \textbf{Verfall}. Dieser sorgt für eine regelmäßige Abnahme der Lernrate (d.h. bei jedem Durchlauf), und sollte mit der Beschleunigung abgestimmt werden. Der Verfall sollte nicht zu hoch gewählt werden, damit die Beschleunigungen bzw. die effektiven Lernraten stets bemerkbar bleiben. 
+\paragraph{Adadelta} Eine weitere Verbesserung stellt der \textit{Adaptive Delta Gradientdescent} dar. Ziel dieser Variante ist es, die Lernrate immer passend zu wählen - in \textit{steilen} Gebieten \textit{große} Schritte zu vollziehen und in solchen nahe des Minimas \textit{kleinere}.
+
+~\newline Adadelta addiert auf die bisherige Lernrate einen Wert abhängig von der aktuellen Änderung und den durchschnittlichen Gradienten-Verläufen über alle bisherigen Änderungen. Die konkrete Mathematische Ausarbeitung, sowie Beweise über die Terminierung und Verbesserungen der Trainingszeiten finden sich weiterführend im Whitepaper von Matthew D. Zeiler et. Al \cite{AdaDelta}.
+
+Während die Beschleunigung eine \textit{First-Order}-Änderung darstellt, da nur der aktuelle Wert berücksichtigt wird, nimmt Adadelta auf den gesamten Verlauf Rücksicht und wird dahingehend als \textit{Second-Order} bezeichnet. 
+
+~\newline Die Hauptstärke von Adadelta liegt darin, dass bewiesenermaßen eine gute Lernrate erzeugt wird ohne Input des Entwicklers. Dies spart viele Parameter im Gesamtprozess des Machine Learnings und reduziert somit ebenfalls Fehlerquellen.
 \subsection{Bewertung der Klassifizierung}
 Die Bewertung einer Klassifizierung erfolgt anhand dessen, wie viele Testdaten korrekt klassifiziert wurden. Dieses Verfahren eignet sich sowohl für die Binäre-, als auch für eine Multiklassen-Klassifikation
 ~\newline Die (relative) Genauigkeit ergibt sich als: 
