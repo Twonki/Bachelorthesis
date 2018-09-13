@@ -47,10 +47,10 @@ Die R-Services stellen eine Erweiterung des SQL-Servers dar, und bilden eine int
 	\item \textbf{Integration in bestehende Systeme:} Viele Unternehmen benutzen bereits eine Instanz des SQL-Servers für ihre Datenhaltung, und benutzen periphere Ansätze zur Analyse und Forecasting. Durch die Verwendung der R-Services können hier Lösungen auf bestehenden Systemen erarbeitet werden. 
 \end{enumerate}
 
-~\newline Dennoch entstehen (derzeit) auch Probleme bei der Verwendung der Integrierten R-Services, konkret im Bereich der Entwicklung: 
+~\newline Dennoch entstehen (derzeit) auch Probleme bei der Verwendung der Integrierten R-Services, konkret nach Wahl der Entwicklungsplattform: 
 
 ~\newline Bei Verwendung der R-GUI oder R-Plattform wird keine direkte Einsicht in die Datenstrukturen des SQL-Servers gewährt. Insofern müssen benötigte Tabellen sowie ihre Definitionen bekannt sein, bzw. ein zweites Tool zur Einsicht der Datenbank bereitstehen. Vor Allem bei komplexeren Datenbankabfragen, die Joins und Aggregationen beinhalten, stellt diese Einschränkung ein starkes Handicap dar. 
 
-~\newline Bei Verwendung der R-Services als Skript in T-SQL liegt das Problem darin, dass das R-Skript als Text übergeben wird, und somit nicht in der Vorschau \textit{kompiliert} wird. Liegt ein Fehler im Code vor, so zeigt sich dieser erst zur Laufzeit - teilweise nachdem bereits längere Operationen durchgeführt wurden. 
+~\newline Bei Verwendung der R-Services innerhalb des SQL-Server-Managementstudios (Oder anderen SQL-fokussierten Umgebungen) liegt das Problem darin, dass das R-Skript als Text übergeben wird, und somit nicht in der Vorschau \textit{kompiliert} wird. Liegt ein Fehler im Code vor, so zeigt sich dieser erst zur Laufzeit - teilweise nachdem bereits längere Operationen durchgeführt wurden. 
 
 ~\newline Aufgrund dieser beiden Probleme sollte die Entwicklungsumgebung dahingehend gewählt werden, wo die komplexeren Anforderungen der Lösung liegen: Im Falle komplexer Datenaufbereitung sollte mit integriertem Skript gearbeitet werden, im Falle komplexer R-Anfragen mit der R-GUI \footnote{Prinzipiell lassen sich ebenfalls alle Aggregationen und Aufbereitungen in R vornehmen. Die speziellen Operationen und Strukturen von R machen dies allerdings v.A. für Neulinge teilweise deutlich komplexer als SQL.}.  Optional bietet sich eine Auswahl nach bestehendem Vorwissen der Sprachen SQL und R an. 
