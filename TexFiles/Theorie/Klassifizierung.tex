@@ -115,7 +115,7 @@ Die Optimierungsfunktion hilft, für eine (unbekannte) Funktion ein Extremum zu 
 ~\newline Im Rahmen des Machine-Learning verwaltet die Optimierungsfunktion ebenfalls Trainingsparameter, z.B. die Lernrate, eine Beschleunigungs- und Verfallslogik. Ebenso oft Bestandteil sind Funktionen, welche eine zufällige Verschiebung bewirken. Grund hierfür ist eine Schwäche der meisten Optimierungsfunktionen, sich auf ein lokales Extremum einzupendeln.
 
 ~\newline Im Folgenden wird der Gradientenanstieg und Optimierungen dessen vorgestellt. Dieser Unterabschnitt stellt im Wesentlichen eine Auswahl und Aufbereitung von Sebastian Ruders Blogeintrag \textit{An overview of gradient descent optimization algorithms} \cite{OptimizationFunction} dar.
-\paragraph{Der Gradientenanstieg} Kern des Gradientenanstiegs bildet die iterative Suche nach dem (globalen) Minima der Loss-Funktion. 
+\paragraph{Der Gradientenanstieg} Kern des Gradientenanstiegs bildet die iterative Suche nach dem (globalen) Minimum der Loss-Funktion. 
 \begin{figure}[h]
 	\begin{center}
 		\includegraphics[width=0.6\linewidth]{Bilder/optimization}
@@ -140,20 +140,20 @@ Auf der anderen Seite kann eine hohe Lernrate zu einem \textit{herumspringen} de
 
 ~\newline Ausgehend von diesem Grundverfahren, gibt es mehrere Ansätze den Gradientenanstieg zu verbessern:
 
-\paragraph{(Stochastischer Gradientenanstieg}
+\paragraph{Stochastischer Gradientenanstieg}
 Im Rahmen des Stochastischen Gradientenanstieg wird das Set der Trainingsdaten in jeder Epoche zufällig Sortiert. 
 
 Der durchgeführte Schritt ist also in einer zufälligen Reihenfolge, und kann dazu führen das sich der Algorithmus nicht dem nächsten Minimum nähert, sondern sich zunächst hiervon entfernt. 
 
 ~\newline Dies stellt allerdings einen Vorteil dar: Durch dieses Verhalten wird verhindert, dass lediglich ein lokales Minimum gefunden wird. Allerdings terminiert der Stochastische Gradientenanstieg nicht so schnell, bzw. nicht so nah am reellen Minima wie der normale Gradientenanstieg, zumindest ohne Einbindung weiterer Verbesserungen.
 
-\paragraph{Mini-Batch-Gradientdescent} In dieser Variante wird die Veränderung der Gewichte nicht anhand des Gradientens eines einzelnen Datensatzes, sondern aufgrund einer n-großen Teilmenge (\textit{Batch}) geupdatet. 
+\paragraph{Mini-Batch-Gradientdescent} In dieser Variante wird die Veränderung der Gewichte nicht anhand des Gradientens eines einzelnen Datensatzes, sondern aufgrund einer Teilmenge (\textit{Batch}) geupdatet. 
 
 ~\newline Diese Variation reduziert die auftretende Varianz innerhalb der Schritte und sorgt somit für eine besser absehbare Konvergenz. Zusätzlich wird Batch-Processing von Vektoren innerhalb vieler Prozessoren und Grafikkarten unterstützt. Die \textbf{Batch-Größe} stellt den zweiten wichtigen Hyperparameter dar und wird im Normalfall (aus technischen Gründen) als Zweierpotenz gewählt.   
 
 ~\newline Es ist weiterhin üblich, diese Variante mit dem Stochastischen Gradientenanstieg zu kombinieren. In jeder Epoche werden hierbei die Batches zufällig sortiert. Diese Kombination adressiert die Probleme des stochastischen Gradientenverfahrens bezüglich der Terminierung und besitzt trotzdem die Möglichkeit lokale Minima zu verlassen.  
 
-~\newline Während nun bereits ein gutes Grundverfahren vorliegt, gibt es noch weiter Möglichkeiten und Hyperparameter um die Optimierung zu beschleunigen:
+~\newline Während nun bereits ein gutes Grundverfahren vorliegt, gibt es noch weitere Möglichkeiten und Hyperparameter um die Optimierung zu beschleunigen:
 
 \paragraph{Momentum} Eine einfache Verbesserung stellt die \textbf{Beschleunigung} dar: Sie verwaltet für jedes Gewicht einen Parameter, welcher bei einer Änderung angepasst wird. Werte die häufige bzw. große Änderungen erfahren erhalten eine größere Lernrate. Hiermit soll erreicht werden, dass ausschlaggebende Werte besser berücksichtigt sind und der Algorithmus im Gesamten schneller terminiert. 
 
