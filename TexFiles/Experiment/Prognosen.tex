@@ -1,6 +1,8 @@
 \newpage
+\section{Prognosen}
 \label{Prognosen}
-\section{Trinkgeldprognose}
+Dieser Abschnitt widmet sich der Umsetzung der verschiedenen Prognosen. Die Reihenfolge wurde nach aufbauender Komplexität der Fälle und vor Allem des \textit{Tunings} gewählt - d.h. die Verbesserungen der zweiten Prognose \textit{fußen} auf denen der ersten.
+\subsection{Trinkgeldprognose}
 \label{sec:TipPred}
 Als erstes Beispiel wird die Vorhersage des gegebenen Trinkgeldes behandelt. 
 
@@ -62,7 +64,7 @@ Die Ergebnisse der Modelle sind sehr zufriedenstellend: Unter Verwendung absehba
 
 ~\newline Ein wichtiges Nebenergebnis stellt die gleichbleibende Genauigkeit bei größeren hidden Layern dar. Durch die wachsende Trainingszeit sollte die optimale Größe des Netzes zunächst mit einer kleineren Menge an Trainingsdaten evaluiert werden.  
 \newpage
-\section{Ratenerkennung}
+\subsection{Ratenerkennung}
 \label{sec:RatePred}
 Als zweites Beispiel wird die Erkennung der Fahrrate behandelt. Dieser Fall ist weitestgehend Trivial, wurde dennoch als einfache Referenz für Multiklassen-Klassifikation aufgenommen. 
 
@@ -102,9 +104,65 @@ Die unter Netzdefinition genannten Optionen erzielten folgende Werte:
 
 ~\newline Von den (zuletzt) nicht erkannten Daten besitzen 75\% die Rate \textit{Negotiated}.
 
-~\newline Als Nebenergebnis ist zu nennen, das die Trainingsverfahren meist nach ca. 100 Epochen aufhören, weil keine weiteren Änderungen in der Genauigkeit erzielt werden.
+~\newline Als Nebenergebnis ist zu nennen, das die Trainingsverfahren meist nach ca. 100 Epochen aufhören, weil keine weiteren Änderungen in der Genauigkeit erzielt werden.\newpage
+\subsection{Passagieranzahl}
+\label{sec:PasPred}
+Ein weiteres Beispiel ist die Vorhersage der Anzahl der Passagiere, welche an einer Fahrt teilnehmen. 
+
+Dieser Use-Case ist eher für technische Belange interessant, denn die Verteilung der Passagieranzahl\footnote{Es handelt sich hierbei um die ungefilterten Daten} über die Fahrten stellt eine Besonderheit dar: 
+
+
+\begin{figure}[h]
+	\begin{center}
+		\includegraphics[width=0.8\linewidth]{Bilder/PassagierVerteilung}
+		\caption[Verteilung der Passagieranzahl]{Verteilung der Passagieranzahl über alle Fahrten}
+		\label{fig:PassagierVerteilung}
+	\end{center}
+\end{figure}
+
+
+Wie zu erkennen ist, besitzen die meisten Fahrten einen einzelnen Passagier. Diese machen Rund 70\% der Fahrten aus.
+
+Von den verbleibenden Fahrten machen Zwei-Passagier-Fahrten ca. 60\% aus.  Dies hat sich im Verlauf der Entwicklung als überaus herausfordernd herausgestellt. 
+\paragraph{Zielsetzung} ~\newline
+Ziel des Modells ist es, für einen gegebenen Ort, Datum und Stunde einer Fahrt die Anzahl der Passagiere vorherzusagen. 
+
+\paragraph{Versuchsaufbau} ~\newline
+Für diesen Use-Case wurden verschiedene Versuche durchgeführt. Gemeinsamkeit bilden die Eingegebenen Daten: Datum, Tageszeit und Ort des Fahrtbeginns. 
+\begin{enumerate}
+	\item In \textit{Variante 1} wurde das Modell mit Regression erstellt. 
+	\item In \textit{Variante 2} wurde das Modell für Multiklassen-Klassifizierung erstellt.
+	\item In \textit{Variante 3} wurden Einzelfahrten gefiltert und ein Regressionsmodell erstellt. 
+	\item In \textit{Variante 4} wurden ebenfalls Einzelfahrten gefiltert und ein Multiklassen-Modell generiert. 
+\end{enumerate}
+Ausgabe war, abhängig von der Variante, die Anzahl der Fahrten als Ganzzahl (1 \& 3) oder Klasse (2 \& 4). 
+
+Es wurden verschiedene Netzdefinitionen durchgespielt (Was Tiefe, Schichtgröße und Aktivierungsfunktionen angeht), dennoch erzielten diese für alle 4 Varianten die selben Ergebnisse:
+\paragraph{Ergebnisse} ~\newline
+Variante 1 \& 2 erreichten, bei größeren Trainingsmengen (ca. 10000), eine Genauigkeit von 70\% \footnote{Variante 1 nur bei einer Rundung auf Ganzzahl, ansonsten etwa 65\%}. Während dies Objektiv ein akzeptabler Wert ist, gibt das Modell für jede Eingabe stets eine \textit{Ein-Personen-Fahrt} aus. Diese Annahme stimmt in 70\% aller Fälle. 
+
+~\newline Variante 3 \& 4 zeigten dieselbe Schwäche für \textit{Zwei-Personen-Fahrten}. Für kleinere Trainingsdaten wurden Modelle erzeugt, welche andere Ausgaben erzeugten, allerdings wurden mit zunehmenden Iterationen und Trainingsdaten wieder nur die statistisch häufigsten Werte ausgegeben. 
+
+~\newline Die dabei entstehenden Modelle zeichnen sich alle durch verschwindend geringe Gewichte aus. Die einzige Änderung geschieht innerhalb des Bias, welcher in beiden Modellen (nach Abschluss des Trainings) dem Ergebnis entspricht.
+
+~\newline Da auch die Verwendung von der $Tanh$-Funktion und der Linear-Funktion in keinem befriedigendem Maße Ergebnisse zeigte (Welche sich für stark von Faktoren abhängige Schichten besser zu eignen scheinen, Siehe \ref{sec:RidesPred}), ist anzunehmen, dass elementare Features fehlen. Ein oder mehrere ausschlaggebende Kriterien, um die Passagieranzahl zu ermitteln, wurde innerhalb der Trainingsdaten noch nicht abgebildet/berücksichtigt. 
+
+~\newline Ein Nebenergebnis des Versuches ist der direkte Vergleich der Geschwindigkeiten: Variante 1 und 3, sowie Variante 2 und 4 verhielten sich in ihrer Trainingsdauer jeweils Analog. 
+
+Die Multiklassen-Varianten benötigten aber ca. die 3 fache Zeit ihrer Regressions-Gegenstücke.
+
+\begin{figure}[h]
+	\begin{center}
+		\includegraphics[width=0.8\linewidth]{Bilder/PassagierErgebnisse}
+		\caption[Ergebnisse der Passagiervorhersage]{Ergebnisse der Passagiervorhersage (Variante 2)}
+		\label{fig:PasErg}
+	\end{center}
+\end{figure}
+
+
+Die oben stehenden Ergebnisse in Abbildung \ref{fig:PasErg} entsprechen den Zeiten von 250 Iterationen bei einem einzelnen $tanh$-Layer mit 250 Knoten und einer Multiklassen-Ausgabe. 
 \newpage
-\section{Fahrtenaufkommen}
+\subsection{Fahrtenaufkommen}
 \label{sec:RidesPred}
 Als nächstes Beispiel wird die Prognose des Fahrtenaufkommens behandelt. 
 
@@ -138,7 +196,7 @@ Die Prognose des Fahrtenaufkommen hat in den ersten Versuchen mit zwei Hidden La
 
 ~\newline Hierfür gibt es zwei mögliche Erklärungen: Die erste ist Overfitting. Die zweite ist eine mögliche, noch zu geringe Komplexität bzw. fehlende Features. 
 
-Um das Problem zu analysieren wurden dahingehend verschiedene Netzparameter durchgespielt, von [10,10] bis [1000,1000]-Netzen wurde eine große Bandbreite getestet. Auch die Veränderung der Aktivierungsfunktionen zu Sigmoid, Tanh, Softmax und Linear, bzw. Kombinationen dieser, erzeugte keine Ergebnisse. 
+Um das Problem zu analysieren wurden dahingehend verschiedene Netzparameter durchgespielt, von [10,10] bis [1000,1000]-Netzen wurde eine große Bandbreite getestet. Auch die Veränderung der Aktivierungsfunktionen zu Sigmoid, Tanh, Softmax und Linear, bzw. Kombinationen dieser, erzeugte keine besseren Ergebnisse. 
 
 ~\newline Die ersten Ergebnisse wurden erzielt, als die zweite versteckte Schicht entfernt wurde. Das neue Modell mit einer einzelnen, 100 Knoten großen Schicht zeigte das zu erwartende, trainierbare verhalten. Hier zeigten größere Trainingsdaten sowie mehr Epochen eine Positive Wirkung auf die erstmals positive Genauigkeit. Ebenso zeigten unterschiedliche Aktivierungsfunktionen verschiedene Ergebnisse (Linear sehr schlechte, Softmax und Sigmoid gute, Tanh sehr gute). 
 
@@ -151,7 +209,7 @@ Unter Verwendung der Sigmoid-Funktion werden bei vielen Epochen und Trainingsdat
 ~\newline Eine Verbesserung der Genauigkeit hat sich ebenfalls durch das Erhöhen der Neuronenanzahl sowie der Anzahl der Epochen ergeben. Die in Netzdefinition genannten Einstellungen ergaben hierbei die kleinsten Werte mit der höchsten erzielten Genauigkeit.
 
 ~\newline Eine potenzielle Verbesserung würde eine komplexere Netzdefinition darstellen, welche zwei (oder drei) parallele Schichten besitzt: Eine für die numerischen Daten mit der Sigmoid- oder Softmax-Funktion sowie eine getrennte Schicht für die faktorisierten Daten. Dies wurde aufgrund der technischen und terminlichen Limits der Arbeit nicht umgesetzt (Zu hoher Speicherverbrauch sowie lange Trainingszeiten). 
-~\newline Was (meiner Meinung) nach ebenfalls eine wesentliche Verbesserung darstellen kann ist die Aufnahme eines zweiten Jahres in die Trainingsdaten.
+~\newline Was ebenfalls eine wesentliche Verbesserung darstellen kann ist die Aufnahme eines zweiten Jahres in die Trainingsdaten. ~\newpage
 \paragraph{Ergebnisse} ~\newline
 Die unter Netzdefinition genannten Optionen erzielten folgende Werte:
 
@@ -163,70 +221,13 @@ Die unter Netzdefinition genannten Optionen erzielten folgende Werte:
 	\end{center}
 \end{figure}
 
-Dies stellt zwar nicht die besten Ergebnisse dar, dennoch stellen die unter \textbf{Tuning} vorgestellten Maßnahmen die wichtigsten praktischen Erkenntnisse dieser Arbeit dar. 
+~\newline Dies stellt zwar nicht die besten Ergebnisse dar, dennoch stellen die unter \textbf{Tuning} vorgestellten Maßnahmen die wichtigsten praktischen Erkenntnisse dieser Arbeit dar. 
 
 ~\newline Bei Eintausend Trainingsdaten gibt das Modell lediglich den Mittelwert aus - es liegen noch zu wenig Trainingsdaten vor. Bei Fünf- und Zehntausend liegt zunächst ein starker Einbruch vor, was darauf zurückzuführen ist, dass sich das Modell an den (wenigen) Trainingsdaten ausrichtet, die inhaltlich zu weit entfernt sind von den tatsächlichen Testdaten (Es könnten z.B. keine Daten für den Oktober, oder keine Daten für Nachtfahrten ins Training eingeflossen sein).
 
 ~\newline Werden die Ergebnisse nicht gerundet (auf \textit{ganze Fahrten}) so liegen die $r^2$-Werte ca. 2\% höher (in allen Versuchen).
 \newpage
-\section{Passagieranzahl}
-\label{sec:PasPred}
-Ein weiteres Beispiel ist die Vorhersage der Anzahl der Passagiere, welche an einer Fahrt teilnehmen. 
-
-Dieser Use-Case ist eher für technische Belange interessant, denn die Verteilung der Passagieranzahl\footnote{Es handelt sich hierbei um die ungefilterten Daten} über die Fahrten stellt eine Besonderheit dar: 
-
-
-\begin{figure}[h]
-	\begin{center}
-		\includegraphics[width=0.8\linewidth]{Bilder/PassagierVerteilung}
-		\caption[Verteilung der Passagieranzahl]{Verteilung der Passagieranzahl über alle Fahrten}
-		\label{fig:PassagierVerteilung}
-	\end{center}
-\end{figure}
-
-
-Wie zu erkennen ist, besitzen die meisten Fahrten einen einzelnen Passagier. Diese machen Rund 70\% der Fahrten aus.
-
-Von den verbleibenden Fahrten machen Zwei-Passagier-Fahrten ca. 60\% aus.  Dies hat sich im Verlauf der Entwicklung als überaus herausfordernd herausgestellt. 
-\paragraph{Zielsetzung} ~\newline
-Ziel des Modells ist es, für einen gegebenen Ort, Datum und Stunde einer Fahrt die Anzahl der Passagiere vorherzusagen. 
- 
-\paragraph{Versuchsaufbau} ~\newline
-Für diesen Use-Case wurden verschiedene Versuche durchgeführt. Gemeinsamkeit bilden die Eingegebenen Daten: Datum, Tageszeit und Ort des Fahrtbeginns. 
-\begin{enumerate}
-	\item In \textit{Variante 1} wurde das Modell mit Regression erstellt. 
-	\item In \textit{Variante 2} wurde das Modell für Multiklassen-Klassifizierung erstellt.
-	\item In \textit{Variante 3} wurden Einzelfahrten gefiltert und ein Regressionsmodell erstellt. 
-	\item In \textit{Variante 4} wurden ebenfalls Einzelfahrten gefiltert und ein Multiklassen-Modell generiert. 
-\end{enumerate}
-Ausgabe war, abhängig von der Variante, die Anzahl der Fahrten als Ganzzahl (1 \& 3) oder Klasse (2 \& 4). 
-
-Es wurden verschiedene Netzdefinitionen durchgespielt (Was Tiefe, Schichtgröße und Aktivierungsfunktionen angeht), dennoch erzielten diese für alle 4 Varianten die selben Ergebnisse:
-\paragraph{Ergebnisse} ~\newline
-Variante 1 \& 2 erreichten, bei größeren Trainingsmengen (ca. 10000), eine Genauigkeit von 70\% \footnote{Variante 1 nur bei einer Rundung auf Ganzzahl, ansonsten etwa 65\%}. Während dies Objektiv ein akzeptabler Wert ist, gibt das Modell für jede Eingabe stets eine \textit{Ein-Personen-Fahrt} aus. Diese Annahme stimmt in 70\% aller Fälle. 
-
-~\newline Variante 3 \& 4 zeigten dieselbe Schwäche für \textit{Zwei-Personen-Fahrten}. Für kleinere Trainingsdaten wurden Modelle erzeugt, welche andere Ausgaben erzeugten, allerdings wurden mit zunehmenden Iterationen und Trainingsdaten wieder nur die statistisch häufigsten Werte ausgegeben. 
-
-~\newline Die dabei entstehenden Modelle zeichnen sich alle durch verschwindend geringe Gewichte aus. Die einzige Änderung geschieht innerhalb des Bias, welcher in beiden Modellen (nach Abschluss des Trainings) dem Ergebnis entspricht.
-
-~\newline Da auch die Verwendung von der $Tanh$-Funktion und der Linear-Funktion in keinem befriedigendem Maße Ergebnisse zeigte (Welche sich für stark von Faktoren abhängige Schichten besser zu eignen scheinen, Siehe \ref{sec:RidesPred}), ist anzunehmen, dass elementare Features fehlen. Ein oder mehrere ausschlaggebende Kriterien, um die Passagieranzahl zu ermitteln, wurde innerhalb der Trainingsdaten noch nicht abgebildet/berücksichtigt. 
-
-~\newline Ein Nebenergebnis des Versuches ist der direkte Vergleich der Geschwindigkeiten: Variante 1 und 3, sowie Variante 2 und 4 verhielten sich in ihrer Trainingsdauer jeweils Analog. 
-
-Die Multiklassen-Varianten benötigten aber ca. die 3 fache Zeit ihrer Regressions-Gegenstücke.
-
-\begin{figure}[h]
-	\begin{center}
-		\includegraphics[width=0.8\linewidth]{Bilder/PassagierErgebnisse}
-		\caption[Ergebnisse der Passagiervorhersage]{Ergebnisse der Passagiervorhersage (Variante 2)}
-		\label{fig:PasErg}
-	\end{center}
-\end{figure}
- 
- 
- Die oben stehenden Ergebnisse in Abbildung \ref{fig:PasErg} entsprechen den Zeiten von 250 Iterationen bei einem einzelnen $tanh$-Layer mit 250 Knoten und einer Multiklassen-Ausgabe. 
-\newpage
-\section{Umsatzvorhersage}
+\subsection{Umsatzvorhersage}
 \label{sec:RevPred}
 Als letztes Beispiel wird die Umsatzvorhersage behandelt. Dieses stellt für das Unternehmen offensichtlich den wichtigsten Use-Case dar.Sie gibt dem Unternehmen nicht nur eine Übersicht über den ist-Zustand, sondern zeigt ebenfalls detailliert an welchen Punkten noch gearbeitet werden muss. 
 
@@ -254,8 +255,10 @@ Trotz intensiver Versuche erreichte Variante 1 nie positive $r^2$ Werte.
 
 ~\newline Für Variante 2 wurden mithilfe der Erkenntnisse aus \ref{sec:RidesPred} bezüglich des Overfittings ein $r^2$-Wert von 31\% erzielt.
 
-~\newline Die Ergebnisse legen nahe, das es ähnlich wie bei den Passagieranzahlen noch fehlende, dringend benötigte Features gibt. Potenziell denkbar wären Feiertags-Kalender oder Angaben eines Tourismus-Büros.  
+~\newline Die Ergebnisse legen nahe, das es ähnlich wie bei den Passagieranzahlen noch fehlende, dringend benötigte Features gibt. Potenziell denkbar wären Feiertags-Kalender oder beispielhafte Angaben eines Tourismus-Büros über erhöhtes Touristenaufkommen.  
 
 ~\newline Nachdem die Schätzung des Fahrtenaufkommens zufriedenstellend umgesetzt werden konnte, muss die Schwierigkeit explizit bei der Berechnung des Umsatzes liegen. 
 
 Die hierfür wahrscheinlichste Ungewissheit stellt die Unberechenbarkeit des Zielortes dar. Innerhalb der Daten gibt es keine Ausschläge der Verteilung Fahrten pro Zielort und Startort - es gibt entsprechend ebenfalls keine (wahrscheinliche) Aussage darüber wohin eine einzelne Fahrt geht. Da der Umsatz einer Fahrt, und entsprechend die Summe über alle Fahrten stark von den jeweiligen Distanzen und Zeiten abhängt, kann ein Modell keine genauen Ergebnisse erzielen.
+
+~\newline Insgesamt konnte kein zufriedenstellendes neuronales Netz mithilfe der vorliegenden Daten erzeugt werden. Dennoch gibt es Alternativen um eine (zufriedenstellende) Prognose zu erreichen: Diese liegen vor Allem in der klassischen Statistik. Dennoch könnten auch modernere, technische Ansätze, wie eine Time-Series-Datenbank Aufschlüsse und signifikantere Auswertungen ergeben.  
