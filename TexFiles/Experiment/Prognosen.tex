@@ -8,9 +8,9 @@ Als erstes Beispiel wird die Vorhersage des gegebenen Trinkgeldes behandelt.
 
 ~\newline Dies stellt zwar nicht unbedingt ein für das Unternehmen hochgradig relevantes Thema dar, bietet jedoch einen guten Einstieg in das Thema Regression mit Hilfe von \textit{Deep Learning}:
 
-~\newline Es ist anzunehmen, dass Passagiere nach einem gewissen Schema Trinkgeld geben, etwa um Beträge aufzurunden oder eine schnelle Fahrt zu \textit{belohnen}. Ebenso kann es Kriterien geben, welche nicht innerhalb der Daten erfasst sind, wie die Stimmung der Passagiere oder die Freundlichkeit des Fahrers. Genauso treten eventuell Kriterien auf, welche zu einem Entfall des Trinkgeldes führen, eine lange Fahrt, eine Panne, oder ein Taxifahrer der \textit{Extrarunden dreht}. 
+~\newline Es ist anzunehmen, dass Passagiere nach einem gewissen Schema Trinkgeld geben, etwa um Beträge aufzurunden oder eine schnelle Fahrt zu \textit{belohnen}. Ebenso kann es Kriterien geben, welche nicht innerhalb der Daten erfasst sind, wie die Stimmung der Passagiere oder die Freundlichkeit des Fahrers. Genauso treten eventuell Kriterien auf, welche zu einem Ausbleiben des Trinkgeldes führen, eine lange Fahrt, eine Panne, oder ein Taxifahrer, der \textit{Extrarunden dreht}. 
 
-~\newline Dennoch lassen sich diese potenziellen Kriterien schwer in einen anwendbaren Katalog zusammenfassen, nachdem man logisch das Trinkgeld erschließen kann. Vor diesem Hintergrund bietet sich die Verwendung eines tiefen Neuronalen Netzes an: 
+~\newline Dennoch lassen sich diese potenziellen Kriterien schwer in einen anwendbaren Katalog zusammenfassen, nachdem man logisch das Trinkgeld erschließen kann. Vor diesem Hintergrund bietet sich die Verwendung eines tiefen neuronalen Netzes an: 
 
 Die erste versteckte Schicht extrahiert (uns unbekannte, nicht genauer definierte) Kriterien automatisch, und die zweite Schicht gewichtet diese. 
 \paragraph{Zielsetzung} ~\newline
@@ -28,7 +28,7 @@ Die Ausgabe ist eine Schätzung des Trinkgeldes in Dollar.
 \paragraph{Netzaufbau und Einstellungen} ~\newline
 Das neuronale Netz wurde mit zwei Schichten á 100 Knoten definiert. Die Schichten sind vollvermascht und verwenden beide die Sigmoidfunktion. Als Ausgabefunktion wurde \textit{Linear} gewählt.
 
-~\newline Die Lernrate wurde auf 5\% gesetzt und als Optimierungsfunktion Stochastic Gradient Descent gewählt. Es werden jeweils 500 Epochen durchgeführt. 
+~\newline Die Lernrate wurde auf 5\% gesetzt und als Optimierungsfunktion stochastic gradient descent gewählt. Es werden jeweils 500 Epochen durchgeführt. 
 \paragraph{Tuning und Verbesserung} ~\newline
 Wesentliche Unterschiede in der Genauigkeit dieses Beispiels verbucht die Auswahl der Features:
 \begin{itemize}
@@ -58,15 +58,15 @@ Die folgenden Ergebnisse wurden mithilfe der unter \textbf{Netzaufbau und Einste
 	\end{center}
 \end{figure}
 
-Die Ergebnisse der Modelle sind sehr zufriedenstellend: Unter Verwendung absehbarer Daten können signifikante Modelle erstellt werden, ebenfalls verhält sich der Trainingserfolg (sowohl unter Zuwachs der Epochen, als auch an der Menge der Trainingsdaten) wie man ihn erwartet. 
+Die Ergebnisse der Modelle sind sehr zufriedenstellend: Unter Verwendung absehbarer Daten können signifikante Modelle erstellt werden, ebenfalls verhält sich der Trainingserfolg (sowohl unter Zuwachs der Epochen, als auch an der Menge der Trainingsdaten), wie man ihn erwartet. 
 
-~\newline Die Entwicklung des Modells ist allerdings mit mehreren Entscheidungen verbunden: Vor Allem die Auswahl der Features hatte in diesem Beispiel große Auswirkungen auf die Genauigkeit. Während schwer abzuschätzende Parameter, wie das Wetter, exzellente Ergebnisse ermöglichen, können hiermit keine zuverlässigen Aussagen über Fahrten in der kommenden Woche getroffen werden. Sollte das Modell allerdings nur für den jeweiligen Tag (oder kürzere Intervalle) eingesetzt werden, und das Wetter relativ absehbar, ist eine Aufnahme dieser Features durchaus denkbar. 
+~\newline Die Entwicklung des Modells ist allerdings mit mehreren Entscheidungen verbunden: Vor allem die Auswahl der Features hatte in diesem Beispiel große Auswirkungen auf die Genauigkeit. Während schwer abzuschätzende Parameter, wie das Wetter, exzellente Ergebnisse ermöglichen, können hiermit keine zuverlässigen Aussagen über Fahrten in der kommenden Woche getroffen werden. Sollte das Modell allerdings nur für den jeweiligen Tag (oder kürzere Intervalle) eingesetzt werden, und das Wetter relativ absehbar, ist eine Aufnahme dieser Features durchaus denkbar. 
 
 ~\newline Ein wichtiges Nebenergebnis stellt die gleichbleibende Genauigkeit bei größeren hidden Layern dar. Durch die wachsende Trainingszeit sollte die optimale Größe des Netzes zunächst mit einer kleineren Menge an Trainingsdaten evaluiert werden.  
 \newpage
 \subsection{Ratenerkennung}
 \label{sec:RatePred}
-Als zweites Beispiel wird die Erkennung der Fahrrate behandelt. Dieser Fall ist weitestgehend Trivial, wurde dennoch als einfache Referenz für Multiklassen-Klassifikation aufgenommen. 
+Als zweites Beispiel wird die Erkennung der Fahrrate behandelt. Dieser Fall ist weitestgehend trivial, wurde dennoch als einfache Referenz für Multiklassenklassifikation aufgenommen. 
 
 ~\newline Im Gegensatz zur Trinkgeldprognose sind die Kriterien, nach welchen sich die Fahrtkosten berechnen, klar dokumentiert: Je nach Rate kostet jede Meile und jede Minute einen bestimmten Betrag. Zusätzlich kommt je nach Gebiet (z.B. JFK-Airport) ein Aufschlag hinzu. Dahingehend lässt sich diese Formel zur Erkennung der Rate umformen.
 
@@ -121,14 +121,14 @@ Dieser Use-Case ist eher für technische Belange interessant, denn die Verteilun
 \end{figure}
 
 
-Wie zu erkennen ist, besitzen die meisten Fahrten einen einzelnen Passagier. Diese machen Rund 70\% der Fahrten aus.
+Wie zu erkennen ist, besitzen die meisten Fahrten einen einzelnen Passagier. Diese machen rund 70\% der Fahrten aus.
 
 Von den verbleibenden Fahrten machen Zwei-Passagier-Fahrten ca. 60\% aus.  Dies hat sich im Verlauf der Entwicklung als überaus herausfordernd herausgestellt. 
 \paragraph{Zielsetzung} ~\newline
 Ziel des Modells ist es, für einen gegebenen Ort, Datum und Stunde einer Fahrt die Anzahl der Passagiere vorherzusagen. 
 
 \paragraph{Versuchsaufbau} ~\newline
-Für diesen Use-Case wurden verschiedene Versuche durchgeführt. Gemeinsamkeit bilden die Eingegebenen Daten: Datum, Tageszeit und Ort des Fahrtbeginns. 
+Für diesen Use-Case wurden verschiedene Versuche durchgeführt. Gemeinsamkeit bilden die eingegebenen Daten: Datum, Tageszeit und Ort des Fahrtbeginns. 
 \begin{enumerate}
 	\item In \textit{Variante 1} wurde das Modell mit Regression erstellt. 
 	\item In \textit{Variante 2} wurde das Modell für Multiklassen-Klassifizierung erstellt.
@@ -137,9 +137,9 @@ Für diesen Use-Case wurden verschiedene Versuche durchgeführt. Gemeinsamkeit b
 \end{enumerate}
 Ausgabe war, abhängig von der Variante, die Anzahl der Fahrten als Ganzzahl (1 \& 3) oder Klasse (2 \& 4). 
 
-Es wurden verschiedene Netzdefinitionen durchgespielt (Was Tiefe, Schichtgröße und Aktivierungsfunktionen angeht), dennoch erzielten diese für alle 4 Varianten die selben Ergebnisse:
+Es wurden verschiedene Netzdefinitionen durchgespielt (was Tiefe, Schichtgröße und Aktivierungsfunktionen betrifft), dennoch erzielten diese für alle 4 Varianten die selben Ergebnisse:
 \paragraph{Ergebnisse} ~\newline
-Variante 1 \& 2 erreichten, bei größeren Trainingsmengen (ca. 10000), eine Genauigkeit von 70\% \footnote{Variante 1 nur bei einer Rundung auf Ganzzahl, ansonsten etwa 65\%}. Während dies Objektiv ein akzeptabler Wert ist, gibt das Modell für jede Eingabe stets eine \textit{Ein-Personen-Fahrt} aus. Diese Annahme stimmt in 70\% aller Fälle. 
+Variante 1 \& 2 erreichten, bei größeren Trainingsmengen (ca. 10000), eine Genauigkeit von 70\% \footnote{Variante 1 nur bei einer Rundung auf Ganzzahl, ansonsten etwa 65\%}. Während dies objektiv ein akzeptabler Wert ist, gibt das Modell für jede Eingabe stets eine \textit{Ein-Personen-Fahrt} aus. Diese Annahme stimmt in 70\% aller Fälle. 
 
 ~\newline Variante 3 \& 4 zeigten dieselbe Schwäche für \textit{Zwei-Personen-Fahrten}. Für kleinere Trainingsdaten wurden Modelle erzeugt, welche andere Ausgaben erzeugten, allerdings wurden mit zunehmenden Iterationen und Trainingsdaten wieder nur die statistisch häufigsten Werte ausgegeben. 
 
@@ -147,9 +147,9 @@ Variante 1 \& 2 erreichten, bei größeren Trainingsmengen (ca. 10000), eine Gen
 
 ~\newline Da auch die Verwendung von der $Tanh$-Funktion und der Linear-Funktion in keinem befriedigendem Maße Ergebnisse zeigte (Welche sich für stark von Faktoren abhängige Schichten besser zu eignen scheinen, Siehe \ref{sec:RidesPred}), ist anzunehmen, dass elementare Features fehlen. Ein oder mehrere ausschlaggebende Kriterien, um die Passagieranzahl zu ermitteln, wurde innerhalb der Trainingsdaten noch nicht abgebildet/berücksichtigt. 
 
-~\newline Ein Nebenergebnis des Versuches ist der direkte Vergleich der Geschwindigkeiten: Variante 1 und 3, sowie Variante 2 und 4 verhielten sich in ihrer Trainingsdauer jeweils Analog. 
+~\newline Ein Nebenergebnis des Versuches ist der direkte Vergleich der Geschwindigkeiten: Variante 1 und 3, sowie Variante 2 und 4 verhielten sich in ihrer Trainingsdauer jeweils analog. 
 
-Die Multiklassen-Varianten benötigten aber ca. die 3 fache Zeit ihrer Regressions-Gegenstücke.
+Die Multiklassen-Varianten benötigten aber ca. die 3-fache Zeit ihrer Regressions-Gegenstücke.
 
 \begin{figure}[h]
 	\begin{center}
@@ -170,7 +170,7 @@ Als nächstes Beispiel wird die Prognose des Fahrtenaufkommens behandelt.
 
 ~\newline Eine weitere Schwierigkeit für das Modell besteht darin, das die Testdaten aus der Menge der Trainingsdaten entfernt wurden, und somit die Gruppierungen der Testdaten in dieser Form nicht vorliegen. 
 
-Das Modell muss also, um die Fahrten des 31. August um 12:00 vom JFK-Airport vorherzusagen,welche in dieser Kombination nicht im Training vorkommen, einen Transfer auf unbekannte Daten leisten. Das Neuronale Netz kann sich in diesem Fall nicht \textit{erinnern}.
+Das Modell muss also, um die Fahrten des 31. August um 12:00 vom JFK-Airport vorherzusagen,welche in dieser Kombination nicht im Training vorkommen, einen Transfer auf unbekannte Daten leisten. Das neuronale Netz kann sich in diesem Fall nicht \textit{erinnern}.
 
 ~\newline Eine letzte Schwierigkeit für dieses Modell stellt die große Reichweite der Werte dar: Während es in den äußeren Gebieten wenige oder keine Fahrten gibt, werden Börsenviertel und Flughäfen stark frequentiert. 
 
@@ -180,7 +180,7 @@ Ziel des Modells ist es, für einen gegebenen Ort und eine gegebene Stunde eines
 
 ~\newline Dieses Modell hilft dem Unternehmen, seine Taxi-Kontingente strategisch zu verteilen bzw. kann dem Taxifahrer helfen, vor einer Rushhour am richtigen Taxistand einzutreffen. 
 \paragraph{Versuchsaufbau} ~\newline
-Die Taxifahrten liegen in aggregierter Form vor: Sie wurden nach Datum, Tageszeit auf Stunde gerundet und Startort gruppiert. Die daraus Resultierenden Trainingsdaten sind Wertepaare aus der Anzahl der Fahrten, Ort, Stunde und Datum. 
+Die Taxifahrten liegen in aggregierter Form vor: Sie wurden nach Datum, Tageszeit auf Stunde gerundet und Startort gruppiert. Die daraus resultierenden Trainingsdaten sind Wertepaare aus der Anzahl der Fahrten, Ort, Stunde und Datum. 
 
 Die Gruppierungskriterien werden in R als Faktoren repräsentiert. 
 
@@ -191,25 +191,27 @@ Für die endgültige Netzdefinition wurde ein einzelner Layer mit 300 Knoten und
 
 ~\newline Die Lernrate wurde auf 15\% gesetzt und als Optimierungsfunktion Stochastic Gradient Descent gewählt. Es wurde ein Verfall von 5\% gewählt. Es werden jeweils 500 Epochen durchgeführt. 
 \paragraph{Tuning und Verbesserung} ~\newline
-Die Prognose des Fahrtenaufkommen hat in den ersten Versuchen mit zwei Hidden Layern keine Ergebnisse erzielt (genau genommen negative $r^2$-Werte \footnote{negative $r^2$-Werte bedeuten, das eine Gerade bessere Werte erzielt, als das Modell}). Das erzeugte Modell gab in jedem Fall den Mittelwert der Fahrten aus, die Gewichte innerhalb des Modells hatten verschwindend geringe Werte und der Mittelwert wurde als Bias addiert. 
+Die Prognose des Fahrtenaufkommen hat in den ersten Versuchen mit zwei Hidden Layern keine Ergebnisse erzielt (genau genommen negative $r^2$-Werte \footnote{negative $r^2$-Werte bedeuten, das eine Gerade bessere Werte erzielt, als das Modell}). 
+
+Das erzeugte Modell gab in jedem Fall den Mittelwert der Fahrten aus, die Gewichte innerhalb des Modells hatten verschwindend geringe Werte und der Mittelwert wurde als Bias addiert. 
 
 
 ~\newline Hierfür gibt es zwei mögliche Erklärungen: Die erste ist Overfitting. Die zweite ist eine mögliche, noch zu geringe Komplexität bzw. fehlende Features. 
 
 Um das Problem zu analysieren wurden dahingehend verschiedene Netzparameter durchgespielt, von [10,10] bis [1000,1000]-Netzen wurde eine große Bandbreite getestet. Auch die Veränderung der Aktivierungsfunktionen zu Sigmoid, Tanh, Softmax und Linear, bzw. Kombinationen dieser, erzeugte keine besseren Ergebnisse. 
 
-~\newline Die ersten Ergebnisse wurden erzielt, als die zweite versteckte Schicht entfernt wurde. Das neue Modell mit einer einzelnen, 100 Knoten großen Schicht zeigte das zu erwartende, trainierbare verhalten. Hier zeigten größere Trainingsdaten sowie mehr Epochen eine Positive Wirkung auf die erstmals positive Genauigkeit. Ebenso zeigten unterschiedliche Aktivierungsfunktionen verschiedene Ergebnisse (Linear sehr schlechte, Softmax und Sigmoid gute, Tanh sehr gute). 
+~\newline Die ersten Ergebnisse wurden erzielt, als die zweite versteckte Schicht entfernt wurde. Das neue Modell mit einer einzelnen, 100 Knoten großen Schicht zeigte das zu erwartende, trainierbare Verhalten. Hier zeigten größere Trainingsdaten sowie mehr Epochen eine positive Wirkung auf die erstmals positive Genauigkeit. Ebenso zeigten unterschiedliche Aktivierungsfunktionen verschiedene Ergebnisse (Linear sehr schlechte, Softmax und Sigmoid gute, Tanh sehr gute). 
 
 ~\newline Dieses Verhalten legt nahe, das es sich um eine Art von Overfitting gehandelt hat. 
 
-~\newline Die besseren Ergebnisse der Tanh-Aktivierungsfunktion gegenüber der Sigmoid- und Softmax-Funktion sind voraussichtlich auf das Verhalten um die Nullstelle zurückzuführen: Während die $sig(0)=0.5$ ist, gilt $tanh(0)=0$. Somit werden Null-Werte, wie sie in den Faktorisierten Werten (z.B. Ort) häufig auftreten, besser abgebildet und werden unabhängig vom angelegten Gewicht nicht in die weiteren Berechnungen aufgenommen. 
+~\newline Die besseren Ergebnisse der Tanh-Aktivierungsfunktion gegenüber der Sigmoid- und Softmax-Funktion sind voraussichtlich auf das Verhalten um die Nullstelle zurückzuführen: Während die $sig(0)=0.5$ ist, gilt $tanh(0)=0$. Somit werden Null-Werte, wie sie in den faktorisierten Werten (z.B. Ort) häufig auftreten, besser abgebildet und werden unabhängig vom angelegten Gewicht nicht in die weiteren Berechnungen aufgenommen. 
 
-Unter Verwendung der Sigmoid-Funktion werden bei vielen Epochen und Trainingsdaten zwar ebenfalls akzeptable Ergebnisse erzielt, dennoch liegt das i.A. daran, dass die Gewichte der Faktorisierten Daten gegen Null reduziert werden. Dies führt dazu, das faktorisierte Features nicht (stark) in die Prognose aufgenommen werden, und durch den \textit{Wegfall} der Features ein schwächeres Modell erzeugt wird. 
+Unter Verwendung der Sigmoid-Funktion werden bei vielen Epochen und Trainingsdaten zwar ebenfalls akzeptable Ergebnisse erzielt, dennoch liegt das i.A. daran, dass die Gewichte der faktorisierten Daten gegen Null reduziert werden. Dies führt dazu, das faktorisierte Features nicht (stark) in die Prognose aufgenommen werden, und durch den \textit{Wegfall} der Features ein schwächeres Modell erzeugt wird. 
 
 ~\newline Eine Verbesserung der Genauigkeit hat sich ebenfalls durch das Erhöhen der Neuronenanzahl sowie der Anzahl der Epochen ergeben. Die in Netzdefinition genannten Einstellungen ergaben hierbei die kleinsten Werte mit der höchsten erzielten Genauigkeit.
 
 ~\newline Eine potenzielle Verbesserung würde eine komplexere Netzdefinition darstellen, welche zwei (oder drei) parallele Schichten besitzt: Eine für die numerischen Daten mit der Sigmoid- oder Softmax-Funktion sowie eine getrennte Schicht für die faktorisierten Daten. Dies wurde aufgrund der technischen und terminlichen Limits der Arbeit nicht umgesetzt (Zu hoher Speicherverbrauch sowie lange Trainingszeiten). 
-~\newline Was ebenfalls eine wesentliche Verbesserung darstellen kann ist die Aufnahme eines zweiten Jahres in die Trainingsdaten. ~\newpage
+~\newline Was ebenfalls eine wesentliche Verbesserung darstellen kann, ist die Aufnahme eines zweiten Jahres in die Trainingsdaten. ~\newpage
 \paragraph{Ergebnisse} ~\newline
 Die unter Netzdefinition genannten Optionen erzielten folgende Werte:
 
@@ -223,35 +225,35 @@ Die unter Netzdefinition genannten Optionen erzielten folgende Werte:
 
 ~\newline Dies stellt zwar nicht die besten Ergebnisse dar, dennoch stellen die unter \textbf{Tuning} vorgestellten Maßnahmen die wichtigsten praktischen Erkenntnisse dieser Arbeit dar. 
 
-~\newline Bei Eintausend Trainingsdaten gibt das Modell lediglich den Mittelwert aus - es liegen noch zu wenig Trainingsdaten vor. Bei Fünf- und Zehntausend liegt zunächst ein starker Einbruch vor, was darauf zurückzuführen ist, dass sich das Modell an den (wenigen) Trainingsdaten ausrichtet, die inhaltlich zu weit entfernt sind von den tatsächlichen Testdaten (Es könnten z.B. keine Daten für den Oktober, oder keine Daten für Nachtfahrten ins Training eingeflossen sein).
+~\newline Bei eintausend Trainingsdaten gibt das Modell lediglich den Mittelwert aus - es liegen noch zu wenig Trainingsdaten vor. Bei Fünf- und Zehntausend liegt zunächst ein starker Einbruch vor, was darauf zurückzuführen ist, dass sich das Modell an den (wenigen) Trainingsdaten ausrichtet, die inhaltlich zu weit entfernt sind von den tatsächlichen Testdaten (Es könnten z.B. keine Daten für den Oktober, oder keine Daten für Nachtfahrten ins Training eingeflossen sein).
 
 ~\newline Werden die Ergebnisse nicht gerundet (auf \textit{ganze Fahrten}) so liegen die $r^2$-Werte ca. 2\% höher (in allen Versuchen).
 \newpage
 \subsection{Umsatzvorhersage}
 \label{sec:RevPred}
-Als letztes Beispiel wird die Umsatzvorhersage behandelt. Dieses stellt für das Unternehmen offensichtlich den wichtigsten Use-Case dar.Sie gibt dem Unternehmen nicht nur eine Übersicht über den ist-Zustand, sondern zeigt ebenfalls detailliert an welchen Punkten noch gearbeitet werden muss. 
+Als letztes Beispiel wird die Umsatzvorhersage behandelt. Dieses stellt für das Unternehmen offensichtlich den wichtigsten Use-Case dar.Sie gibt dem Unternehmen nicht nur eine Übersicht über den Ist-Zustand, sondern zeigt ebenfalls detailliert, an welchen Punkten noch gearbeitet werden muss. 
 
 Ein gut funktionierendes Modell kann ggfs. auch zur Prognose von Änderungen erweitert werden.
 \paragraph{Zielsetzung} ~\newline
-Ziel des Modells ist es, für einen gegebenen Ort und eine gegebene Stunde eines Tages Summe der Fahrtenkosten auszugeben. 
+Ziel des Modells ist es, für einen gegebenen Ort und eine gegebene Stunde eines Tages die Summe der Fahrtenkosten auszugeben. 
 
 \paragraph{Versuchsaufbau} ~\newline
-Der Gesamtumsatz wird aus den Einzelfahrten aufsummiert: Sie wurden nach Datum, Tageszeit auf Stunde gerundet und Startort gruppiert. Die daraus Resultierenden Trainingsdaten sind Wertepaare aus dem Gesamtumsatz, Ort, Stunde und Datum. 
+Der Gesamtumsatz wird aus den Einzelfahrten aufsummiert: Sie wurden nach dem Datum, der Tageszeit (auf Stunde gerundet) und dem Startort gruppiert. Die daraus resultierenden Trainingsdaten sind Wertepaare aus dem Gesamtumsatz, Ort, Stunde und Datum. 
 
 Die Gruppierungskriterien werden in R als Faktoren repräsentiert. 
 
 Ausgabe des Modells ist eine Schätzung des Umsatzes, welche auf zwei Nachkommastellen gerundet wird. 
 
 \paragraph{Tuning und Verbesserung} ~\newline
-Für diesen Use-Case wurden ebenfalls zwei Versuche durchgeführt. Gemeinsamkeit bilden die Eingegebenen Daten: Datum, Tageszeit und Ort des Fahrtbeginns. 
+Für diesen Use-Case wurden ebenfalls zwei Versuche durchgeführt. Gemeinsamkeit bilden die eingegebenen Daten: Datum, Tageszeit und Ort des Fahrtbeginns. 
 
 ~\newline Hierbei ist die Ausgabe von Variante 1 der aufsummierte Umsatz aller Fahrten innerhalb der Stunde, und bei Variante 2 der durchschnittliche Umsatz pro Fahrt in dieser Stunde. 
 
-~\newline Es wurden verschiedene Netzdefinitionen durchgespielt (Was Tiefe, Schichtgröße und Aktivierungsfunktionen angeht), dennoch erzielten (im Wesentlichen) alle vergleichbare Ergebnisse. Die unten aufgeführten Ergebnisse sind die zuletzt mit einem einzelnen hidden Layer mit 250 Knoten und der $tanh$-Aktivierungsfunktion erzielten Genauigkeiten.
+~\newline Es wurden verschiedene Netzdefinitionen durchgespielt (was Tiefe, Schichtgröße und Aktivierungsfunktionen betrifft), dennoch erzielten (im Wesentlichen) alle vergleichbare Ergebnisse. Die unten aufgeführten Ergebnisse sind die zuletzt mit einem einzelnen hidden Layer mit 250 Knoten und der $tanh$-Aktivierungsfunktion erzielten Genauigkeiten.
 \paragraph{Ergebnisse} ~\newline
 Trotz intensiver Versuche erreichte Variante 1 nie positive $r^2$ Werte. 
 
-~\newline Da allerdings verschiedene Netzeinstellungen, insbesondere die Erkenntnisse aus den anderen Use-Cases, ebenfalls eingeflossen sind, lässt sich Overfitting im Allgemeinen Ausschließen. 
+~\newline Da allerdings verschiedene Netzeinstellungen, insbesondere die Erkenntnisse aus den anderen Use-Cases, ebenfalls eingeflossen sind, lässt sich Overfitting im Allgemeinen ausschließen. 
 
 ~\newline Für Variante 2 wurden mithilfe der Erkenntnisse aus \ref{sec:RidesPred} bezüglich des Overfittings ein $r^2$-Wert von 31\% erzielt.
 
@@ -259,6 +261,6 @@ Trotz intensiver Versuche erreichte Variante 1 nie positive $r^2$ Werte.
 
 ~\newline Nachdem die Schätzung des Fahrtenaufkommens zufriedenstellend umgesetzt werden konnte, muss die Schwierigkeit explizit bei der Berechnung des Umsatzes liegen. 
 
-Die hierfür wahrscheinlichste Ungewissheit stellt die Unberechenbarkeit des Zielortes dar. Innerhalb der Daten gibt es keine Ausschläge der Verteilung Fahrten pro Zielort und Startort - es gibt entsprechend ebenfalls keine (wahrscheinliche) Aussage darüber wohin eine einzelne Fahrt geht. Da der Umsatz einer Fahrt, und entsprechend die Summe über alle Fahrten stark von den jeweiligen Distanzen und Zeiten abhängt, kann ein Modell keine genauen Ergebnisse erzielen.
+Die hierfür wahrscheinlichste Ungewissheit stellt die Unberechenbarkeit des Zielortes dar. Innerhalb der Daten gibt es keine Ausschläge der Verteilung \textit{Fahrten pro Startort nach Zielort} - es gibt entsprechend ebenfalls keine (wahrscheinliche) Aussage darüber, wohin eine einzelne Fahrt geht. Da der Umsatz einer Fahrt, und entsprechend die Summe über alle Fahrten stark von den jeweiligen Distanzen und Zeiten abhängt, kann ein Modell keine genauen Ergebnisse erzielen.
 
 ~\newline Insgesamt konnte kein zufriedenstellendes neuronales Netz mithilfe der vorliegenden Daten erzeugt werden. Dennoch gibt es Alternativen um eine (zufriedenstellende) Prognose zu erreichen: Diese liegen vor Allem in der klassischen Statistik. Dennoch könnten auch modernere, technische Ansätze, wie eine Time-Series-Datenbank Aufschlüsse und signifikantere Auswertungen ergeben.  

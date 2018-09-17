@@ -5,7 +5,7 @@ Innerhalb dieses Abschnittes befinden sich Code-Beispiele zur Umsetzung der in K
 Es werden im Folgenden kurz die Einbindung der R-Skripte in TSQL behandelt, anschließend werden nur die R-Skripte für die einzelnen Punkte erläutert.
 
 \paragraph{Verwendung von R im SQL-Server}
-Um R im SQL-Server zu benutzen wird die Stored Procedure \textit{sp\_execute\_external\_script} benötigt. Im Folgenden ein einfaches Beispiel: ~\newline
+Um R im SQL-Server zu benutzen, wird die Stored Procedure \textit{sp\_execute\_external\_script} benötigt. Im Folgenden ein einfaches Beispiel: ~\newline
 
 \begin{lstlisting}[language=SQL]
 	EXECUTE sp_execute_external_script
@@ -25,10 +25,10 @@ In Zeile 7 wird die Ausgabe in Tabellenform überführt. Diese Zeile ist nicht z
 
 ~\newline Dieses Schema bleibt allen Skript-Aufrufen gleich. Im Folgenden werden nur die R-Skripte vorgestellt.
 \subsection{Lineare Regression}
-Für die diese Form der Regression gelten innerhalb des Paketes MicrosoftML folgende Bedingungen: ~\newline
+Für diese Form der Regression gelten innerhalb des Paketes MicrosoftML folgende Bedingungen: ~\newline
 \begin{enumerate}
-	\item Strings und kalendarische Daten müssen über einen Faktor realisiert werden 
-	\item Der Ausgabewerte ist eine reelle Zahl 
+	\item Strings und kalendarische Daten müssen über einen Faktor realisiert. werden 
+	\item Der Ausgabewerte ist eine reelle Zahl.
 \end{enumerate}
 
 Um ein Modell für die lineare Regression zu erstellen, sind in R nur wenige Zeilen notwendig: ~\newline
@@ -40,11 +40,11 @@ Um ein Modell für die lineare Regression zu erstellen, sind in R nur wenige Zei
 
 In der ersten Zeile wird zunächst eine allgemeine Formel definiert. Diese Formel ist zu interpretieren als $f: (A~x~B)\rightarrow C $ , das '+' ist hierbei nicht als Addition zu verstehen.
 
-In Zeile 2 wird das Modell mithilfe der Bibliothek RevoscaleR und dem Methodenaufruf rxLinMod erstellt \textbf{und} Trainiert. Als Parameter werden die Formel und die Trainingsdaten benötigt. 
+In Zeile 2 wird das Modell mithilfe der Bibliothek RevoscaleR und dem Methodenaufruf rxLinMod erstellt \textbf{und} trainiert. Als Parameter werden die Formel und die Trainingsdaten benötigt. 
 
-In der dritten Zeile findet eine Serialisierung des Modells statt - dies ist nicht notwendig für eine direkte Verwendung, ermöglicht allerdings das speichern des Modells innerhalb des SQL-Servers als Blob.  
+In der dritten Zeile findet eine Serialisierung des Modells statt - dies ist nicht notwendig für eine direkte Verwendung, ermöglicht allerdings das Speichern des Modells innerhalb des SQL-Servers als Blob.  
 
-Um das Modell zu benutzen reichen ebenfalls wenige Zeilen R-Skript: \newline
+Um das Modell anzuwenden, reichen ebenfalls wenige Zeilen R-Skript: \newline
 
 \begin{lstlisting}[language=R]
 	model <- unserialize(as.raw(serializedModel)); 
@@ -59,7 +59,7 @@ Für die binäre Klassifikation mit RevoscaleR gelten folgende Bedingungen: ~\ne
 
 \begin{enumerate}
 	\item Die Klasse stellt einen Faktor mit Level 2 dar.
-	\item Der Ausgabewerte ist eine Wahrscheinlichkeit, mit der die Ausprägung positiv ausfällt
+	\item Der Ausgabewert ist eine Wahrscheinlichkeit, mit der die Ausprägung positiv ausfällt
 	\item Es kann gleichzeitig nur eine Klasse überprüft werden
 \end{enumerate}
 
@@ -71,14 +71,14 @@ Der R-Code verhält sich parallel zum Code der linearen Regression:
 	rainPropability <- rxPredict(model, data.frame(TestData));
 \end{lstlisting}
 
-Als Beispiel wurde hierbei die Voraussage gewählt, ob es regnet anhand von Temperatur und Luftfeuchtigkeit.
+Als Beispiel wurde hierbei die Voraussage gewählt ob es regnet, anhand von Temperatur und Luftfeuchtigkeit.
 \subsection{Neuronale Netze}
-Es ist Möglich, die im Abschnitt \ref{sec:NN} vorgestellten Konzepte direkt in R umzusetzen. Ein gutes Tutorial liefert hierbei \cite{SelbyNN}, welcher eine Schritt-Für-Schritt Anleitung und Erklärung bietet ein eigenes Neuronales Netz zu entwerfen. Das Tutorial von Selby setzt einen ähnlichen Blogeintrag von Denny Britz (Siehe \cite{DennyNN}) in R um. 
+Es ist möglich, die im Abschnitt \ref{sec:NN} vorgestellten Konzepte direkt in R umzusetzen. Ein gutes Tutorial liefert hierbei \cite{SelbyNN}, welcher eine Schritt-Für-Schritt Anleitung und Erklärung bietet ein eigenes neuronales Netz zu entwerfen. Das Tutorial von Selby setzt einen ähnlichen Blogeintrag von Denny Britz (Siehe \cite{DennyNN}) in R um. 
 
 Innerhalb dieser Arbeit wird allerdings das Paket \textit{MicrosoftML} verwendet.
 
 \paragraph{Netz-Definition} ~\newline
-Eine der wichtigsten Einstellung stellt die Definition des Neuronalen Netzes dar. Für diese wird innerhalb der Microsoft-Umgebung (Innerhalb des ML-Servers, Azure und R-Services) einheitlich eine Definition in \textit{Net\#} verwendet. Diese Notation definiert  das gesamte Neuronale Netz, und stellt einen einheitlichen und übertragbaren Standard in der Microsoft Umgebung dar. Ein einfaches Beispiel: ~\newline
+Eine der wichtigsten Einstellung stellt die Definition des neuronalen Netzes dar. Für diese wird innerhalb der Microsoft-Umgebung (Innerhalb des ML-Servers, Azure und R-Services) einheitlich eine Definition in \textit{Net\#} verwendet. Diese Notation definiert  das gesamte neuronale Netz, und stellt einen einheitlichen und übertragbaren Standard in der Microsoft Umgebung dar. Ein einfaches Beispiel: ~\newline
 
 \begin{lstlisting}[language=R]
  netDefinition <- ("
@@ -88,20 +88,20 @@ Eine der wichtigsten Einstellung stellt die Definition des Neuronalen Netzes dar
  ")
 \end{lstlisting}
 
-In Zeile zwei wird die Eingabeschicht mit dem Namen \textit{Data} und einer automatisch-erkannten Größe erstellt. 
+In Zeile Zwei wird die Eingabeschicht mit dem Namen \textit{Data} und einer automatisch erkannten Größe erstellt. 
 
-In Zeile drei wird die versteckte Schicht \textit{Hidden} mit 25 Knoten, einer Verbindung zu allen Knoten in Data und der Aktivierungsfunktion \textit{Sigmoid} gewählt. 
+In Zeile Drei wird die versteckte Schicht \textit{Hidden} mit 25 Knoten, einer Verbindung zu allen Knoten in Data und der Aktivierungsfunktion \textit{Sigmoid} gewählt. 
 
-In Zeile vier wird die Ausgabeschicht \textit{Result} mit zwei Ausgabeknoten definiert. Es handelt sich um eine Binäre Klassifikation. Die Aktivierungsfunktion wird auf den Standardwert \textit{sigmoid} gesetzt. 
+In Zeile Vier wird die Ausgabeschicht \textit{Result} mit zwei Ausgabeknoten definiert. Es handelt sich um eine binäre Klassifikation. Die Aktivierungsfunktion wird auf den Standardwert \textit{sigmoid} gesetzt. 
 
 Optional ist es möglich, die Größe eines hidden Layers in der Form [X,X,Y] anzugeben. Dies bedeutet, das zunächst zwei Layer mit X Knoten und anschließend ein Layer mit Y Knoten vorliegt, welche eine Einheit bilden. Die anderen Parameter, z.B. die Aktivierungsfunktion, werden für alle Teilschichten übernommen.
 
 ~\newline Es werden an ein neuronales Netzwerk innerhalb von net\# folgende Anforderungen gestellt:
 
 \begin{itemize}
-	\item Jedes neuronale Netz besitzt mindestens eine Eingabeschichte und genau eine Ausgabeschicht
-	\item Die Anzahl der Knoten der Ausgabeschicht entspricht der Klasse des neuronalen Netzes (Ein Ausgabeknoten für Regression, zwei für Binäre Klassifikation, \textit{n} für eine Klassifikation von \textit{n-}Labeln)
-	\item Verbindungen müssen azyklisch sein, anders ausgedrückt, sie dürfen keine Kette von Verbindungen bilden, die zurück zum ursprünglichen Quellknoten führen.
+	\item Jedes neuronale Netz besitzt mindestens eine Eingabeschichte und genau eine Ausgabeschicht.
+	\item Die Anzahl der Knoten der Ausgabeschicht entspricht der Klasse des neuronalen Netzes (Ein Ausgabeknoten für Regression, zwei für binäre Klassifikation, \textit{n} für eine Klassifikation von \textit{n-}Labeln).
+	\item Verbindungen müssen azyklisch sein, anders ausgedrückt, sie dürfen keine Kette von Verbindungen bilden, die zurück zum ursprünglichen Quellknoten führt.
 	\item Um eine Vorhersage mit dem Modell zu machen, werden bei den Eingabedaten mindestens alle in der Formel angegebenen Features benötigt. 
 \end{itemize}
 
@@ -109,13 +109,13 @@ Optional ist es möglich, die Größe eines hidden Layers in der Form [X,X,Y] an
 
 \begin{itemize}
 	\item Auswahl von Aktivierungsfunktionen (z.B. Sigmoid, Softmax, Linear)
-	\item Deklaration Konvolutionsbündeln, d.h. Schichten definieren, welche sich mit zusätzlichen Gewichten gegenseitig beeinflussen
-	\item Deklaration von Selektionsbündeln, d.h. Auswahlkriterien nach welchen die Schichten verknüpft werden
+	\item Deklaration Konvolutionsbündeln, d.h. Schichten definieren, welche sich mit zusätzlichen Gewichten gegenseitig beeinflussen.
+	\item Deklaration von Selektionsbündeln, d.h. Auswahlkriterien, nach welchen die Schichten verknüpft werden.
 	\item Deklaration von Poolingbündeln, d.h. Schichten und Teilnetze, welche eine ähnliche Funktion erfüllen, allerdings nicht trainiert werden. 
 \end{itemize} 
 
 \paragraph{Regression} ~\newline
-Ein neuronales Netz mithilfe des Paketes zu erstellen ist ähnlich einfach wie ein normales Modell hierfür:
+Ein neuronales Netz mithilfe des Paketes zu erstellen, ist ähnlich einfach wie ein normales Modell hierfür:
 
 \begin{lstlisting}[language=R]
 netDefinition <- ("
@@ -133,12 +133,12 @@ model <- rxNeuralNet(
 );
 \end{lstlisting}
 
-Zunächst wird ein Netz definiert, welches als Ausgabeschicht einen einzelnen Knoten mit linearer Ausgabefunktion besitzt. Anschließend wird die Formel aus dem obigen Beispiel für Lineare Regression definiert, und das Modell mit der Funktion \textit{rxNeuralNet(...)} erstellt. Diese erhält gegenüber anderen Modellen zusätzliche Parameter für die Netzdefinition, die Iterationen und den Typ des neuronalen Netzes. 
+Zunächst wird ein Netz definiert, welches als Ausgabeschicht einen einzelnen Knoten mit linearer Ausgabefunktion besitzt. Anschließend wird die Formel aus dem obigen Beispiel für lineare Regression definiert, und das Modell mit der Funktion \textit{rxNeuralNet(...)} erstellt. Diese erhält gegenüber anderen Modellen zusätzliche Parameter für die Netzdefinition, die Iterationen und den Typ des neuronalen Netzes. 
 
 Des Weiteren können Einstellungen über die Optimierungsfunktion, Initialisierung der Gewichte, sowie Lerngeschwindigkeit, Verfall und Beschleunigung vorgenommen werden.
 
 \paragraph{Multiclass-Labeling} ~\newline
-Um eine Multiklassen-Klassifizerung vorzunehmen benötigt man einen ähnlichen Aufbau:
+Um eine Multiklassen-Klassifizerung vorzunehmen, benötigt man einen ähnlichen Aufbau:
 
 
 \begin{lstlisting}[language=R]

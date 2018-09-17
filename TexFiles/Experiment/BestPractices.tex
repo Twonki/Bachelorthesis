@@ -5,31 +5,35 @@ Im Rahmen des Praxisteils haben sich im Wesentlichen 3 Best Practices herauskris
 \subsection{Auschnitts-Tabellen und Aggregatstabellen} ~\newline
 Im Rahmen des Trainings mussten zufällige Daten ausgewählt werden. Dies wird innerhalb von SQL über die Sortierung einer zufälligen \textit{ID} realisiert. 
 
-~\newline Dieses Verfahren dauert für die vorliegenden Daten (113 Millionen Datensätze) ca. 26 Minuten \footnote{Bei Verwendung eines einfachen Desktop-PCs}. Während diese Zahl bei Modellen, die Stunden trainieren, eher unbedeutend ist, stellte Sie gerade für die ersten \textit{Testmodelle} einen Großteil der benötigten Zeit dar. Eine wesentliche Verbesserung ergab sich durch die Erzeugung einer (kleineren) Tabelle, die bereits zufällig Sortiert ist, und ein Training mithilfe dieser Tabelle. 
+~\newline Dieses Verfahren dauert für die vorliegenden Daten (113 Millionen Datensätze) ca. 26 Minuten \footnote{Bei Verwendung eines einfachen Desktop-PCs}. Während diese Zahl bei Modellen, die Stunden trainieren, eher unbedeutend ist, stellte sie gerade für die ersten \textit{Testmodelle} einen Großteil der benötigten Zeit dar. 
 
-~\newline Vor Allem für kleinere Modelle, welche lediglich mit wenigen Tausend Daten trainiert wurden, führte dies zu einer markanten Beschleunigung.
+Eine wesentliche Verbesserung ergab sich durch die Erzeugung einer (kleineren) Tabelle, die bereits zufällig sortiert ist, und ein Training mithilfe dieser Tabelle. 
 
-~\newline Bei den Modellen welche sich auf aggregierte Daten stützen, fiel dieser Effekt noch größer aus: Eine Aufsummierung des Umsatzes nach Ort und Stunde dauerte ca. eine Stunde. Hierfür wurde ebenfalls eine (redundante) Tabelle erstellt, welche bereits (mehrere) Aggregierte Werte hält. 
+~\newline Vor allem für kleinere Modelle, welche lediglich mit wenigen Tausend Daten trainiert wurden, führte dies zu einer markanten Beschleunigung.
+
+~\newline Bei den Modellen, welche sich auf aggregierte Daten stützen, fiel dieser Effekt noch größer aus: Eine Aufsummierung des Umsatzes nach Ort und Stunde dauerte ca. eine Stunde. Hierfür wurde ebenfalls eine (redundante) Tabelle erstellt, welche bereits (mehrere) aggregierte Werte hält. 
 
 \subsection{ML-Templates} ~\newline
-Nach den ersten Schritten mit den Neuronalen Netzen kristallisierte sich ein Muster heraus, welches sich auf alle Use-Cases übertragen lies. Dieses Muster lässt sich mithilfe von vier SQL-Dateien darstellen:
+Nach den ersten Schritten mit den neuronalen Netzen zeigte sich ein Muster, welches sich auf alle Use-Cases übertragen lies. 
+
+Dieses Muster lässt sich mithilfe von vier SQL-Dateien darstellen:
 
 \begin{enumerate}
-	\item Eine Datei zur Erstellung einer Prozedur, welche das Neuronale Netz erstellt, trainiert und abspeichert.
+	\item Eine Datei zur Erstellung einer Prozedur, welche das neuronale Netz erstellt, trainiert und abspeichert.
 	
 	Hier findet sich die Netzdefinition, Trainingsparameter und ggfs. eine Aufbereitung der Trainingsdaten.
-	\item Eine Datei zur Erstellung einer Prozedur, welche alle Testdaten mithilfe des Neuronalen Netzes Vorhersagt
+	\item Eine Datei zur Erstellung einer Prozedur, welche alle Testdaten mithilfe des neuronalen Netzes vorhersagt.
 	
 	Hier findet sich eine analoge Aufbereitung der Testdaten zu den Trainingsdaten.
 	\item Eine Datei zur Erstellung einer Prozedur, welche die Vorhersage bewertet. Je nach Art des Netzes wird die Genauigkeit berechnet und eine Stichprobe der Vorhersagen genommen.
 	
 	Diese Prozedur lässt sich soweit vereinfachen, das es jedes beliebige Modell bewertet.
-	\item Eine Datei, welches die Prozeduren ausführt
+	\item Eine Datei, welches die Prozeduren ausführt.
 \end{enumerate}
 
 Mithilfe dieser Templates ließen sich sehr schnell Use-Cases umsetzen und die Modelle sowie Prozeduren waren einheitlich und übersichtlich. 
 
-Für eine reelle Anwendung sollten noch zwei weitere Prozeduren aufgenommen werden: Eine zum \textit{weitertrainieren} eines Modells, sowie eine zur konkreten Vorhersage eines einzelnen Datensatzes. 
+Für eine reelle Anwendung sollten noch zwei weitere Prozeduren aufgenommen werden: Eine zum \textit{Weitertrainieren} eines Modells, sowie eine zur konkreten Vorhersage eines einzelnen Datensatzes. 
 
 \subsection{Speicherung der Modelle} ~\newline
 Für die Organisation, den Vergleich der Modelle und die allgemeine Verwendung wurden die serialisierten Modelle in einer eigenen Tabelle abgespeichert. 
@@ -46,4 +50,4 @@ Während diese zunächst nur das Binärfile und den Namen hielten, war dies nich
 
 Die ersten 3 werden hierbei von der Trainings-Prozedur erstellt, die Genauigkeit durch die Bewertungs-Prozedur.
 
-Diese erweiterte Tabelle stellte sich als Wesentlich benutzerfreundlicher heraus und lässt sich über das Template problemlos warten. 
+Diese erweiterte Tabelle stellte sich als wesentlich benutzerfreundlicher heraus und lässt sich über das Template problemlos warten. 

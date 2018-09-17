@@ -7,11 +7,11 @@ Die vorgestellten Daten haben bereits einen ETL-Prozess durchlaufen. Dieser best
 \label{subsec:Taxidaten}
 Zunächst werden die Daten der Taxifahrten erläutert. 
 
-~\newline Diese stammen von der Stadt New York \cite{SourceTaxi} und wurde von der \textit{Taxi and Limousine Commission} (Kurz: TLC) bereitgestellt. 
+~\newline Diese Daten stammen von der Stadt New York \cite{SourceTaxi} und wurde von der \textit{Taxi and Limousine Commission} (Kurz: TLC) bereitgestellt. 
 
 Die TLC stellt einen Dachverband mehrerer Taxiunternehmen dar und veröffentlicht die Daten - die Erhebung erfolgt in einzelnen, anonymisierten Kleinunternehmen. 
 
-~\newline Zusätzlich teilen sich die Fahrten in zwei Kategorien auf: \textit{Green} und \textit{Yellow}. Bei grünen Fahrten handelt es sich um Fahrzeuge mit einer anderen Lizenzierung (vgl. \cite{GreenTaxis} Absatz 5ff) und besonderen Auflagen. Im Allgemeinen verhalten sich die Fahrten allerdings gleich, insofern werden lediglich Unterschiede aufgelistet falls diese bestehen.
+~\newline Zusätzlich teilen sich die Fahrten in zwei Kategorien auf: \textit{Green} und \textit{Yellow}. Bei grünen Fahrten handelt es sich um Fahrzeuge mit einer anderen Lizenzierung (vgl. \cite{GreenTaxis} Absatz 5ff) und besonderen Auflagen. Im Allgemeinen verhalten sich die Fahrten allerdings gleich, insofern werden lediglich Unterschiede aufgelistet, falls diese bestehen.
 \paragraph{Attribute und Datentypen} ~\newline
 Die folgende Übersicht entspricht der von der NYC bereitgestellten Übersicht (Siehe \cite{DataDicYellow}), die Beschreibung wurde übersetzt und eine Spalte für den Datentyp \footnote{Wie sie innerhalb des SQL-Servers bezeichnet werden} ergänzt. 
 ~\newline
@@ -23,7 +23,7 @@ Die folgende Übersicht entspricht der von der NYC bereitgestellten Übersicht (
 		pickup\_datetime & Uhrzeit und Datum, wann die Fahrt begann & datetime \\ \hline
 		dropOff\_datetime & Uhrzeit und Datum, wann die Fahrt endete & datetime \\ \hline
 		Passenger\_count & Anzahl der Fahrgäste & smallint \\ \hline	
-		store\_and\_fwd\_flag & Angabe, ob die Fahrt direkt hochgeladen wurde, oder ob die Fahrt zwischengespeichert wurden vor einem Upload & bit \\ \hline
+		store\_and\_fwd\_flag & Angabe, ob die Fahrt direkt hochgeladen wurde, oder ob die Fahrt zwischengespeichert wurde vor einem Upload & bit \\ \hline
 		RatecodeID & Ein Code für die Rate, welche für die Taxifahrt bezahlt wurde & smallint \\ \hline
 		PULocationID & Ein Code für die Zone, in welcher die Fahrt begann & smallint \\ \hline
 		DOLocationID & Ein Code für die Zone, in welcher die Fahrt endete & smallint \\ \hline
@@ -52,11 +52,11 @@ Aus Ressourcengründen wurde ausschließlich das Jahr 2017 betrachtet.
 
 ~\newline Es gibt \textbf{11,7 Millionen} Einträge für grüne Fahrten, mit insgesamt \textbf{900 MB Speicherplatz}. Es wurden zusätzlich Indizes mit 1,1 GB Speicher erstellt. 
 
-~\newline Zusammen gibt es aus dem Jahr 2017 also fast \textbf{125 Millionen Einträge} welche insgesamt 19,5 GB Speicher belegen.
+~\newline Zusammen gibt es aus dem Jahr 2017 also fast \textbf{125 Millionen Einträge}, welche insgesamt 19,5 GB Speicher belegen.
 \paragraph{Anomalien} ~\newline
-Innerhalb der Daten traten einige Ungewöhnlichkeiten auf - zum Beispiel gibt es Fahrten, die von Ort A nach Ort A gingen und keine Strecke zurückgelegt haben. Bei einer genaueren Untersuchung ergab sich allerdings, dass diese Fahrten meist wenige Minuten dauerten und ebenfalls keinen Passagier hatten. 
+Innerhalb der Daten traten einige Ungewöhnlichkeiten auf - zum Beispiel gibt es Fahrten, die von Ort A nach Ort A verliefen und keine Strecke zurückgelegt haben. Bei einer genaueren Untersuchung ergab sich allerdings, dass diese Fahrten meist wenige Minuten dauerten und ebenfalls keinen Passagier hatten. 
 
-~\newline Es ist anzunehmen, das die Taxis an dieser Stelle auf ihre Passagiere gewartet haben. Zunächst wurde versucht, die Anomalien mit in die Machine-Learning-Algorithmen aufzunehmen. Erste Ergebnisse zeigten allerdings desaströse Resultate, welche v.A. daher rührten das extreme Reichweiten der Eingabedaten auftraten. 
+~\newline Es ist anzunehmen, das die Taxis an dieser Stelle auf ihre Passagiere gewartet haben. Zunächst wurde versucht, die Anomalien mit in die Machine-Learning-Algorithmen aufzunehmen. Erste Ergebnisse zeigten allerdings desaströse Resultate, welche v.a. daher rührten, dass extreme Reichweiten der Eingabedaten auftraten. 
 
 Es wurden außerdem weitere Anomalien gefunden, welche kurz genannt werden:
 \begin{itemize}
@@ -103,7 +103,7 @@ Die Windgeschwindigkeiten sind hierbei in Meilen/Stunde angegeben, die Temperatu
 Es gibt \textbf{13351 Datensätze} die 1,4 MB Speicher benötigen. Zusätzlich gibt es 0,6 MB Indizes.
 
 \subsection{Machine-Learning-Sicht und Rich-Sicht}
-Die in den vorhergehenden Unterabschnitten vorgestellten Daten sind für die Verwendung als Sicht zusammengefasst, so das am Ende jede Taxifahrt erweitert wird um die Wetterdaten. 
+Die in den vorhergehenden Unterabschnitten vorgestellten Daten sind für die Verwendung als Sicht zusammengefasst, so das die Taxifahrten um die jeweiligen Wetterdaten angereichert werden. 
 
 Insgesamt wurden vier Sichten erstellt, je zwei für die grünen und gelben Taxis:
 
@@ -118,11 +118,11 @@ Enthält die für das Machine Learning benötigten Trainingsdaten. Jeder Satz de
 Die Orte, Raten und Zeiten liegen als numerischer Faktor vor. 
 
 \paragraph{Ausschnitt-Tabellen}
-Neben den Views werden des Weiteren kleinere Auschnitte entnommen. Dies liegt daran, dass das zufällige Entnehmen einer Stichprobe v.A. von den Gelben Taxidaten mehrere Minuten benötigt. 
+Neben den Views werden des weiteren kleinere Auschnitte entnommen. Dies liegt daran, dass das zufällige Entnehmen einer Stichprobe der gelben Taxidaten mehrere Minuten benötigt. 
 
-Die Ausschnitte wurden aus den ML-Sichten erstellt, indem jeder Datensatz einen zufälligen neuen Hashwert bekam nach welchem er sortiert wurde. 
+Die Ausschnitte wurden aus den ML-Sichten erstellt, indem jeder Datensatz einen zufälligen neuen Hashwert bekam, nach welchem er sortiert ist. 
 
 ~\newline
-Für Prognosen, die für ihr Training aggregierte Daten benötigen (z.B. Umsatzprognose) wurde ebenfalls eine Aggregats-Tabelle erstellt. 
+Für Prognosen, die für ihr Training aggregierte Daten benötigen (z.B. Umsatzprognose), wurde ebenfalls eine Aggregats-Tabelle erstellt. 
 
-Diese gruppiert die Machine-Learning-View nach Datum, Stunde, Startort,Zielort und aggregiert verschiedene Attribute. Dies führt zu einer Menge von ca. 1 Millionen Aggregat-Daten, wovon eine Probe von 10 000 entfernt wurde für die Überprüfung der Resultate.
+Diese gruppiert die Machine-Learning-View nach Datum, Stunde, Startort,Zielort und aggregiert verschiedene Attribute. Dies führt zu einer Menge von ca. 1 Millionen Aggregat-Daten, hiervon wurden 10000 entfernt als Kontrollgruppe.

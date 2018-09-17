@@ -2,7 +2,7 @@
 \label{sec:LineareRegression}
 Als erster Machine-Learning-Algorithmus soll die lineare Regression vorgestellt werden. 
 
-Auch wenn lineare Regression nicht mehr Bestandteil aktueller Forschung ist, sind sie für weitere Erklärungen hilfreich, da Neuronale Netze mit Regression sich ebenfalls auf dieses Verfahren stützen. 
+Auch wenn die lineare Regression nicht mehr Bestandteil aktueller Forschung ist, sind sie für weitere Erklärungen hilfreich, da Neuronale Netze mit Regression sich ebenfalls auf dieses Verfahren stützen. 
 
 ~\newline Zudem können mithilfe einfacher linearer Regression bereits sehr gute Ergebnisse erzielt werden.
 \subsection{Konzept und Ziele linearer Regression}
@@ -23,7 +23,7 @@ Als Beispiel für die einfache lineare Regression dient das Abschätzen des Brem
 Es ist hierbei offensichtlich, das diese Messwerte zusammenhängen - lediglich die zugrunde liegende Formel ist unbekannt. 
 
 Mithilfe linearer Regression wollen wir eine modellhafte Formel finden, die das beste Ergebnis anhand unserer Daten liefert.
-\subsection{Einfache Lineare Regression}
+\subsection{Einfache lineare Regression}
 Zunächst geht man zur Vereinfachung davon aus, dass der Bremsweg lediglich von der Geschwindigkeit abhängt. Bezeichnet man $x_i$ als die Geschwindigkeit des $i$-ten Datensatzes der Tabelle \ref{tab:Bremsweg} und $y_i$ als den zugehörigen Bremsweg, kann man ein lineares Modell der Form 
 \begin{equation}
 	y_i := \vartheta_1 \cdot x_i + \vartheta_0 
@@ -47,7 +47,7 @@ Wobei $\mathbf{x}$ und $\mathbf{y}$ das arithmetische Mittel der beiden Variable
 ~\newline Nach der Berechnung der \textit{Gewichte} besitzt man ein Modell, welches für jeden beliebigen Geschwindigkeitswert den Bremsweg berechnet. 
 
 Dennoch kann man davon ausgehen, das ein lineares Modell für komplexere Sachverhalte keine zufriedenstellenden Ergebnisse liefert. Deswegen wird nun die lineare Regression unter Berücksichtigung mehrerer unabhängiger Variablen behandelt. 
-\subsection{Allgemeine Lineare Regression}
+\subsection{Allgemeine lineare Regression}
 Das Prinzip der allgemeinen linearen Regression ist das Gleiche: Wir suchen eine Funktion, welche uns den abhängigen Wert schätzt. Diese Funktion hat im Allgemeineren die Form  $F:\mathbb{R}^m -> \mathbb{R}^1$, und bildet ein $m$-Eigenschaften umfassendes Tupel $x_i$ auf einen Wert $y_i$ ab. 
 
 Bezogen auf das Beispiel \ref{tab:Bremsweg} hat man ein Tupel $x_i$ der Form <Geschwindigkeit,Gewicht> und weiterhin einen dazugehörigen Bremsweg $y_i$. Wir suchen eine Funktion $F(x_i) \approx y_i$. 
@@ -61,7 +61,7 @@ Wobei $x^n_i$ die $n$-te Komponente des $i$-ten Elementes darstellt. $x^0$ ist e
 
 
 ~\newline Für dieses Modell, bzw. allgemein für alle Modelle dieser Form kann ebenfalls der MSE berechnet und minimiert werden, um eine optimale Gewichtsmatrix zu erzeugen. Die genauen mathematischen Verfahren hierfür finden sich z.B. im Vorlesungsskript von Prof. Stroetmann \cite{stroetmann} Kapitel 5 Abschnitt 2 und Unterabschnitte.
-\subsection{Bewertung der Linearen Regression}
+\subsection{Bewertung der linearen Regression}
 \label{subsec:LinRegAcc}
 Um die statistische Aussagekraft des Modells zu bewerten, eignet sich ein \textbf{F-Test} (\cite{stroetmann} S. 86 Absatz 1), dieser ist definiert durch die Formel:
 \begin{equation}
@@ -75,7 +75,7 @@ Die $\mathtt{F}$-Statistik ist Fisher-Snedecor-verteilt mit $p-1$ Freiheitsgrade
 \end{equation}
 $\mathtt{TSS}$ wird hierbei als die \textit{Total Sum of Squares} bezeichnet, $\mathtt{RSS}$ für die \textit{Residual Sum of Squares}. (Weiterführend: \cite{stroetmann} S. 77 Absatz 4f). 
 
-~\newline Dieser Test ist dahingehend notwendig, da ein simples Vergleichen der Modell-Schätzung (immer) von den echten Werten abweicht. Innerhalb des F-Testes werden ebenfalls die Varianz der Grundgesamtheit in Relation zur Varianz der Modell-Werte betrachtet, um ein aussagekräftiges Ergebnis zu erzielen.
+~\newline Dieser Test ist dahingehend notwendig, da ein simples Vergleichen der Modellschätzung (immer) von den echten Werten abweicht. Innerhalb des F-Testes werden ebenfalls die Varianz der Grundgesamtheit in Relation zur Varianz der Modellwerte betrachtet, um ein aussagekräftiges Ergebnis zu erzielen.
 
 
 ~\newline \textit{Anmerkung:} Für die Bewertung eines ML-Algorithmus, welcher lediglich eine einzelne Variable vorhersagt, ist ein Test auf den $r^2$-Wert ausreichend. 

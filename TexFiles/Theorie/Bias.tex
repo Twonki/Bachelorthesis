@@ -20,7 +20,7 @@ Fehler aufgrund von Verzerrung und Fehler aufgrund von [natürlicher] Varianz. E
 ~\newline Die \textbf{Varianz} (engl. Variance) ist der Fehler ausgehend von der Empfindlichkeit auf kleinere Schwankungen in den Trainingsdaten. Eine hohe Varianz verursacht \textbf{Überanpassung}: es wird das Rauschen in den Trainingsdaten statt der vorgesehenen Ausgabe modelliert.
 
 
-~\newline In diese Abschnitt wird zuerst das Bias-Variance-Dilemma vorgestellt und anschließend kurz verschiedene Formen von \textit{Bias}. 
+~\newline In diesem Abschnitt wird zuerst das Bias-Variance-Dilemma vorgestellt und anschließend kurz verschiedene Formen von \textit{Bias}. 
 
 Diese Abweichungen spielen in allen Formen des Machine-Learnings und in der Auswahl der Trainingsdaten eine wichtige Rolle (vgl. \cite{BiasTypes} Absatz 1 ) und werden in den entsprechenden Algorithmen berücksichtigt. Die nachfolgenden Arten von Bias stellen Überbegriffe dar - v.A. im Bereich der Psychologie wird deutlich genauer unterschieden.
 \paragraph{Bias-Variance-Dilemma} ~\newline
@@ -51,16 +51,20 @@ Wählt man die Komplexität \textit{zu niedrig}, so wird der Sachverhalt nicht v
 ~\newline Nachdem das Bias-Variance-Dilemma vorgestellt wurde, werden nun verschiedene Arten von Varianz und Bias vorgestellt, die für die Auswahl und Filterung der Trainingsdaten ebenfalls eine Rolle spielen:
 \paragraph{Natürliche Varianz} ~\newline Je nach Art und Gestalt der Erhebung können systematische Schwankungen der Werte auftreten. Diese stellen natürliche Verhältnisse dar, da kein perfektes Modell erfasst werden kann. 
 
-Als Beispiel sei die Messung der Zimmertemperatur genannt: Zwei Thermometer können im selben Raum unterschiedliche Ergebnisse liefern - etwa weil sie auf unterschiedlichen Höhen befestigt sind oder eines im Windzug liegt. Es ist im Allgemeinen nicht möglich, ein perfektes Modell zu erstellen welches alle Faktoren berücksichtigt.
+Als Beispiel sei die Messung der Zimmertemperatur genannt: Zwei Thermometer können im selben Raum unterschiedliche Ergebnisse liefern - etwa weil sie auf unterschiedlichen Höhen befestigt sind oder eines im Windzug liegt. Es ist im Allgemeinen nicht möglich, ein perfektes Modell zu erstellen, welches alle Faktoren berücksichtigt.
 
-Die Natürliche Varianz ist als Hauptgrund zu nennen, warum in jedem (modernen) Machine-Learning Algorithmus eine Abweichung berücksichtigt ist.
+Die natürliche Varianz ist als Hauptgrund zu nennen, warum in jedem (modernen) Machine-Learning Algorithmus eine Abweichung berücksichtigt ist.
 
-~\newline Insbesondere ist  zu betonen, das die Genauigkeit eines Models, welches auf Machine-Learning beruht, nie höher sein kann als die Varianz der zugrunde liegenden Trainings-Daten. Ein Modell kann lediglich erreichen, die selbe bzw. eine ähnliche Varianz zu simulieren.
+~\newline Insbesondere ist  zu betonen, das die Genauigkeit eines Models, welches auf Machine-Learning beruht, nie höher sein kann als die Varianz der zugrunde liegenden Trainingsdaten. Ein Modell kann lediglich erreichen, die selbe bzw. eine ähnliche Varianz zu simulieren.
 
-~\newline Neben diesen \textit{harten} Kriterien, gibt es noch zwei Arten von Verzerrung, die mit der Auswahl der Trainingsdaten einhergehen. Da diese nicht über technische Maßnahmen ausgeglichen werden können, werden diese gesondert vorgestellt:
-\paragraph{Selection Bias} ~\newline  Unter der Selektionsverzerrung versteht man einen Fehler der Ergebnisse, welcher durch die Auswahl einer \textbf{nicht repräsentativen} Stichprobe entsteht (vgl. \cite{SelectionBias} Definition). Ein Beispiel einer Selektionsverzerrung tritt auf, wenn Anhand der Umfragen auf einer Messe für vegane Ernährung die Ernährungsgewohnheiten aller Deutscher interpretiert wird. 
+~\newline Neben diesen \textit{harten} Kriterien gibt es noch zwei Arten von Verzerrung, die mit der Auswahl der Trainingsdaten einhergehen. Da diese nicht über technische Maßnahmen ausgeglichen werden können, werden diese gesondert vorgestellt:
+\paragraph{Selection Bias} ~\newline  Unter der Selektionsverzerrung versteht man einen Fehler der Ergebnisse, welcher durch die Auswahl einer \textbf{nicht repräsentativen} Stichprobe entsteht (vgl. \cite{SelectionBias} Definition). Ein Beispiel einer Selektionsverzerrung tritt auf, wenn anhand der Umfragen auf einer Messe für vegane Ernährung die Ernährungsgewohnheiten aller Deutschen interpretiert wird. 
 
 ~\newline  Im Gegensatz dazu wäre diese Stichprobe sehr wohl geeignet, die Ernährung deutscher Veganer zu beurteilen.  
 
 ~\newline Eine besondere Art des Selection Bias stellt der Confirmation-Bias dar:
-\paragraph{Confirmation Bias} ~\newline  Unter dem \textit{Confirmation Bias} (dt. Bestätigungsfehler) versteht man mehrere psychologische Aspekte die zu einer Verzerrung der Ergebnisse durch den Prüfer führen (vgl. \cite{ConfirmationBias} S. 21 Absatz 5 und S. 22 Absatz 1f). Im Wesentlichen bezieht sich diese Abweichung darauf, das unbewusst Ergebnisse so interpretiert werden um bestehende Meinungen zu bestätigen. Dies wird hauptsächlich über zwei Mechanismen erreicht: Die Interpretation nicht-übereinstimmender Ergebnisse und Daten als Fehlerhaft, sowie eine überproportionale Gewichtung übereinstimmender Ergebnisse. Hierzu gehört ebenfalls die explizite Suche nach Ergebnissen welche eine Hypothese bestätigen, ohne dieselbe Sorgfalt der Gegenhypothese zukommen zu lassen. 
+\paragraph{Confirmation Bias} ~\newline  Unter dem \textit{Confirmation Bias} (dt. Bestätigungsfehler) versteht man mehrere psychologische Aspekte, die zu einer Verzerrung der Ergebnisse durch den Prüfer führen (vgl. \cite{ConfirmationBias} S. 21 Absatz 5 und S. 22 Absatz 1f). 
+
+Im Wesentlichen bezieht sich diese Abweichung darauf, das unbewusst Ergebnisse so interpretiert werden, um bestehende Meinungen zu bestätigen. Dies wird hauptsächlich über zwei Mechanismen erreicht: 
+
+Die Interpretation nicht-übereinstimmender Ergebnisse und Daten als fehlerhaft, sowie eine überproportionale Gewichtung übereinstimmender Ergebnisse. Hierzu gehört ebenfalls die explizite Suche nach Ergebnissen welche eine Hypothese bestätigen, ohne dieselbe Sorgfalt der Gegenhypothese zukommen zu lassen. 

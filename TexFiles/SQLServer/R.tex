@@ -1,12 +1,12 @@
 \section{Programmiersprache R}
 \label{sec:R}
-Die Sprache R stellt vor Allem für Statistiker und Psychologen ein Standard-Tool dar, dennoch ist sie auch bei Data-Scientisten beliebt für ihre vielseitigen Plot- und Modellierungs-Möglichkeiten. Im Rahmen dieser Arbeit wurden alle Modelle mithilfe von R erstellt, was innerhalb dieses Abschnittes vorgestellt wird:
+Die Sprache R stellt vor allem für Statistiker und Psychologen ein Standard-Tool dar, dennoch ist sie auch bei Data-Scientisten beliebt für ihre vielseitigen Plot- und Modellierungs-Möglichkeiten. Im Rahmen dieser Arbeit wurden alle Modelle mithilfe von R erstellt, was innerhalb dieses Abschnittes vorgestellt wird:
 
-~\newline R ist eine Sprache sowie eine Entwicklungsumgebung für statistische Berechnungen und Grafiken. R ist ein GNU-Projekt und beruht auf der Sprache $S$, welche von John Chambers et al. entwickelt wurde. R stellt eine Implementation von S dar (vgl. \cite{RProject} Absatz 1) und liegt als Open Source Projekt vor.
+~\newline R ist eine Sprache, sowie eine Entwicklungsumgebung für statistische Berechnungen und Grafiken. R ist ein GNU-Projekt und beruht auf der Sprache $S$, welche von John Chambers et al. entwickelt wurde. R stellt eine Implementation von S dar (vgl. \cite{RProject} Absatz 1) und liegt als Open Source Projekt vor.
 
-~\newline R bietet eine große Bandbreite an statistischen Funktionen (z.B. Lineare und Nichtlineare Regression, Klassifikation und Signifikanztests) sowie grafische Aufbereitungen dieser und ist hochgradig Modular (vgl. \cite{RProject} Absatz 2). 
+~\newline R bietet eine große Bandbreite an statistischen Funktionen (z.B. lineare und nichtlineare Regression, Klassifikation und Signifikanztests) sowie grafische Aufbereitungen dieser und ist hochgradig modular (vgl. \cite{RProject} Absatz 2). 
 
-~\newline Die größten Stärken von R liegen neben der einfachen Anwendung statistischer Funktionen in der Aufbereitung als Plots. R erzeugt schnell verständliche Grafiken der Daten, bieten erfahrenen Nutzern allerdings viele Optionen exakt benötigte Darstellungen zu erzeugen. 
+~\newline Die größten Stärken von R liegen neben der einfachen Anwendung statistischer Funktionen in der Aufbereitung als Plots. R erzeugt schnell verständliche Grafiken der Daten, bieten erfahrenen Nutzern allerdings viele Optionen, exakt benötigte Darstellungen zu erzeugen. 
 
 \paragraph{ R Umfeld} 
 R umfasst folgende integrierte Dienste (Siehe \cite{RProject} Absatz 5f):
@@ -17,7 +17,7 @@ R umfasst folgende integrierte Dienste (Siehe \cite{RProject} Absatz 5f):
 	\item Eine Programmiersprache, welche auf Bedingungen, Schleifen und nutzerdefinierte Funktionen eingeht
 \end{enumerate}
 
-Für rechen- und Zeitintensive Operationen kann zusätzlich C und C++ Code zur Laufzeit eingebunden werden. Ebenso kann man mit C direkt Objekte manipulieren. 
+Für rechen- und zeitintensive Operationen kann zusätzlich C und C++ Code zur Laufzeit eingebunden werden. Ebenso kann man mit C direkt Objekte manipulieren. 
 
 ~\newline Die Funktionalitäten von R können über ein Paket-System erweitert werden. Das wichtigste Paket innerhalb dieser Arbeit stellt \textit{RevoScaleR} dar, welches eine persistente Speicherung von Datenobjekten in Datenbanken und Files ermöglicht. 
 
@@ -26,18 +26,18 @@ Die wichtigste Besonderheit in R ist, das jedes Objekt als Vektor aufgefasst wir
 
 ~\newline Vektoren können für arithmetische Ausdrücke verwendet werden, in diesem Fall werden die Operationen Element für Element ausgeführt. Zwei Vektoren, welche in einer Anweisung vorkommen, müssen nicht die selbe Länge besitzen. Falls dies nicht der Fall ist, ist die Ausgabe der Anweisung ein Vektor der Länge des längsten Vektors. Die kürzen Vektoren werden solange wiederholt, bis sie die Länge des längsten Vektors erreicht haben.
 
-Insbesondere konstanten werden auf jedes Element angewendet (vgl. \cite{RIntro} Seite 13 Abschnitt 2.2 \textit{Vektorarithmetik} Absatz 1).
+Insbesondere Konstanten werden auf jedes Element angewendet (vgl. \cite{RIntro} Seite 13 Abschnitt 2.2 \textit{Vektorarithmetik} Absatz 1).
 
-~\newline Diese Eigenschaft der Vektoren ist vor dem Hintergrund, mit Datenbanken zu arbeiten ein zweischneidiges Schwert: Zum einen werden die Operationen und Anweisungen sehr \textit{einfach} und Übersichtlich (Hilfsstrukturen für Schleifen entfallen), allerdings bringt v.A. die Wiederholung der kleineren Vektoren erhebliche Fehlerquellen mit sich. 
+~\newline Diese Eigenschaft der Vektoren ist vor dem Hintergrund mit Datenbanken zu arbeiten, ein zweischneidiges Schwert: Zum Einen werden die Operationen und Anweisungen sehr \textit{einfach} und übersichtlich (Hilfsstrukturen für Schleifen entfallen), allerdings bringt v.a. die Wiederholung der kleineren Vektoren erhebliche Fehlerquellen mit sich. 
 
 ~\newline Ein Faktor ist ein Vektor mit einem fest definierten Wertebereich (z.B. ein Charakter-Vektor, Siehe auch \cite{RIntro} Kapitel 4 \textit{Ordered and Unordered Factors} Absatz 1).
 
-~\newline Ein \textit{Array} stellt in R eine Kombination aus einem Wert-Vektor und einem Dimensions-Vektor dar. Die Dimension gibt hierbei eine Form für den Wert-Vektor vor, und bestimmt in welcher Reihenfolge und ggfs. mit welchen Eigenschaften Operationen ausgeführt werden. Für arithmetische Operationen zweier Arrays wird ebenfalls die o.G. \textit{Recycling Rule} angewendet. Im Falle einer Anweisung eines Arrays und eines Vektors, wird zunächst versucht aus dem Vektor ein Array derselben Dimension zu erzeugen. Eine Matrix stellt ein zweidimensionales Array dar. 
+~\newline Ein \textit{Array} stellt in R eine Kombination aus einem Wert-Vektor und einem Dimensions-Vektor dar. Die Dimension gibt hierbei eine Form für den Wert-Vektor vor, und bestimmt in welcher Reihenfolge und ggfs. mit welchen Eigenschaften Operationen ausgeführt werden. Für arithmetische Operationen zweier Arrays wird ebenfalls die o.G. \textit{Recycling Rule} angewendet. Im Falle einer Anweisung eines Arrays und eines Vektors, wird zunächst versucht, aus dem Vektor ein Array derselben Dimension zu erzeugen. Eine Matrix stellt ein zweidimensionales Array dar. 
 
 ~\newline Ein \textit{Data-Frame} stellt eine besondere Form einer Liste dar, die folgende Eigenschaften erfüllen muss (Siehe \cite{RIntro} Abschnitt 6.3 \textit{Data-Frames} Absatz 1f): 
 \begin{enumerate}
-	\item Ein Data-Frame darf lediglich Vektoren, Matrizen, Faktoren und Data-Frames enthalten
-	\item Alle Vektoren und Faktoren des Data-Frames müssen die selbe Länge besitzen, Matrizen zusätzlich eine einheitliche Breite
-	\item Charakter- und String-Vektoren werden zu Faktoren vereinfacht
+	\item Ein Data-Frame darf lediglich Vektoren, Matrizen, Faktoren und Data-Frames enthalten.
+	\item Alle Vektoren und Faktoren des Data-Frames müssen die selbe Länge besitzen, Matrizen zusätzlich eine einheitliche Breite.
+	\item Charakter- und String-Vektoren werden zu Faktoren vereinfacht.
 \end{enumerate} 
 Data-Frames sind dahingehend wichtig, da eine Tabelle aus dem SQL-Server als Data-Frame interpretiert wird. 

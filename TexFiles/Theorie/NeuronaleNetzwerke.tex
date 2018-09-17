@@ -1,9 +1,9 @@
 \newpage
 \section{Neuronale Netzwerke}
 \label{sec:NN}
-Dieser Abschnitt widmet sich den Konzepten künstlicher Neuronaler Netze. Als Hauptquelle dient der Artikel \textit{Building a Neural Network from Scratch} von David Selby \cite{SelbyNN} sowie die Vorlesung \textit{Artificial Intelligence} von Dr. Stroetmann \cite{stroetmann}.
+Dieser Abschnitt widmet sich den Konzepten künstlicher neuronaler Netze. Als Hauptquelle dient der Artikel \textit{Building a neural network from scratch} von David Selby \cite{SelbyNN} sowie die Vorlesung \textit{Artificial Intelligence} von Dr. Stroetmann \cite{stroetmann}.
 
-~\newline Neuronale Netze erhielten ihren Namen, da man zu Beginn der Forschung dachte, dass das menschliche Gehirn wie ein \textit{computational Graph} funktionierte. Diese These wurde biologisch weitgehend widerlegt und deswegen werden die Neuronalen Netze der Informatik mit dem Zusatz \textit{künstlich} markiert. 
+~\newline Neuronale Netze erhielten ihren Namen, da man zu Beginn der Forschung dachte, dass das menschliche Gehirn wie ein \textit{computational graph} funktionierte. Diese These wurde biologisch weitgehend widerlegt und deswegen werden die neuronalen Netze der Informatik mit dem Zusatz \textit{künstlich} markiert. 
 
 ~\newline Im Folgenden wird zunächst der Aufbau des Modells und anschießend das Training vorgestellt.
 \subsection{Modell künstlicher neuronaler Netze}
@@ -22,16 +22,18 @@ Im Rahmen der Informatik äußert sich diese Neuronen-Logik durch eine Aktivieru
 \begin{figure}[h]
 \begin{center}
 	\includegraphics[width=0.9\linewidth]{Bilder/petry19}
-	\caption[Modell eines Neuronalen Netzwerkes: \url{
-		http://www.jurpc.de/jurpc/show?id=19990187}]{Modell eines Neuronalen Netzwerkes}
+	\caption[Modell eines neuronalen Netzwerkes: \url{
+		http://www.jurpc.de/jurpc/show?id=19990187}]{Modell eines neuronalen Netzwerkes}
 	\label{fig:NN-Modell}
 \end{center}
 \end{figure}
-~\newline Diese Neuronen werden zu einen Graphen, welche sich als \textit{Schichten} anordnen. Jedes Neuron einer Schicht erhält Eingaben von jedem Neuron der vorhergehenden. Diese Eingaben werden zusätzlich Gewichtet. 
+~\newline Diese Neuronen werden zu einen Graphen, welche sich als \textit{Schichten} anordnen. 
 
-~\newline Die Eingabe in das Neuronale Netzwerk erfolgt über den Inputlayer, welcher keine Aktivierungsfunktion hat. Die Ausgabe des Neuronalen Netzwerkes erfolgt in der sog. Ausgabeschicht, welche je nach Art des Netzes einen (für Regressionen), zwei (für binäre Klassifikationen) oder $n$ (für n-Klassen Multiklassifikation) Knoten besitzt.
+Jedes Neuron einer Schicht erhält Eingaben von jedem Neuron der vorhergehenden. Diese Eingaben werden zusätzlich gewichtet. 
 
-Die Neuronen zur Berechnung befinden sich in den \textit{Hidden Layers}. Gibt es mehr als einen Hidden-Layer spricht man von einem \textit{Deep Neuronal Network}\footnote{Grund hierfür ist die Funktion der tieferen Schichten - Anstatt nur die Eingabe zu gewichten, werden hier weitere Features erkannt bzw. erzeugt, welche nur für den Algorithmus erkennbar sind}. Dieses vollständige Modell zeigt Abbildung \ref{fig:NN-Modell}.
+~\newline Die Eingabe in das neuronale Netzwerk erfolgt über den Inputlayer, welcher keine Aktivierungsfunktion hat. Die Ausgabe des neuronalen Netzwerkes erfolgt in der sog. Ausgabeschicht, welche je nach Art des Netzes einen (für Regressionen), zwei (für binäre Klassifikationen) oder $n$ (für n-Klassen Multiklassifikation) Knoten besitzt.
+
+Die Neuronen zur Berechnung befinden sich in den \textit{Hidden Layers}. Gibt es mehr als einen Hidden-Layer spricht man von einem \textit{deep neuronal network}\footnote{Grund hierfür ist die Funktion der tieferen Schichten - Anstatt nur die Eingabe zu gewichten, werden hier weitere Features erkannt bzw. erzeugt, welche nur für den Algorithmus erkennbar sind.}. Dieses vollständige Modell zeigt Abbildung \ref{fig:NN-Modell}.
 
 ~\newline Um das Modell zu trainieren, muss ebenfalls der Fehler der Schätzung minimiert werden. Hierbei werden die Konzepte der linearen und logistischen Regression verwendet, jedoch mit dem Zusatz, das anstatt eines einzelnen Gewichtsvektors eine Gewichtsmatrix angepasst werden muss. 
 \subsection{Forward Propagation}
@@ -43,13 +45,13 @@ Die \textit{Rückwärtsausrichtung} bezeichnet den Algorithmus, welcher die Gewi
 
 Hierbei wird in gleichem Maße wie in der logistischen Regression vorgegangen, mit dem Unterschied, dass die Gewichte in einer Matrix vorliegen. 
 
-Die Eigenschaften der Aktivierungsfunktionen bezüglich ihrer Ableitung finden hier im besonderen Maße Anwendung, denn um von der Ausgabeschicht auf den letzten Hidden-Layer nachzujustieren benötigt man die erste Ableitung. Um auf den nächsten Hidden Layer einfluss zu nehmen, muss die zweite Ableitung gebildet werden (usw.). Eine mathematische Ausarbeitung findet sich unter \cite{colah} \textit{Computational Victories}.
+Die Eigenschaften der Aktivierungsfunktionen bezüglich ihrer Ableitung finden hier im besonderen Maße Anwendung, denn um von der Ausgabeschicht auf den letzten Hidden-Layer nachzujustieren, benötigt man die erste Ableitung. Um auf den nächsten Hidden Layer Einfluss zu nehmen, muss die zweite Ableitung gebildet werden (usw.). Eine mathematische Ausarbeitung findet sich unter \cite{colah} \textit{Computational Victories}.
 \subsection{Training}
-Das Training bezeichnet den (iterativen) Prozess, mit den vorliegenden Trainingsdaten zunächst Forward-Propagation durchzuführen, und anschließend mittels Backward Propagation das Netz auszurichten. 
+Das Training bezeichnet den (iterativen) Prozess, mit den vorliegenden Trainingsdaten zunächst Forward-Propagation durchzuführen, um anschließend mittels Backward Propagation das Netz auszurichten. 
 
 ~\newline Der Umfang dieses Trainings bleibt dem Anwender überlassen. Es ist möglich, bessere Ergebnisse zu erzielen, indem man mit denselben Daten häufiger trainiert. Einen solchen wiederholten Trainingsdurchlauf nennt man eine \textbf{Epoche}. 
-\subsection{Bewertung des Neuronalen Netzes}
-Die Bewertung des Neuronalen Netzes erfolgt, je nach Art des Ergebnisses, analog wie die der Linearen oder Logistischen Regression. 
+\subsection{Bewertung des neuronalen Netzes}
+Die Bewertung des neuronalen Netzes erfolgt, je nach Art des Ergebnisses, analog wie die der linearen oder logistischen Regression. 
 \subsection{Einflüsse auf den Trainingserfolg}
 Zum Abschluss dieses Abschnittes werden noch einmal die \textit{Stellschrauben} vorgestellt, anhand derer Änderungen des Trainingserfolges erzielt werden können. 
 
