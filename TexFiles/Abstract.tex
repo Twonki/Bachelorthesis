@@ -1,7 +1,9 @@
 \chapter*{Abstract} %*-Variante sorgt dafür, das Abstract nicht im Inhaltsverzeichnis auftaucht
-This Thesis gives an overview and examples about machine learning in SQL Server 2017 using Neural Networks, with the goal to predict use-cases regarding NYC-Taxidata, such as predicting the tip-amount of a ride or estimate total rides for a certain location and hour.  
+This thesis gives an overview and examples about machine learning in SQL Server 2017 using neural networks. 
 
-~\newline Goals of this thesis are to explain main-components necessary for Neural Networks as well as its use and representation in the SQL-Server with the programming language R. 
+~\newline Goals of this thesis are to explain main-components necessary for neural networks as well as their use and representation in the SQL-Server with the programming language R, to predict use-cases about NYC-Taxidata. 
+
+The use-cases are predicting the tip-amount of a ride, guessing the taxirate, estimate total rides for a certain location, guess the passengercount of a ride and estimate the revenue made per location and hour.
 
 ~\newline Contents of this work cover general regression and classification as basis for neural networks, explanation and examples for the implementation of neural networks in the SQL Server with R, a case study of several usecases using NYC Taxi-Data including performancetuning and summarized best practices working with neural networks in R. 
 ~\newline
@@ -11,18 +13,21 @@ This Thesis gives an overview and examples about machine learning in SQL Server 
 		\textbf{title:} &\quad Machine-Learning and Prognosis \\
 		\textbf{author:}  &\quad Leonhard Applis \\
 		\textbf{matriculation number:} &\quad 2086307 \\
-		\textbf{class:} &\quad TINF15/AI-BI \\
-		\textbf{supervisor DHBW:} &\quad \betreuerdhbw \\
+		\textbf{class:} &\quad TINF15AIBI \\
 		\textbf{supervisor Atos:} & \quad \betreuerfirma \\
+		\textbf{reviewer DHBW:} &\quad \betreuerdhbw \\
 		[6ex]%formerly 5ex
 	\end{tabular} 
 \end{flushleft}
 
 
 \chapter*{Kurzfassung} 
-Diese Bachelorarbeit gibt einen Überblick und Beispiele für Machine-Learning im SQL Server 2017 unter Verwendung Neuronaler Netze, mit dem Ziel verschiedene Prognosemodelle für ein New-Yorker Taxiunternehmen zu erstellen, wie etwa die Vorhersage des Trinkgeldes einer einzelnen Fahrt oder die Schätzung des Fahrtenaufkommens einer bestimmten Gegend. 
+Diese Bachelorarbeit gibt einen Überblick und Beispiele für Machine-Learning im SQL Server 2017 unter Verwendung neuronaler Netze.
 
-~\newline Ziel dieser Arbeit ist eine Vorstellung der Hauptkomponenten eines Neuronalen Netzes sowie seiner Repräsentation, Erstellung und Benutzung innerhalb des SQL Servers mit der Programmiersprache R.  
+
+~\newline Ziel dieser Arbeit ist eine Vorstellung der Hauptkomponenten eines neuronalen Netzes sowie seiner Repräsentation, Erstellung und Benutzung innerhalb des SQL Servers mit der Programmiersprache R, um verschiedene Prognosemodelle für ein New-Yorker Taxiunternehmen zu erstellen.
+
+Die Prognosen behandeln die Schätzung des Trinkgeldes einer Fahrt, eine Erkennung der Taxi-Rate, eine Schätzung des Fahrtenaufkommens einer Gegend zu gegebener Zeit, ein Erkennen der Passagieranzahl einer Fahrt sowie eine Schätzung des Umsatzes anhand eines Ortes zu gegebenen Zeit.  
 
 ~\newline Inhalte dieser Arbeit sind Regressions- und Klassifikationsalgorithmen als Basis zur Erklärung neuronaler Netze, Erklärungen und Implementation von neuronalen Netzen im SQL-Server mit R, eine Fallstudie anhand mehrerer Use-Cases für New Yorker Taxidaten inklusive Performanzverbesserungen und Best-Practices bei der Arbeit mit neuronalen Netzen im SQL-Server.
 ~\newline
@@ -33,8 +38,7 @@ Diese Bachelorarbeit gibt einen Überblick und Beispiele für Machine-Learning i
 		Author:& \quad Leonhard Applis \\
 		Matrikelnummer: & \quad \matrikelnr  \\
 		Kurs: & \quad \kurs \\ 
-		Betreuer der Dualen Hochschule: & \quad \betreuerdhbw \\ 
-		Betreuer der Firma: & \quad \betreuerfirma \\
+		Betreuer der Firma: & \quad \betreuerfirma \\	Gutachter der Dualen Hochschule: & \quad \betreuerdhbw \\ 
 		[6ex]%formerly 5ex	
 	\end{tabular} 
 \end{flushleft}

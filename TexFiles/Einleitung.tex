@@ -5,11 +5,11 @@
 
 Dieses Zitat zählt wohl zu den bekanntesten der Filmgeschichte, und markiert einen der ersten bühnenreifen Auftritte \textit{künstlicher Intelligenz}. Neben österreichischen Bodybuildern beschäftigt dieses Thema seit bald einem Jahrhundert Wissenschaftler, Ethiker und Science-Fiction-Fans gleichermaßen. Was vor zwei Jahrzehnten noch genauso fantasievoll wie schwebende Autos klang, wird in den Softwareschmieden des 21. Jahrhunderts Wirklichkeit: 
 
-Künstliche Intelligenzen besiegen Schachprofis, organisieren unsere Kalender, analysieren Bilder und helfen Pandemien einzudämmen. Neben diesen bahnbrechenden Erfolgen gibt es auch weiterhin vielversprechende Forschung auf diesem Themengebiet, zum Beispiel computergesteuerte Autos. Aber was ist künstliche Intelligenz eigentlich?
+Künstliche Intelligenzen besiegen Schachprofis, organisieren unsere Kalender, analysieren Bilder und helfen Pandemien einzudämmen. Neben diesen bahnbrechenden Erfolgen gibt es auch weiterhin vielversprechende Forschung in diesem Themengebiet, zum Beispiel computergesteuerte Autos. Aber was ist künstliche Intelligenz eigentlich?
 
-~\newline Der Begriff der künstlichen Intelligenz ist sehr weit gefächert - ein Kernelement davon stellt das \textit{Machine Learning} dar. Dieser Bereich, der sich auf die Erstellung von Modellen anhand von Trainingsdaten stützt, hat in den letzten Jahren durch \textit{Neuronale Netze} stark an Bedeutung gewonnen. Die Gründe hierfür sind vielseitig, dennoch sind zwei im Besonderen zu nennen: Zum Einen sind Computer deutlich leistungsfähiger geworden, und Aufgaben die früher einen Supercomputer benötigten, sind heute durch ein Smartphone umsetzbar. Zum Anderen sind deutlich mehr Bereiche digitalisiert, und die gewonnenen Daten detaillierter. 
+~\newline Der Begriff der künstlichen Intelligenz ist sehr weit gefächert - ein Kernelement davon stellt das \textit{Machine Learning} dar. Dieser Bereich, der sich auf die Erstellung von Modellen anhand von Trainingsdaten stützt, hat in den letzten Jahren durch \textit{neuronale Netze} stark an Bedeutung gewonnen. Die Gründe hierfür sind vielseitig, dennoch sind zwei im Besonderen zu nennen: Zum Einen sind Computer deutlich leistungsfähiger geworden, und Aufgaben die früher einen Supercomputer benötigten, sind heute durch ein Smartphone umsetzbar. Zum Anderen sind deutlich mehr Bereiche digitalisiert, und die gewonnenen Daten detaillierter. 
 
-~\newline Genau diesem Themengebiet widmet sich diese Bachelorarbeit: Machine-Learning und explizit Neuronalen Netzen. 
+~\newline Genau diesem Themengebiet widmet sich diese Bachelorarbeit: Machine-Learning und explizit neuronalen Netzen. 
 \section{Ziel der Arbeit}
 \label{sec:ZielDerArbeit}
 Die Ziele dieser Arbeit sind es, ein Grundverständnis für Machine-Learning Algorithmen zu schaffen und dem Leser die Möglichkeit zu geben, diese mit dem SQL-Server 2017 selbst umzusetzen. 
@@ -23,7 +23,7 @@ Ebenfalls wird ein detailliertes Fallbeispiel mit Versuchsaufbau und Ergebnissen
 Zudem werden weder Grundlagen der Sprachen SQL und R, noch die Vorbereitung des Fallbeispiels geschildert.
 
 \section{Aufbau der Arbeit}
-Kapitel \ref{cha:Theorie} dieser Arbeit bildet die Theorie zu modernen Ansätzen des Machine Learnings. Es werden die Algorithmen für lineare Regression, logistische Regression sowie Neuronale Netzwerke detailliert vorgestellt (In Reihenfolge der Nennung). Dieses Kapitel stellt einen rein theoretischen Teil der Arbeit dar, und beinhaltet keine Umsetzung der Algorithmen als Programme.
+Kapitel \ref{cha:Theorie} dieser Arbeit bildet die Theorie zu modernen Ansätzen des Machine-Learnings. Es werden die Algorithmen für lineare Regression, logistische Regression sowie neuronale Netzwerke detailliert vorgestellt (In Reihenfolge der Nennung). Dieses Kapitel stellt einen rein theoretischen Teil der Arbeit dar, und beinhaltet keine Umsetzung der Algorithmen als Programme.
 
 ~\newline Darauf aufbauend  werden in Kapitel \ref{cha:SQLServer} zunächst Grundlagen zu Microsofts SQL-Server 2017 und R geklärt, anschließend liegt der Schwerpunkt des Kapitels auf der Umsetzung von Machine-Learning Algorithmen in R. Innerhalb des Abschnittes \ref{sec:MLSQL} finden sich Codebeispiele zu Prognosemodellen in T-SQL und R.
 
@@ -31,7 +31,7 @@ Kapitel \ref{cha:Theorie} dieser Arbeit bildet die Theorie zu modernen Ansätzen
 
 In Abschnitt \ref{sec:Daten} werden die Stammdaten des Taxiunternehmens und die Wetterdaten in Eigenschaften, Umfang und Bedeutung für Machine Learning dargestellt. 
 
-~\newline Hauptteil des Kapitels \ref{cha:Taxis} bilden die Abschnitte \ref{sec:TipPred} bis \ref{sec:PasPred}, welche die Erstellung, Verwendung und Bewertung verschiedener Neuronaler Netze behandeln. 
+~\newline Hauptteil des Kapitels \ref{cha:Taxis} bilden die Unterabschnitte \ref{sec:TipPred} bis \ref{sec:PasPred}, welche die Erstellung, Verwendung und Bewertung verschiedener neuronaler Netze behandeln. Anschließend werden in Abschnitt \ref{BestPractices} die Best Practices im Umgang mit neuronalen Netzen im SQL-Server vorgestellt.
 
 ~\newline Abschluss der Arbeit bildet in Kapitel \ref{cha:Fazit} ein Fazit über die Qualität der Prognosen unter Berücksichtigung der Komplexität einzelner Teilaufgaben.
 \section{Voraussetzungen an den Leser}
@@ -41,8 +41,8 @@ Innerhalb dieses Punktes werden die Kenntnisse abgesteckt, die der Leser für da
 \begin{itemize}
 	\item \textbf{Mehrdimensionale Algebra:} Im Rahmen dieser Arbeit werden komplexe Algorithmen und Konzepte der mehrdimensionalen Algebra benötigt. 
 	
-	Schwerpunkte liegen hier v.A. auf dem Lösen von mehrdimensionalen Gleichungen und Matrixoperationen. Der Umfang hierbei entspricht dem Besuch der Vorlesung \textit{Mathematik II}. \todo{Literaturempfehlung Lin.Alg}
-	\item \textbf{Stochastik:}  Zur Bewertung der Algorithmen werden tiefere Kenntnisse der Stochastik und Statistik benötigt. Die benötigten Schwerpunktthemen sind Verteilungsfunktionen, Hypothesentests und Korrelation. \todo{Literaturempfehlung Stochastik/Statistik}
+	Schwerpunkte liegen hier v.A. auf dem Lösen von mehrdimensionalen Gleichungen und Matrixoperationen.
+	\item \textbf{Stochastik:}  Zur Bewertung der Algorithmen werden tiefere Kenntnisse der Stochastik und Statistik benötigt. Die benötigten Schwerpunktthemen sind Verteilungsfunktionen, Hypothesentests und Korrelation.
 	\item \textbf{R:} Die Programmiersprache R muss dem Leser im Umfang eines Basiskurses bekannt sein. Sie wird im Zuge der Arbeit verwendet, allerdings werden grundlegende Elemente nicht vorgestellt. 
 	\item \textbf{SQL:} Die Konzepte von SQL und der Dialekt von T-SQL sind in fortgeschrittenen Zügen benötigt. Die Verwendung des R-Codes innerhalb eines SQL-Servers wird im Zuge der Arbeit vorgestellt. 
 \end{itemize}
