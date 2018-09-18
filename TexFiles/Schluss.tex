@@ -8,9 +8,9 @@ Im Rahmen der Arbeit haben sich verschiedene, übergreifende Ergebnisse herauskr
 
 ~\newline Dennoch liefern diese Modelle nicht unbedingt zufriedenstellende Ergebnisse: 
 
-Entweder sind die Standard-Einstellungen nicht geeignet, oder die Aufbereitung der Daten produziert neue Fehler (z.B. wenn die Orte als ID übergeben werden, sind diese nicht faktorisiert). Auch entstehen häufig Fehler bei automatisch faktorisierten Daten, etwa weil innerhalb der Trainingsmenge eien Merkmalsausprägung gefehlt hat, welche in den Testdaten vorkommt und nicht korrekt auf den Eingabevektor übertragen werden kann. 
+Entweder sind die Standard-Einstellungen nicht geeignet, oder die Aufbereitung der Daten produziert neue Fehler (z.B. wenn die Orte als ID übergeben werden, sind diese nicht faktorisiert). Auch entstehen häufig Fehler bei automatisch faktorisierten Daten, etwa weil innerhalb der Trainingsmenge eine Merkmalsausprägung gefehlt hat, welche in den Testdaten vorkommt und nicht korrekt auf den Eingabevektor übertragen werden kann. 
 
-Fehler dieser Art zeigen sich erst bei der konkreten Anwendung des Modells auf separate Testdaten: Werden die \textit{korrumpierten} Trainingsdaten und Einstellungen in Standardeinstellungen verwendet, so zeigt das Modell bei zunehmenden Training ebenfalls Erfolg - es spiegelt nur nicht zwangsläufig ein \textit{gutes Modell} wieder.
+Fehler dieser Art zeigen sich erst bei der konkreten Anwendung des Modells auf separate Testdaten: Werden die \textit{korrumpierten} Trainingsdaten und Einstellungen in Standardeinstellungen verwendet, so zeigt das Modell bei zunehmenden Training ebenfalls Erfolg, also einen hohen $r^2$-Wert - es spiegelt nur nicht zwangsläufig ein \textit{gutes Modell} wieder.
 
 ~\newline Insofern sind die Frameworks und Standardeinstellungen zwar angenehm für den Einstieg, sollten allerdings für die Umsetzung eines Projektes genau inspiziert werden. Vor allem die Aufbereitung der Trainingsdaten und die Kontrolle des Modells sollte der Entwickler selbst übernehmen.  
 
@@ -22,7 +22,7 @@ Diesen Satz sollte man nicht unreflektiert hinnehmen - viele Änderungen, Design
 
 ~\newline Auch ist die Analyse des Datenbestandes, im Speziellen die Suche nach Anomalien, und das Design von Features im Bereich der Wissenschaft anzusiedeln. 
 
-~\newline Zwar sind viele Fortschritte, z.B. das beheben von Over- und Underfitting, experimentell entstanden, dennoch können 
+~\newline Zwar sind viele Fortschritte, z.B. das Beheben von Over- und Underfitting, experimentell entstanden, dennoch können 
 grundlegende Probleme auftreten, welche sich nicht (zeitnah) experimentell lösen lassen, im Rahmen dieser Arbeit konkret Abschnitt \ref{sec:PasPred} die Vorhersage des Passagieraufkommens und \ref{sec:RevPred} zur Schätzung des Umsatzes. Hier haben selbst umfangreiche Experimente keine Ergebnisse erzielt.
 
 ~\newline  Als letzter, großer Themenblock \textit{pro science} ist ebenfalls das Performancetuning zu nennen: 
@@ -35,7 +35,7 @@ Für andere Experimente, z.B. dem Fahrtenaufkommen, zeigten diese Einstellungen 
 
 ~\newline Große Teile sind allerdings rein experimentell - vor allem die optimale Größe der einzelnen hidden Layer zu finden, besteht im Wesentlichen aus Versuchen.
 
-~\newline Insgesamt kann zwar jedes Problem rein experimentell gelöst werden, allerdings stellt dies oft mehr einen \textit{Glückstreffer} dar. 
+~\newline Insgesamt kann zwar jede Aufgabenstellung durch Experimentieren gelöst werden, allerdings stellt dies oft mehr einen \textit{Glückstreffer} dar. 
 
 Ein Verständnis der Algorithmen, ihrer Eigenschaften und der verwendeten Funktionen ermöglicht nicht nur eine bessere Ausgangslage für das Tuning, sondern ist eine Grundvoraussetzung für die Fehleranalyse und Problembehebung. 
 
@@ -45,7 +45,7 @@ Ein Verständnis der Algorithmen, ihrer Eigenschaften und der verwendeten Funkti
 
 Erstaunlicherweise decken sich die Versuche mit \textit{guten Ergebnissen} mit den Infos, die ein Taxifahrer in NY bereitstellen könnte: Wie viele Fahrten von einem Ort ausgehen, oder wie viel Trinkgeld seine Kunden geben. Andere Fragestellungen, wie der Gesamtumsatz über NY, oder wohin die Passagiere wollen, kann ein Taxifahrer ebenfalls schwer beantworten. 
 
-~\newline Das Erstellen, Pflegen und Benutzen von neuronalen Netzen im SQL-Server gestaltet sich einfach, benötigt allerdings Zeit um Verbesserungen zu erarbeiten. Die Aufbereitung und Auswahl der Trainings- und Testdaten wird durch die Verwendung der Datenbank stark vereinfacht und ist wahrscheinlich einfacher als in anderen Umgebungen.
+~\newline Das Erstellen, Pflegen und Benutzen von neuronalen Netzen im SQL-Server gestaltet sich einfach, benötigt allerdings Zeit um Verbesserungen zu erarbeiten. Die Aufbereitung und Auswahl der Trainings- und Testdaten wird durch die Verwendung der Datenbank stark vereinfacht und ist einfacher als in anderen Umgebungen.
 
 \paragraph{Ausblick}~\newline Innerhalb der Arbeit ließen sich zwei weiterführende Themen ausmachen: 
 
@@ -53,7 +53,7 @@ Der Fokus auf Alternativen bei der Umsatzprognose sowie die Übertragung und Ver
 
 ~\newline Die Umsatzprognose stellt nach wie vor den wichtigsten Use-Case für viele Unternehmen dar, und konnte ihm Rahmen dieser Arbeit mit neuronalen Netzen nicht gelöst werden. Im Zuge einer weiteren Arbeit kann der Hauptfokus auf der Umsatzprognose liegen, und verschiedene Formen der Vorhersage benutzt und verglichen werden um Ergebnisse zu erzielen. 
 
-Möglichkeiten stellen hierbei klassische statistische Methoden dar, oder eine Vertiefung anderer technischer Ansätze wie etwa Timeseries-Datenbanken, welche auf zeitlich strukturierte Daten spezialisiert ist, oder Modellierung innerhalb einer Mehrdimensionalen-Datenbank, welche mit großen Faktoren innerhalb der Daten nativ umgeht.
+Möglichkeiten stellen hierbei klassische statistische Methoden dar, oder eine Vertiefung anderer technischer Ansätze wie etwa Timeseries-Datenbanken, welche auf zeitlich strukturierte Daten spezialisiert sind, oder Modellierung innerhalb einer Mehrdimensionalen-Datenbank, welche mit großen Faktoren innerhalb der Daten nativ umgeht.
 
 ~\newline Ein weiterer Punkt ist die Portierung der in dieser Arbeit erzeugten neuronalen Netze auf ähnliche Anwendungsgebiete, konkreter auf Taxidaten einer anderen Stadt. 
 

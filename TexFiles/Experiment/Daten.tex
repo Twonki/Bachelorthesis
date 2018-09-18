@@ -2,7 +2,7 @@
 \label{sec:Daten}
 Innerhalb dieses Abschnittes werden zunächst die Daten vorgestellt, die dem Fallbeispiel zugrunde liegen. 
 
-Die vorgestellten Daten haben bereits einen ETL-Prozess durchlaufen. Dieser besteht im Wesentlichen darin, die CSV-Dateien dahingehend aufzubereiten, das amerikanische Nummerierungen (z.B. Angabe von Dezimalzahlen mit '.' anstelle von ',') auf europäische Normen gebracht werden. Prinzipiell entfällt dieser Schritt für eine rein amerikanische Umgebung. 
+Die vorgestellten Daten haben bereits einen ETL-Prozess durchlaufen. Dieser besteht im Wesentlichen darin, die CSV-Dateien dahingehend aufzubereiten, dass amerikanische Nummerierungen (z.B. Angabe von Dezimalzahlen mit '.' anstelle von ',') auf europäische Normen portiert werden. Prinzipiell entfällt dieser Schritt für eine rein amerikanische Umgebung. 
 \subsection{Taxifahrten}
 \label{subsec:Taxidaten}
 Zunächst werden die Daten der Taxifahrten erläutert. 
@@ -42,7 +42,7 @@ Die folgende Übersicht entspricht der von der NYC bereitgestellten Übersicht (
 Die Daten der Grünen Taxis sind erweitert um einen Code für den \textit{Trip\_Type} (Ob eine Fahrt von einem Taxistand begann oder ob die Gäste an der Straße abgeholt wurden).
 
 ~\newline
-Alle Distanz-Angaben entsprechen amerikanischen Meilen (1 mile$ \rightarrow $1,6 km), alle Währungsangaben Dollar. 
+Alle Distanz-Angaben entsprechen amerikanischen Meilen (eine Meile entspricht 1,6 Kilometer), alle Währungsangaben Dollar. 
 
 Für die Angaben der Codes sind ebenfalls Dictionaries bereitgestellt, diese spielen allerdings für den Machine-Learning-Aspekt dieser Arbeit keine Rolle.
 \paragraph{Umfang} ~\newline
@@ -56,14 +56,16 @@ Aus Ressourcengründen wurde ausschließlich das Jahr 2017 betrachtet.
 \paragraph{Anomalien} ~\newline
 Innerhalb der Daten traten einige Ungewöhnlichkeiten auf - zum Beispiel gibt es Fahrten, die von Ort A nach Ort A verliefen und keine Strecke zurückgelegt haben. Bei einer genaueren Untersuchung ergab sich allerdings, dass diese Fahrten meist wenige Minuten dauerten und ebenfalls keinen Passagier hatten. 
 
-~\newline Es ist anzunehmen, das die Taxis an dieser Stelle auf ihre Passagiere gewartet haben. Zunächst wurde versucht, die Anomalien mit in die Machine-Learning-Algorithmen aufzunehmen. Erste Ergebnisse zeigten allerdings desaströse Resultate, welche v.a. daher rührten, dass extreme Reichweiten der Eingabedaten auftraten. 
+~\newline Es ist anzunehmen, das die Taxis an dieser Stelle auf ihre Passagiere gewartet haben. Zunächst wurde versucht, die Anomalien mit in die Machine-Learning-Algorithmen aufzunehmen. 
 
-Es wurden außerdem weitere Anomalien gefunden, welche kurz genannt werden:
+Erste Ergebnisse zeigten allerdings desaströse Resultate, welche v.a. daher rührten, dass extreme Reichweiten der Eingabedaten auftraten. Als Beispiel sind die Fahrtkosten zu nennen: Es traten Fahrten mit mehreren tausend Dollar Umsatz auf, sowie Fahrten mit negativen Kosten. Diese Werte sind deutlich erkennbar falsch, verzerren ungefiltert allerdings maßgeblich die Varianz und den Durchschnitt über die Fahrtkosten.  
+
+~\newline Es wurden außerdem weitere Anomalien gefunden, welche kurz genannt werden:
 \begin{itemize}
-	\item Fahrten mit Negativkosten
 	\item Fahrten außerhalb von 2017
 	\item Fahrten mit extrem hohen Trinkgeld ($\sim 100$\$) oder extrem hohen kosten ($\sim300$\$)
 	\item Fahrten, die wenige Sekunden gedauert haben
+	\item Fahrten, mit mehreren hundert Meilen zurückgelegter Strecke
 	\item Fahrten, welche mehrere Stunden gedauert haben und dabei nur kurze Strecken zurücklegen
 \end{itemize}
 
@@ -120,9 +122,9 @@ Die Orte, Raten und Zeiten liegen als numerischer Faktor vor.
 \paragraph{Ausschnitt-Tabellen}
 Neben den Views werden des weiteren kleinere Auschnitte entnommen. Dies liegt daran, dass das zufällige Entnehmen einer Stichprobe der gelben Taxidaten mehrere Minuten benötigt. 
 
-Die Ausschnitte wurden aus den ML-Sichten erstellt, indem jeder Datensatz einen zufälligen neuen Hashwert bekam, nach welchem er sortiert ist. 
+Die Ausschnitte wurden aus den ML-Sichten erstellt, indem jeder Datensatz einen zufälligen neuen Hashwert bekam, nach welchem die Tabelle sortiert ist. Die Daten liegen somit in einer zufälligen Reihenfolge vor.
 
 ~\newline
 Für Prognosen, die für ihr Training aggregierte Daten benötigen (z.B. Umsatzprognose), wurde ebenfalls eine Aggregats-Tabelle erstellt. 
 
-Diese gruppiert die Machine-Learning-View nach Datum, Stunde, Startort,Zielort und aggregiert verschiedene Attribute. Dies führt zu einer Menge von ca. 1 Millionen Aggregat-Daten, hiervon wurden 10000 entfernt als Kontrollgruppe.
+Diese gruppiert die Machine-Learning-View nach Datum, Stunde, Startort,Zielort und aggregiert verschiedene Attribute. Dies führt zu einer Menge von ca. 1 Millionen Aggregat-Daten, hiervon wurden 10000 entfernt als Kontrollgruppe, um einheitliche Tests zu ermöglichen. Alle Tests der aggregierten Modelle wurden mit der Kontrollgruppe durchgeführt.

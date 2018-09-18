@@ -180,7 +180,7 @@ Ziel des Modells ist es, für einen gegebenen Ort und eine gegebene Stunde eines
 
 ~\newline Dieses Modell hilft dem Unternehmen, seine Taxi-Kontingente strategisch zu verteilen bzw. kann dem Taxifahrer helfen, vor einer Rushhour am richtigen Taxistand einzutreffen. 
 \paragraph{Versuchsaufbau} ~\newline
-Die Taxifahrten liegen in aggregierter Form vor: Sie wurden nach Datum, Tageszeit auf Stunde gerundet und Startort gruppiert. Die daraus resultierenden Trainingsdaten sind Wertepaare aus der Anzahl der Fahrten, Ort, Stunde und Datum. 
+Die Taxifahrten liegen in aggregierter Form vor: Sie wurden nach Startort, Datum und Tageszeit auf Stunde gerundet gruppiert. Die daraus resultierenden Trainingsdaten sind Wertepaare aus der Anzahl der Fahrten, Ort, Datum und Stunde. 
 
 Die Gruppierungskriterien werden in R als Faktoren repräsentiert. 
 
@@ -238,7 +238,7 @@ Ein gut funktionierendes Modell kann ggfs. auch zur Prognose von Änderungen erw
 Ziel des Modells ist es, für einen gegebenen Ort und eine gegebene Stunde eines Tages die Summe der Fahrtenkosten auszugeben. 
 
 \paragraph{Versuchsaufbau} ~\newline
-Der Gesamtumsatz wird aus den Einzelfahrten aufsummiert: Sie wurden nach dem Datum, der Tageszeit (auf Stunde gerundet) und dem Startort gruppiert. Die daraus resultierenden Trainingsdaten sind Wertepaare aus dem Gesamtumsatz, Ort, Stunde und Datum. 
+Der Gesamtumsatz wird aus den Einzelfahrten aufsummiert: Sie wurden nach dem Startort, Datum und der Tageszeit (auf Stunde gerundet) gruppiert. Die daraus resultierenden Trainingsdaten sind Wertepaare aus dem Gesamtumsatz, Ort, Datum und Stunde. 
 
 Die Gruppierungskriterien werden in R als Faktoren repräsentiert. 
 
@@ -263,4 +263,6 @@ Trotz intensiver Versuche erreichte Variante 1 nie positive $r^2$ Werte.
 
 Die hierfür wahrscheinlichste Ungewissheit stellt die Unberechenbarkeit des Zielortes dar. Innerhalb der Daten gibt es keine Ausschläge der Verteilung \textit{Fahrten pro Startort nach Zielort} - es gibt entsprechend ebenfalls keine (wahrscheinliche) Aussage darüber, wohin eine einzelne Fahrt geht. Da der Umsatz einer Fahrt, und entsprechend die Summe über alle Fahrten stark von den jeweiligen Distanzen und Zeiten abhängt, kann ein Modell keine genauen Ergebnisse erzielen.
 
-~\newline Insgesamt konnte kein zufriedenstellendes neuronales Netz mithilfe der vorliegenden Daten erzeugt werden. Dennoch gibt es Alternativen um eine (zufriedenstellende) Prognose zu erreichen: Diese liegen vor Allem in der klassischen Statistik. Dennoch könnten auch modernere, technische Ansätze, wie eine Time-Series-Datenbank Aufschlüsse und signifikantere Auswertungen ergeben.  
+~\newline Insgesamt konnte kein zufriedenstellendes neuronales Netz mithilfe der vorliegenden Daten erzeugt werden. Dennoch gibt es Alternativen um eine (zufriedenstellende) Prognose zu erreichen: Diese liegen vor Allem in der klassischen Statistik. 
+
+Dennoch könnten auch modernere, technische Ansätze, wie eine Time-Series-Datenbank Aufschlüsse und signifikantere Auswertungen (d.h. mit höherem $r^2$-Wert) ergeben.  

@@ -27,9 +27,9 @@ Im Rahmen der Informatik äußert sich diese Neuronen-Logik durch eine Aktivieru
 	\label{fig:NN-Modell}
 \end{center}
 \end{figure}
-~\newline Diese Neuronen werden zu einen Graphen, welche sich als \textit{Schichten} anordnen. 
+~\newline Diese Neuronen werden zu einen Graphen, und sind in \textit{Schichten} (engl. Layer) angeordnet. 
 
-Jedes Neuron einer Schicht erhält Eingaben von jedem Neuron der vorhergehenden. Diese Eingaben werden zusätzlich gewichtet. 
+Jedes Neuron einer Schicht erhält Eingaben von jedem Neuron der vorhergehenden\footnote{In diesem Fall spricht man von einem \textbf{vollvermaschten} neuronalen Netz. Es ist möglich, andere Formen der Verknüpfung oder Filterkriterien einzustellen.}. Diese Eingaben werden zusätzlich gewichtet. 
 
 ~\newline Die Eingabe in das neuronale Netzwerk erfolgt über den Inputlayer, welcher keine Aktivierungsfunktion hat. Die Ausgabe des neuronalen Netzwerkes erfolgt in der sog. Ausgabeschicht, welche je nach Art des Netzes einen (für Regressionen), zwei (für binäre Klassifikationen) oder $n$ (für n-Klassen Multiklassifikation) Knoten besitzt.
 
@@ -53,7 +53,7 @@ Das Training bezeichnet den (iterativen) Prozess, mit den vorliegenden Trainings
 \subsection{Bewertung des neuronalen Netzes}
 Die Bewertung des neuronalen Netzes erfolgt, je nach Art des Ergebnisses, analog wie die der linearen oder logistischen Regression. 
 \subsection{Einflüsse auf den Trainingserfolg}
-Zum Abschluss dieses Abschnittes werden noch einmal die \textit{Stellschrauben} vorgestellt, anhand derer Änderungen des Trainingserfolges erzielt werden können. 
+Zum Abschluss dieses Abschnittes werden zusammenfassend die \textit{Stellschrauben} vorgestellt, anhand derer Änderungen des Trainingserfolges erzielt werden können. 
 
 \begin{itemize}
 	\item \textbf{Netzaufbau und Struktur:} Die Anzahl der Knoten, Schichten, und Einstellungen zur Verknüpfung können variiert werden.
@@ -65,4 +65,4 @@ Zum Abschluss dieses Abschnittes werden noch einmal die \textit{Stellschrauben} 
 	
 \end{itemize}
 
-Konkrete Anwendungen dieser Parameter und die damit zusammenhängende Ergebnisse finden sich im Kapitel \ref{cha:Experiment} dieser Arbeit.
+Konkrete Anwendungen dieser Parameter und die damit erzielten Ergebnisse finden sich im Kapitel \ref{cha:Experiment} dieser Arbeit.

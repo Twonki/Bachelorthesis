@@ -7,14 +7,14 @@ Dieses Zitat zählt wohl zu den bekanntesten der Filmgeschichte, und markiert ei
 
 Künstliche Intelligenzen besiegen Schachprofis, organisieren unsere Kalender, analysieren Bilder und helfen Pandemien einzudämmen. Neben diesen bahnbrechenden Erfolgen gibt es auch weiterhin vielversprechende Forschung in diesem Themengebiet, zum Beispiel computergesteuerte Autos. Aber was ist künstliche Intelligenz eigentlich?
 
-~\newline Der Begriff der künstlichen Intelligenz ist sehr weit gefächert - ein Kernelement davon stellt das \textit{Machine Learning} dar. Dieser Bereich, der sich auf die Erstellung von Modellen anhand von Trainingsdaten stützt, hat in den letzten Jahren durch \textit{neuronale Netze} stark an Bedeutung gewonnen. Die Gründe hierfür sind vielseitig, dennoch sind zwei im Besonderen zu nennen: Zum Einen sind Computer deutlich leistungsfähiger geworden, und Aufgaben die früher einen Supercomputer benötigten, sind heute durch ein Smartphone umsetzbar. Zum Anderen sind deutlich mehr Bereiche digitalisiert, und die gewonnenen Daten detaillierter. 
+~\newline Der Begriff der künstlichen Intelligenz ist sehr weit gefächert - ein Kernelement davon stellt das \textit{Machine Learning} dar. Dieser Bereich, der sich auf die Erstellung von Modellen anhand von Trainingsdaten stützt, hat durch \textit{neuronale Netze} stark an Bedeutung gewonnen. Die Gründe hierfür sind vielseitig, dennoch sind zwei im Besonderen zu nennen: Zum Einen sind Computer deutlich leistungsfähiger geworden, und Aufgaben die früher einen Supercomputer benötigten, sind heute durch ein Smartphone umsetzbar. Zum Anderen sind deutlich mehr Bereiche digitalisiert, und die gewonnenen Daten detaillierter. 
 
 ~\newline Genau diesem Themengebiet widmet sich diese Bachelorarbeit: Machine-Learning und explizit neuronalen Netzen. 
 \section{Ziel der Arbeit}
 \label{sec:ZielDerArbeit}
-Die Ziele dieser Arbeit sind es, ein Grundverständnis für Machine-Learning Algorithmen zu schaffen und dem Leser die Möglichkeit zu geben, diese mit dem SQL-Server 2017 selbst umzusetzen. 
+Die Ziele dieser Arbeit sind es, ein Grundverständnis für Machine-Learning Algorithmen zu schaffen, und einen Überblick wie diese mit dem SQL-Server 2017 umgesetzt werden. 
 
-Hierfür werden die Theorie verschiedener Algorithmen detailliert vorgestellt und in der Programmiersprache R umgesetzt. 
+Hierfür wird die Theorie verschiedener Algorithmen detailliert vorgestellt und in der Programmiersprache R umgesetzt. 
 
 Ebenfalls wird ein detailliertes Fallbeispiel mit Versuchsaufbau und Ergebnissen erarbeitet, damit der Leser eine Einschätzung der Algorithmen vornehmen kann ohne selbst Experimente durchzuführen.
 
@@ -23,23 +23,23 @@ Ebenfalls wird ein detailliertes Fallbeispiel mit Versuchsaufbau und Ergebnissen
 Zudem werden weder Grundlagen der Sprachen SQL und R, noch die Vorbereitung des Fallbeispiels geschildert.
 
 \section{Aufbau der Arbeit}
-Kapitel \ref{cha:Theorie} dieser Arbeit bildet die Theorie zu modernen Ansätzen des Machine-Learnings. Es werden die Algorithmen für lineare Regression, logistische Regression sowie neuronale Netzwerke detailliert vorgestellt (In Reihenfolge der Nennung). Dieses Kapitel stellt einen rein theoretischen Teil der Arbeit dar, und beinhaltet keine Umsetzung der Algorithmen als Programme.
+Kapitel \ref{cha:Theorie} dieser Arbeit behandelt die Theorie zu modernen Ansätzen des Machine-Learnings. Es werden die Algorithmen für lineare Regression, logistische Regression sowie neuronale Netzwerke detailliert vorgestellt (in Reihenfolge der Nennung). Dieses Kapitel stellt einen rein theoretischen Teil der Arbeit dar, und beinhaltet keine Umsetzung der Algorithmen als Programme.
 
 ~\newline Darauf aufbauend  werden in Kapitel \ref{cha:SQLServer} zunächst Grundlagen zu Microsofts SQL-Server 2017 und R geklärt, anschließend liegt der Schwerpunkt des Kapitels auf der Umsetzung von Machine-Learning Algorithmen in R. Innerhalb des Abschnittes \ref{sec:MLSQL} finden sich Codebeispiele zu Prognosemodellen in T-SQL und R.
 
-~\newline Kapitel \ref{cha:Taxis} widmet sich der Umsetzung eines Fallbeispiels eines Taxiunternehmens. Zunächst werden in Abschnitt \ref{sec:TaxiAllgemein} die Ausgangslage der Daten sowie die Ziele des Fallbeispiels exakt definiert. 
+~\newline Kapitel \ref{cha:Taxis} widmet sich der Umsetzung des Fallbeispiels eines Taxiunternehmens. Zunächst werden in Abschnitt \ref{sec:TaxiAllgemein} die Ausgangslage der Daten sowie die Ziele des Fallbeispiels exakt definiert. 
 
 In Abschnitt \ref{sec:Daten} werden die Stammdaten des Taxiunternehmens und die Wetterdaten in Eigenschaften, Umfang und Bedeutung für Machine Learning dargestellt. 
 
-~\newline Hauptteil des Kapitels \ref{cha:Taxis} bilden die Unterabschnitte \ref{sec:TipPred} bis \ref{sec:PasPred}, welche die Erstellung, Verwendung und Bewertung verschiedener neuronaler Netze behandeln. Anschließend werden in Abschnitt \ref{BestPractices} die Best Practices im Umgang mit neuronalen Netzen im SQL-Server vorgestellt.
+~\newline Hauptteil des Kapitels \ref{cha:Taxis} bilden die Unterabschnitte \ref{sec:TipPred} bis \ref{sec:PasPred}, welche das Definieren, Training und Bewertung verschiedener neuronaler Netze vorstellen. Anschließend werden in Abschnitt \ref{sec:BestPractices} die Best Practices im Umgang mit neuronalen Netzen im SQL-Server vorgestellt.
 
-~\newline Abschluss der Arbeit bildet in Kapitel \ref{cha:Fazit} ein Fazit über die Qualität der Prognosen unter Berücksichtigung der Komplexität einzelner Teilaufgaben.
+~\newline Abschluss der Arbeit bildet in Kapitel \ref{cha:Fazit} ein Fazit über die Qualität der Prognosen unter Berücksichtigung der Komplexität einzelner Teilaufgaben. 
 \section{Voraussetzungen an den Leser}
 \label{sec:Vorraussetzungen}
 Innerhalb dieses Punktes werden die Kenntnisse abgesteckt, die der Leser für das Verständnis der Arbeit benötigt, welche \textbf{nicht} im Rahmen dieser Arbeit vorgestellt werden. 
 
 \begin{itemize}
-	\item \textbf{Mehrdimensionale Algebra:} Im Rahmen dieser Arbeit werden komplexe Algorithmen und Konzepte der mehrdimensionalen Algebra benötigt. 
+	\item \textbf{Lineare Algebra:} Im Rahmen dieser Arbeit werden komplexe Algorithmen und Konzepte der mehrdimensionalen Algebra benötigt. 
 	
 	Schwerpunkte liegen hier v.A. auf dem Lösen von mehrdimensionalen Gleichungen und Matrixoperationen.
 	\item \textbf{Stochastik:}  Zur Bewertung der Algorithmen werden tiefere Kenntnisse der Stochastik und Statistik benötigt. Die benötigten Schwerpunktthemen sind Verteilungsfunktionen, Hypothesentests und Korrelation.

@@ -25,7 +25,7 @@ Ebenso ist es üblich, sowohl Eingabewerte, als auch den Gewichtsvektor zu normi
 \label{subsec:Aktivierungsfunktion} 
 Bei der Aktivierungsfunktion handelt es sich um eine statistische Verteilungsfunktion. Sie bildet einen Wert auf eine Wahrscheinlichkeit ab. 
 
-~\newline Als übliche Aktivierungsfunktionen werden $tanh$, die Sigmoid-Funktion oder die ReLu-Funktion gewählt. Diese besitzen besondere Eigenschaften innerhalb ihrer Ableitung, was eine Berechnung wesentlich erleichtert (\cite{stroetmann} S95ff \textit{6.3.1 The Sigmoid Function}).
+~\newline Als übliche Aktivierungsfunktionen werden $tanh$,\textit{Softmax}, die Sigmoid-Funktion, oder die ReLu-Funktion gewählt. Diese besitzen besondere Eigenschaften innerhalb ihrer Ableitung, was eine Berechnung wesentlich erleichtert (\cite{stroetmann} S95ff \textit{6.3.1 The Sigmoid Function}).
 
 \paragraph{Sigmoid und Tanh}~\newline
 Die Sigmoidfunktion ist eine stochastische Verteilungsfunktion und stellt eine Abwandlung der Tangens-Hyperbolicus Funktion dar. 
@@ -134,20 +134,20 @@ Vor diesem Hintergrund wird nicht direkt versucht, die \textbf{besten} Gewichte 
 
 ~\newline Der Gradient kann hierbei numerisch approximiert werden, oder über die Ableitung gebildet werden. Im Rahmen des Machine Learnings ist die Ableitung üblich - die oben vorgestellten Aktivierungsfunktionen besitzen einfach zu berechnende, bzw. bekannte Ableitungen und erzeugen keine Rechenlast, wie dies bei einer Approximation der Fall ist.
 
-~\newline Die Wahl der Lernrate ist für die Anwendung des Algorithmus entscheidend: Wird bis zu einem Minima iteriert \footnote{Das Verfahren des Gradientenanstiegs kann ggfs. nicht terminieren - in den tatsächlichen Implementierungen wird deswegen immer eine gewisse Anzahl an Iterationen durchgeführt oder andere Kontrollparameter aufgestellt.}, so kann die Terminierung des Algorithmus sehr hohe Zeit in Anspruch nehmen. Wird eine gewisse Anzahl an Iterationen durchgeführt, so liegen die Ergebnisse eventuell sehr nah an den zufällig initialisierten Gewichten.
+~\newline Die Wahl der Lernrate ist für die Anwendung des Algorithmus entscheidend: Wird bis zu einem Minimum iteriert \footnote{Das Verfahren des Gradientenanstiegs kann ggfs. nicht terminieren - in den tatsächlichen Implementierungen wird deswegen immer eine gewisse Anzahl an Iterationen durchgeführt oder andere Kontrollparameter aufgestellt.}, so kann die Terminierung des Algorithmus sehr hohe Zeit in Anspruch nehmen. Wird eine gewisse Anzahl an Iterationen durchgeführt, so liegen die Ergebnisse eventuell sehr nah an den zufällig initialisierten Gewichten.
 
-Auf der anderen Seite kann eine hohe Lernrate zu einem \textit{herumspringen} der Gewichte führen, und eine tatsächliche Optimierung verhindern.
+Auf der anderen Seite kann eine hohe Lernrate zu einer Verzerrung der Gewichte führen, und eine tatsächliche Optimierung verhindern.
 
 ~\newline Ausgehend von diesem Grundverfahren, gibt es mehrere Ansätze den Gradientenanstieg zu verbessern:
 
 \paragraph{Stochastischer Gradientenanstieg}
-Im Rahmen des stochastischen Gradientenanstieg wird das Set der Trainingsdaten in jeder Epoche zufällig Sortiert. 
+Im Rahmen des stochastischen Gradientenanstieg wird das Set der Trainingsdaten in jeder Epoche zufällig sortiert. 
 
 Der durchgeführte Schritt ist also in einer zufälligen Reihenfolge, und kann dazu führen, dass sich der Algorithmus nicht dem nächsten Minimum nähert, sondern sich zunächst hiervon entfernt. 
 
-~\newline Dies stellt allerdings einen Vorteil dar: Durch dieses Verhalten wird verhindert, dass lediglich ein lokales Minimum gefunden wird. Allerdings terminiert der stochastische Gradientenanstieg nicht so schnell, bzw. nicht so nah am reellen Minima, wie der normale Gradientenanstieg, zumindest ohne Einbindung weiterer Verbesserungen.
+~\newline Dies stellt allerdings einen Vorteil dar: Durch dieses Verhalten wird verhindert, dass lediglich ein lokales Minimum gefunden wird. Allerdings terminiert der stochastische Gradientenanstieg nicht so schnell, bzw. nicht so nah am reellen Minimum, wie der normale Gradientenanstieg, zumindest ohne Einbindung weiterer Verbesserungen.
 
-\paragraph{Mini-Batch-Gradientdescent} In dieser Variante wird die Veränderung der Gewichte nicht anhand des Gradientens eines einzelnen Datensatzes, sondern aufgrund einer Teilmenge (\textit{Batch}) geupdatet. 
+\paragraph{Mini-Batch-Gradientdescent} In dieser Variante wird die Veränderung der Gewichte nicht anhand des Gradientens eines einzelnen Datensatzes, sondern aufgrund einer Teilmenge (\textit{Batch}) angepasst. 
 
 ~\newline Diese Variation reduziert die auftretende Varianz innerhalb der Schritte und sorgt somit für eine besser absehbare Konvergenz. Zusätzlich wird Batch-Verarbeitung von Vektoren innerhalb vieler Prozessoren und Grafikkarten unterstützt. Die \textbf{Batch-Größe} stellt den zweiten wichtigen Hyperparameter dar und wird im Normalfall (aus technischen Gründen) als Zweierpotenz gewählt.   
 
@@ -158,7 +158,7 @@ Der durchgeführte Schritt ist also in einer zufälligen Reihenfolge, und kann d
 \paragraph{Momentum} Eine einfache Verbesserung stellt die \textbf{Beschleunigung} dar: Sie verwaltet für jedes Gewicht einen Parameter, welcher bei einer Änderung angepasst wird. Werte, die häufige bzw. große Änderungen erfahren, erhalten eine größere Lernrate. Hiermit soll erreicht werden, dass ausschlaggebende Werte besser berücksichtigt sind und der Algorithmus im Gesamten schneller terminiert. 
 
 ~\newline Ergänzend zur Beschleunigung gibt es ebenfalls den \textbf{Verfall}. Dieser sorgt für eine regelmäßige Abnahme der Lernrate (d.h. bei jedem Durchlauf), und sollte mit der Beschleunigung abgestimmt werden. Der Verfall sollte nicht zu hoch gewählt werden, damit die Beschleunigungen bzw. die effektiven Lernraten stets bemerkbar bleiben. 
-\paragraph{Adadelta} Eine weitere Verbesserung stellt der \textit{Adaptive Delta Gradientdescent} dar. Ziel dieser Variante ist es, die Lernrate immer passend zu wählen - in \textit{steilen} Gebieten \textit{große} Schritte zu vollziehen und in solchen nahe des Minimas \textit{kleinere}.
+\paragraph{Adadelta} Eine weitere Verbesserung stellt der \textit{Adaptive Delta Gradientdescent} dar. Ziel dieser Variante ist es, die Lernrate immer passend zu wählen - in \textit{steilen} Gebieten \textit{große} Schritte zu vollziehen und in solchen nahe des Minimums \textit{kleinere}.
 
 ~\newline Adadelta addiert auf die bisherige Lernrate einen Wert abhängig von der aktuellen Änderung und den durchschnittlichen Gradienten-Verläufen über alle bisherigen Änderungen. Die konkrete Mathematische Ausarbeitung, sowie Beweise über die Terminierung und Verbesserungen der Trainingszeiten finden sich weiterführend im Whitepaper von Matthew D. Zeiler et. Al \cite{AdaDelta}.
 
