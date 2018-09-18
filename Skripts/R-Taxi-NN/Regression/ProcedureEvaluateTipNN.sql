@@ -34,7 +34,7 @@ BEGIN
 	sum(real_tip_amount) as real_tip
 	FROM #Results;
 
-	SELECT Top (20) abs(real_tip_amount-predicted_tip_amount) as miss_in_Dollar, predicted_tip_amount as estTip, real_tip_amount as realTip from #Results;
+	--SELECT Top (20) abs(real_tip_amount-predicted_tip_amount) as miss_in_Dollar, predicted_tip_amount as estTip, real_tip_amount as realTip from #Results;
 	DROP TABLE IF EXISTS #Results;
 END
 GO

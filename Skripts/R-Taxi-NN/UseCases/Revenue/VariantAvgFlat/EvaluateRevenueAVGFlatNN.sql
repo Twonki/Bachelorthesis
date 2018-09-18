@@ -5,7 +5,7 @@ GO
 -- Needs a Minimum of ~10k Trainingssize to get full factors
 --==============================
 
---EXEC TrainRevenueAVGFlatNN @TrainingSize=1000000;
+EXEC TrainRevenueAVGFlatNN @TrainingSize=1000000;
 GO
 
 --==============================

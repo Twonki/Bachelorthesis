@@ -45,6 +45,7 @@ BEGIN
 		LocationLevels <- as.factor(c(1:255));	
 		data$PULocationID <- factor(data$PULocationID, levels=LocationLevels);
 		data$DOLocationID <- factor(data$DOLocationID, levels=LocationLevels);
+		str(data);
 		
 		form <- tip_amount ~ total_amount+trip_distance+duration_in_minutes+passenger_count+PULocationID+DOLocationID;
 
@@ -53,10 +54,12 @@ BEGIN
 							data = data,              
 							type				   = "regression",
 							netDefinition   = netDefinition,
-							numIterations = 100,
+							numIterations = 500,
 							normalize       = "yes",
 							verbose         = 0,
 							postTransformCache = "Disk");
+		print(summary(model));
+
 		trained_model <- data.frame(payload = as.raw(serialize(model, connection=NULL)));
 	'
 	create table #m (model varbinary(max));
@@ -73,3 +76,4 @@ BEGIN
 	drop table #m
 END
 GO
+EXEC TrainTipMediumNN @TrainingSize=1000;

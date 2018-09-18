@@ -3,10 +3,12 @@ GO
 --==============================
 -- Produce some NN's for UseCase XXX
 --==============================
-
---EXEC TrainUseCaseNN @TrainingSize=1000000;
+SELECT CURRENT_TIMESTAMP;
 GO
-
+EXEC TrainUseCaseNN @TrainingSize=1000000;
+GO
+SELECT CURRENT_TIMESTAMP;
+GO
 --==============================
 -- ShowMeTheResults
 --==============================

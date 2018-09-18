@@ -64,7 +64,7 @@ BEGIN
 				data = data,         
 				type            = "regression",
 				netDefinition   = netDefinition,
-				numIterations = 250,
+				numIterations = 500,
 				optimizer= optimiser,
 				verbose         = 1);
 		trained_model <- data.frame(payload = as.raw(serialize(model, connection=NULL)));
@@ -88,8 +88,4 @@ BEGIN
 	DROP TABLE #m
 	DROP TABLE IF EXISTS #TmpData;
 END
-GO
-
-EXEC TrainRevenueFlatNN @TrainingSize=10000;
-
 GO

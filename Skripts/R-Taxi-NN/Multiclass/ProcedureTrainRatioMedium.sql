@@ -49,7 +49,7 @@ BEGIN
 				data = data, 
 				netDefinition=netDefinition,            
 				type            = "multiClass",
-				numIterations = 250,
+				numIterations = 500,
 				verbose         = 0);
 		trained_model <- data.frame(payload = as.raw(serialize(model, connection=NULL)));
 	'

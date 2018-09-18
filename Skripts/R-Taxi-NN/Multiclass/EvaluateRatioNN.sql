@@ -11,7 +11,12 @@ GO
 GO
 --==================================
 -- Evaluate some Ratio NN's
---==================================
-EXEC EvaluateRatioNN @ModelName="NNRatioSmall";
+----==================================
+--EXEC EvaluateRatioNN @ModelName="NNRatioSmall";
+--EXEC EvaluateRatioNN @ModelName="NNRatioMedium";
+--EXEC EvaluateRatioNN @ModelName="NNRatioBig";
+
+EXEC TrainRatioMediumNN @TrainingSize=1000000;
+GO
 EXEC EvaluateRatioNN @ModelName="NNRatioMedium";
-EXEC EvaluateRatioNN @ModelName="NNRatioBig";
+GO
