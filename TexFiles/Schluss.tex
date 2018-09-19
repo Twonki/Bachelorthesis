@@ -14,7 +14,7 @@ Fehler dieser Art zeigen sich erst bei der konkreten Anwendung des Modells auf s
 
 ~\newline Insofern sind die Frameworks und Standardeinstellungen zwar angenehm für den Einstieg, sollten allerdings für die Umsetzung eines Projektes genau inspiziert werden. Vor allem die Aufbereitung der Trainingsdaten und die Kontrolle des Modells sollte der Entwickler selbst übernehmen.  
 
-~\newline Ein häufiger Satz, welcher v.A. in Internetforen auftritt, lautet \textit{\textbf{building neural networks is more art than science}}.
+~\newline Ein häufiger Satz, welcher in Internetforen auftritt (z.B. \cite{ArtScience} Abschnitt \textit{Depth and hierarchy} Absatz 7), lautet \textit{\textbf{building neural networks is more art than science}}.
 
 Diesen Satz sollte man nicht unreflektiert hinnehmen - viele Änderungen, Designentscheidungen und Trainingserfolge wurden bewusst durch die wissenschaftlichen Eigenschaften der einzelnen Komponenten erzielt. 
 
@@ -29,7 +29,7 @@ grundlegende Probleme auftreten, welche sich nicht (zeitnah) experimentell löse
 
 Alle Hyperparameter der Optimierungsfunktion haben einen technischen Ursprung, und ein Verständnis der Algorithmen ist notwendig, um diese Parameter sinnvoll zu wählen. Zwar sind die Standardeinstellungen hier meistens hinreichend, allerdings können durch bewusste Anpassung ebenfalls markante Besserungen in der Trainingsgeschwindigkeit erzielt werden. 
 
-So zeigten höhere Lern- und Verfalls-Parameter bei den weitestgehend homogenen Trinkgelddaten ein wesentlich schnelleres Terminieren das Trainings bei gleichbleibender Genauigkeit. 
+So zeigten höhere Lern- und Verfalls-Parameter bei den weitestgehend homogenen Trinkgelddaten ein wesentlich schnelleres Terminieren des Trainings bei gleichbleibender Genauigkeit. 
 
 Für andere Experimente, z.B. dem Fahrtenaufkommen, zeigten diese Einstellungen katastrophale Ergebnisse - die Daten waren einfach zu verschieden, um mit diesen Parametern behandelt zu werden. 
 
@@ -39,14 +39,14 @@ Für andere Experimente, z.B. dem Fahrtenaufkommen, zeigten diese Einstellungen 
 
 Ein Verständnis der Algorithmen, ihrer Eigenschaften und der verwendeten Funktionen ermöglicht nicht nur eine bessere Ausgangslage für das Tuning, sondern ist eine Grundvoraussetzung für die Fehleranalyse und Problembehebung. 
 
-~\newline Insofern ist der Ansatz, die Herangehensweise \textit{a priori} als Kunst zu bezeichnen nicht gerechtfertigt. Die Arbeit mit neuronalen Netzen entpuppte sich als gesunde Mischung aus Kunst und Wissenschaft. 
+~\newline Insofern ist der Ansatz, die Herangehensweise \textit{a priori} als Kunst zu bezeichnen nicht gerechtfertigt. Die Arbeit mit neuronalen Netzen zeigte sich als gesunde Mischung aus Kunst und Wissenschaft. 
 
 \paragraph{Zusammenfassung} ~\newline Zusammenfassend lässt sich anhand der Ergebnisse sagen, dass sich vor Aufgabenstellungen gut lösen lassen, welche \textit{nahe an einer Fahrt liegen}. Aussagen über aggregierte Daten benötigen besondere Aufbereitung und andere Herangehensweisen. Die Aufgaben, welche sich auf einzelne Fahrten bezogen, ließen sich im Allgemeinen einfach und mit guten Ergebnissen lösen.
 
 Erstaunlicherweise decken sich die Versuche mit \textit{guten Ergebnissen} mit den Infos, die ein Taxifahrer in NY bereitstellen könnte: Wie viele Fahrten von einem Ort ausgehen, oder wie viel Trinkgeld seine Kunden geben. Andere Fragestellungen, wie der Gesamtumsatz über NY, oder wohin die Passagiere wollen, kann ein Taxifahrer ebenfalls schwer beantworten. 
 
 ~\newline Das Erstellen, Pflegen und Benutzen von neuronalen Netzen im SQL-Server gestaltet sich einfach, benötigt allerdings Zeit um Verbesserungen zu erarbeiten. Die Aufbereitung und Auswahl der Trainings- und Testdaten wird durch die Verwendung der Datenbank stark vereinfacht und ist einfacher als in anderen Umgebungen.
-
+\newpage
 \paragraph{Ausblick}~\newline Innerhalb der Arbeit ließen sich zwei weiterführende Themen ausmachen: 
 
 Der Fokus auf Alternativen bei der Umsatzprognose sowie die Übertragung und Verallgemeinerung der erarbeiteten Netze. Diese beiden Ansätze werden kurz ausgearbeitet. 
@@ -58,3 +58,7 @@ Möglichkeiten stellen hierbei klassische statistische Methoden dar, oder eine V
 ~\newline Ein weiterer Punkt ist die Portierung der in dieser Arbeit erzeugten neuronalen Netze auf ähnliche Anwendungsgebiete, konkreter auf Taxidaten einer anderen Stadt. 
 
 Hierbei zu lösen sind Schwierigkeiten bezüglich unterschiedlicher Eingabevektoren, vergleichbare Tests zu erzeugen sowie die technische Umsetzung innerhalb des SQL-Servers.  
+
+~\newline Grundlegend werden innerhalb der .Net\#-Definition Ansätze für das \textit{Aufteilen} eines Layers geboten - hierbei werden zwei Layer auf einer Ebene definiert. Vor allem die Eingabeschicht bietet hier die Möglichkeit, in standort-spezifische Eingabewerte (Startort- und Zielortfaktoren) und allgemeine Eingabewerte (Fahrtenanzahl, Tringkeld, Wetterdaten, etc.) getrennt zu werden.
+
+Darauf aufbauend kann für einen Transport des Modells der Großteil des Neuronalen Netzes, v.A. die Gewichte in den hidden Layern, portiert werden und es muss nur ein Training der neuen Eingabegewichte erfolgen.

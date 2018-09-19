@@ -42,7 +42,7 @@ Die optimalen Ergebnisse des MSE liefern die Variablen:
 \vartheta_1 = r_{x,y} \cdot \frac{s_y}{s_x} \quad \mbox{und} \quad \vartheta_0 = \bar{\mathbf{y}} - \vartheta_1 \cdot \bar{\mathbf{x}}.
 \end{equation}
 
-Wobei $\mathbf{x}$ und $\mathbf{y}$ das arithmetische Mittel der beiden Variablen darstellt, sowie $s_x$ und $s_y$ die Standardabweichungen. bei $r_{x,y}$ handelt es sich um den \textbf{Pearson-Korrelationskoeffizienten}. 
+Wobei $\mathbf{x}$ und $\mathbf{y}$ das arithmetische Mittel der beiden Variablen darstellt, sowie $s_x$ und $s_y$ die Standardabweichungen. bei $r_{x,y}$ handelt es sich um den \textbf{Pearson-Korrelationskoeffizienten} (Weiterführend \cite{BPK}). 
 
 ~\newline Nach der Berechnung der \textit{Gewichte} besitzt man ein Modell, welches für jeden beliebigen Geschwindigkeitswert den Bremsweg berechnet. 
 
@@ -68,16 +68,19 @@ Um die statistische Aussagekraft des Modells zu bewerten, eignet sich ein \textb
 \label{eq:F-statistic}
 \mathrm{F} = \frac{\mathtt{TSS} - \mathtt{RSS}}{\mathtt{RSS}} \cdot \frac{m - p - 1}{p}
 \end{equation}
-Die $\mathtt{F}$-Statistik ist Fisher-Snedecor-verteilt mit $p-1$ Freiheitsgraden im Nenner und $m-p$ Freiheitsgraden im Zähler. 
 \begin{equation}
 \mathtt{TSS} = \sum\limits_{i=1}^m \bigl(y_i - \bar{\mathbf{y}}\bigr)^2 \ \ \
 \mathtt{RSS} := \sum\limits_{i=1}^m \bigl(\vartheta_1 \cdot x_i + \vartheta_0 - y_i\bigr)^2
 \end{equation}
 $\mathtt{TSS}$ wird hierbei als die \textit{Total Sum of Squares} bezeichnet, $\mathtt{RSS}$ für die \textit{Residual Sum of Squares}. (Weiterführend: \cite{stroetmann} S. 77 Absatz 4f). 
-
+~\newline Die $\mathtt{F}$-Statistik ist Fisher-Snedecor-verteilt mit $p-1$ Freiheitsgraden im Nenner und $m-p$ Freiheitsgraden im Zähler. 
 ~\newline Dieser Test ist dahingehend notwendig, da ein simples Vergleichen der Modellschätzung (immer) von den echten Werten abweicht. Innerhalb des F-Testes werden ebenfalls die Varianz der Grundgesamtheit in Relation zur Varianz der Modellwerte betrachtet, um ein aussagekräftiges Ergebnis zu erzielen.
 
 
-~\newline \textit{Anmerkung:} Für die Bewertung eines ML-Algorithmus, welcher lediglich eine einzelne Variable vorhersagt, ist ein Test auf den $r^2$-Wert ausreichend. 
+~\newline \textit{Anmerkung:} Für die Bewertung eines ML-Algorithmus, welcher lediglich eine einzelne Variable vorhersagt, ist ein Test auf den $r^2$-Wert ausreichend. Dieser ist eine eine verkürzte Form der F-Statistik mit lediglich einem Freiheitsgrad. 
 
 Da die Ergebnisse und  Varianz der Test-Werte mit den Ergebnissen und der  Varianz der Bild-Werte verglichen werden, liegt lediglich ein Freiheitsgrad vor.  
+
+~\newline Das Ergebnis des F-Testes (bzw. der $r^2$-Wert) liegt zwischen 0 und 1, wobei eine 1 bedeutet, dass der reelle Sachverhalt perfekt abgebildet wurde. 
+
+Der Wert kann ebenfalls die statistische Aussagekraft des Modells bewerten.

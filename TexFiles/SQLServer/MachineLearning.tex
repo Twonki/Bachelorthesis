@@ -72,6 +72,8 @@ Der R-Code verhält sich parallel zum Code der linearen Regression:
 \end{lstlisting}
 
 Als Beispiel wurde hierbei die Voraussage gewählt ob es regnet, anhand von Temperatur und Luftfeuchtigkeit.
+
+Eine Multiklassen-Klassifikation ist innerhalb der Standardbibliotheken von R nicht mithilfe logistischer Regression vorgesehen. Es gibt hierfür innerhalb der Umgebung allerdings die Möglichkeit, \textit{Random-Forests} zu verwenden.
 \subsection{Neuronale Netze}
 Es ist möglich, die im Abschnitt \ref{sec:NN} vorgestellten Konzepte direkt in R umzusetzen. Ein gutes Tutorial liefert hierbei \cite{SelbyNN}, welcher eine Schritt-Für-Schritt Anleitung und Erklärung bietet ein eigenes neuronales Netz zu entwerfen. Das Tutorial von Selby setzt einen ähnlichen Blogeintrag von Denny Britz (Siehe \cite{DennyNN}) in R um. 
 
@@ -96,7 +98,7 @@ In Zeile Vier wird die Ausgabeschicht \textit{Result} mit zwei Ausgabeknoten def
 
 Optional ist es möglich, die Größe eines hidden Layers in der Form [X,X,Y] anzugeben. Dies bedeutet, das zunächst zwei Layer mit X Knoten und anschließend ein Layer mit Y Knoten vorliegt, welche eine Einheit bilden. Die anderen Parameter, z.B. die Aktivierungsfunktion, werden für alle Teilschichten übernommen.
 
-~\newline Es werden an ein neuronales Netzwerk innerhalb von net\# folgende Anforderungen gestellt:
+~\newline Es werden an ein neuronales Netzwerk innerhalb der .net\#-Deklaration folgende Anforderungen gestellt:
 
 \begin{itemize}
 	\item Jedes neuronale Netz besitzt mindestens eine Eingabeschichte und genau eine Ausgabeschicht.
@@ -113,7 +115,7 @@ Optional ist es möglich, die Größe eines hidden Layers in der Form [X,X,Y] an
 	\item Deklaration von Selektionsbündeln, d.h. Auswahlkriterien, nach welchen die Schichten verknüpft werden.
 	\item Deklaration von Poolingbündeln, d.h. Schichten und Teilnetze, welche eine ähnliche Funktion erfüllen, allerdings nicht trainiert werden. 
 \end{itemize} 
-
+\newpage
 \paragraph{Regression} ~\newline
 Ein neuronales Netz mithilfe des Paketes zu erstellen, ist ähnlich einfach wie ein normales Modell hierfür:
 
@@ -136,7 +138,7 @@ model <- rxNeuralNet(
 Zunächst wird ein Netz definiert, welches als Ausgabeschicht einen einzelnen Knoten mit linearer Ausgabefunktion besitzt. Anschließend wird die Formel aus dem obigen Beispiel für lineare Regression definiert, und das Modell mit der Funktion \textit{rxNeuralNet(...)} erstellt. Diese erhält gegenüber anderen Modellen zusätzliche Parameter für die Netzdefinition, die Iterationen und den Typ des neuronalen Netzes. 
 
 Des Weiteren können Einstellungen über die Optimierungsfunktion, Initialisierung der Gewichte, sowie Lerngeschwindigkeit, Verfall und Beschleunigung vorgenommen werden.
-
+\newpage
 \paragraph{Multiclass-Labeling} ~\newline
 Um eine Multiklassen-Klassifizerung vorzunehmen, benötigt man einen ähnlichen Aufbau:
 
@@ -156,4 +158,6 @@ model <- rxNeuralNet(
 );
 \end{lstlisting}
 
-Als Beispiel ist die Klassifizierung eines Bildes in eine von 4 Lotus-Spezien gewählt. Zu betonen ist, das die Ausgabe der Vorhersage 5 Werte erzeugt: Einen für die wahrscheinlichste Spezies, und für jede Spezies die Wahrscheinlichkeit.
+Als Beispiel ist die Klassifizierung eines Bildes in eine von 4 Lotus-Spezien gewählt. Zu betonen ist, das die Ausgabe der Vorhersage 5 Werte erzeugt: Einen für die wahrscheinlichste Spezies, und für jede Spezies die Wahrscheinlichkeit. 
+
+Die Implementierung eines binären Modells verhält sich analog, es muss innerhalb der Netzdefinition die Zeile 4 sowie der Typ des neuronalen Netzes in Zeile 10 entsprechend angepasst werden.

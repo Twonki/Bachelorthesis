@@ -40,8 +40,8 @@ Die Sigmoidfunktion und Tanh sind in Abbildung \ref{fig:SigTanh} zu sehen.
 \begin{figure}[h]
 	\begin{center}
 		\includegraphics[width=0.65\linewidth]{Bilder/sigmoidtanhplot}
-		\caption[Sigmoid und Tanh: \url{
-			https://towardsdatascience.com/activation-functions-neural-networks-1cbd9f8d91d6}]{Sigmoid und Tanh}
+		\caption[Sigmoid und Tanh:\newline \tiny \url{
+			https://towardsdatascience.com/activation-functions-neural-networks-1cbd9f8d91d6}\normalsize]{Sigmoid und Tanh}
 		\label{fig:SigTanh}
 	\end{center}
 \end{figure}  
@@ -67,8 +67,8 @@ Der größte Kritikpunkt an der ReLU-Funktion ist, dass negative Eingabewerte st
 \begin{figure}[h]
 	\begin{center}
 		\includegraphics[width=0.5\linewidth]{Bilder/ReluPlot}
-		\caption[Rectified Linear Unit: \url{
-			https://leonardoaraujosantos.gitbooks.io/artificial-inteligence/content/relu_layer.html}]{Plot der ReLU-Funktion}
+		\caption[Rectified Linear Unit: \newline \tiny\url{
+			https://leonardoaraujosantos.gitbooks.io/artificial-inteligence/content/relu_layer.html}\normalsize]{Plot der ReLU-Funktion}
 		\label{fig:ReLUplot}
 	\end{center}
 \end{figure}  
@@ -102,8 +102,8 @@ Die Softmax-Aktivierungsfunktion stellt eine Annäherung an die \textit{max} bzw
 \begin{figure}[h]
 	\begin{center}
 		\includegraphics[width=0.4\linewidth]{Bilder/Softmaxplot}
-		\caption[Softmax: \url{
-			https://www.quora.com/Why-is-softmax-activate-function-called-softmax}]{ReLU(Rot) und Softmax(Blau)}
+		\caption[Softmax:\newline \tiny \url{
+			https://www.quora.com/Why-is-softmax-activate-function-called-softmax}\normalsize]{ReLU(Rot) und Softmax(Blau)}
 		\label{fig:Softmaxplot}
 	\end{center}
 \end{figure}  \textit{Softmax} gewinnt dahingehend an Bedeutung, das sie ableitbar ist und somit in den versteckten Schickten des Neuronalen Netzes verwendet und trainiert werden kann (vgl. \cite{Softmax} Abschnitt \textit{What is the Purpose[...]}).
@@ -119,8 +119,8 @@ Die Optimierungsfunktion hilft, für eine (unbekannte) Funktion ein Extremum zu 
 \begin{figure}[h]
 	\begin{center}
 		\includegraphics[width=0.6\linewidth]{Bilder/optimization}
-		\caption[Loss-Function: \url{
-			http://www.ahozer.com/research.html}]{Beispiel einer visualisierten Verlust-Funktion}
+		\caption[Loss-Function:\newline \tiny \url{
+			http://www.ahozer.com/research.html}\normalsize]{Beispiel einer visualisierten Verlust-Funktion}
 		\label{fig:Loss}
 	\end{center}
 \end{figure}
@@ -165,6 +165,7 @@ Der durchgeführte Schritt ist also in einer zufälligen Reihenfolge, und kann d
 Während die Beschleunigung eine \textit{First-Order}-Änderung darstellt, da nur der aktuelle Wert berücksichtigt wird, nimmt Adadelta auf den gesamten Verlauf Rücksicht und wird dahingehend als \textit{Second-Order} bezeichnet. 
 
 ~\newline Die Hauptstärke von Adadelta liegt darin, dass bewiesenermaßen eine gute Lernrate erzeugt wird ohne Input des Entwicklers. Dies spart viele Parameter im Gesamtprozess des Machine Learnings und reduziert somit ebenfalls Fehlerquellen.
+\newpage
 \subsection{Bewertung der Klassifizierung}
 Die Bewertung einer Klassifizierung erfolgt anhand dessen, wie viele Testdaten korrekt klassifiziert wurden. Dieses Verfahren eignet sich sowohl für die Binäre-, als auch für eine Multiklassen-Klassifikation
 ~\newline Die (relative) Genauigkeit ergibt sich als: 
